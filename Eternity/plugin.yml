@@ -1,0 +1,8 @@
+name: Eternity
+version: 1.0
+main: de.cric_hammel.eternity.Main
+api-version: 1.20
+
+commands:
+   getstones:
+      description: Gives you the mighty Infinity Stones
