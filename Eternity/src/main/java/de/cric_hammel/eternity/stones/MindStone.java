@@ -16,6 +16,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.util.StoneType;
 
 public class MindStone implements Listener{
 	
@@ -28,7 +29,7 @@ public class MindStone implements Listener{
 		if (event.getRightClicked() instanceof Player) {
 			Player p = event.getPlayer();
 			Player victim = (Player) event.getRightClicked();
-			if (Main.hasStoneInHand(p, 4)) {
+			if (StoneType.MIND.hasStoneInHand(p)) {
 				Inventory inv = Bukkit.createInventory(p, 9*5, INVENTORY_TITLE + victim.getName());
 				inv.setContents(victim.getInventory().getContents());
 				p.openInventory(inv);
@@ -42,7 +43,7 @@ public class MindStone implements Listener{
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Damageable) {
 			final Player p = (Player) event.getDamager();
 			final Damageable d = (Damageable) event.getEntity();
-			if (Main.hasStoneInHand(p, 4)) {
+			if (StoneType.MIND.hasStoneInHand(p)) {
 				if (!p.hasMetadata(METADATA_KEY_ISPOSSESSED) && !d.hasMetadata(METADATA_KEY_POSSESSES)) {
 					if (!p.hasMetadata(METADATA_KEY_POSSESSES) && !d.hasMetadata(METADATA_KEY_ISPOSSESSED)) {
 						p.setMetadata(METADATA_KEY_POSSESSES, new FixedMetadataValue(Main.getPlugin(), 1));

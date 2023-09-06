@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.util.StoneType;
 
 public class SpaceStone implements Listener{
 	
@@ -27,7 +28,7 @@ public class SpaceStone implements Listener{
 	@EventHandler
 	public void useSpaceStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
-		if (Main.hasStoneInHand(p, 1)) {
+		if (StoneType.SPACE.hasStoneInHand(p)) {
 			Action a = event.getAction();
 			if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
 				teleport(p);

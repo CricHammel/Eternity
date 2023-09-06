@@ -18,6 +18,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.util.StoneType;
 
 public class RealityStone implements Listener{
 	
@@ -26,7 +27,7 @@ public class RealityStone implements Listener{
 	@EventHandler
 	public void useRealityStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
-		if (Main.hasStoneInHand(p, 2)) {
+		if (StoneType.REALITY.hasStoneInHand(p)) {
 			World w = p.getWorld();
 			Action a = event.getAction();
 			if (p.getLocation().getPitch() == -90d) {

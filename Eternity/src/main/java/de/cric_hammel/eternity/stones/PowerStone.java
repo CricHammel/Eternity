@@ -16,12 +16,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.util.StoneType;
 
 public class PowerStone implements Listener{
 	@EventHandler
 	public void usePowerStoneEntity(PlayerInteractEntityEvent event) {
 		Player p = event.getPlayer();
-		if (Main.hasStoneInHand(p, 0)) {
+		if (StoneType.POWER.hasStoneInHand(p)) {
 			Entity e = event.getRightClicked();
 			if (e instanceof Player) {
 				((Player) e).damage(19, p);
@@ -38,7 +39,7 @@ public class PowerStone implements Listener{
 	@EventHandler
 	public void usePowerStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
-		if (Main.hasStoneInHand(p, 0)) {
+		if (StoneType.POWER.hasStoneInHand(p)) {
 			if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Block b = event.getClickedBlock();
 				b.breakNaturally();

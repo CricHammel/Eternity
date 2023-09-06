@@ -25,7 +25,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.util.StoneType;
 
 public class SoulStone implements Listener{
 	
@@ -35,7 +35,7 @@ public class SoulStone implements Listener{
 	public void useSoulStone(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action a = event.getAction();
-		if (Main.hasStoneInHand(p, 3) && (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK)) {
+		if (StoneType.SOUL.hasStoneInHand(p) && (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK)) {
 			World soulWorld = Bukkit.getWorld(p.getName());
 			if (soulWorld == null) {
 				WorldCreator soulWorldCreator = new WorldCreator(p.getName());
@@ -70,7 +70,7 @@ public class SoulStone implements Listener{
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Damageable) {
 			Player p = (Player) event.getDamager();
 			Damageable d = (Damageable) event.getEntity();
-			if (Main.hasStoneInHand(p, 3)) {
+			if (StoneType.SOUL.hasStoneInHand(p)) {
 				double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 				double currentHealth = p.getHealth();
 				if ((currentHealth + 4) <= maxHealth) {

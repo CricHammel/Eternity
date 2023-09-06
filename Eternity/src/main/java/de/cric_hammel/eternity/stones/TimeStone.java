@@ -21,6 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.util.DeadEntityStorage;
+import de.cric_hammel.eternity.util.StoneType;
 
 public class TimeStone implements Listener{
 	
@@ -31,7 +32,7 @@ public class TimeStone implements Listener{
 	@EventHandler
 	public void useTimeStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
-		if (Main.hasStoneInHand(p, 5)) {
+		if (StoneType.TIME.hasStoneInHand(p)) {
 			Action a = event.getAction();
 			if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
 				LinkedList<Location> locations = lastLocations.get(p.getUniqueId());
@@ -65,7 +66,7 @@ public class TimeStone implements Listener{
 	public void onPlayerKillEntity(EntityDeathEvent event) {
 		LivingEntity e = event.getEntity();
 		Player p = e.getKiller();
-		if (p != null && Main.hasStoneInInv(p, 5) && !(e instanceof Player)) {
+		if (p != null && StoneType.TIME.hasStoneInInv(p) && !(e instanceof Player)) {
 			if (!killedEntities.containsKey(p.getUniqueId())) {
 				killedEntities.put(p.getUniqueId(), new LinkedList<DeadEntityStorage>());
 			}
@@ -76,7 +77,7 @@ public class TimeStone implements Listener{
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
-		if (Main.hasStoneInInv(p, 5)) {
+		if (StoneType.TIME.hasStoneInInv(p)) {
 			startTimer(p);
 		}
 	}
@@ -89,7 +90,7 @@ public class TimeStone implements Listener{
 				
 				@Override
 				public void run() {
-					if (Main.hasStoneInInv(p, 5)) {
+					if (StoneType.TIME.hasStoneInInv(p)) {
 						startTimer(p);
 					}
 				}
@@ -111,7 +112,7 @@ public class TimeStone implements Listener{
 					lastLocations.put(p.getUniqueId(), new LinkedList<Location>());
 				}
 				LinkedList<Location> locations = lastLocations.get(p.getUniqueId());
-				if (!p.isOnline() || !Main.hasStoneInInv(p, 5)) {
+				if (!p.isOnline() || !StoneType.TIME.hasStoneInInv(p)) {
 					p.removeMetadata(METADATA_KEY, Main.getPlugin());
 					lastLocations.remove(p.getUniqueId());
 					cancel();
