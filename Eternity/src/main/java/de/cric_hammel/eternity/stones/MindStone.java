@@ -29,10 +29,11 @@ public class MindStone implements Listener{
 		if (event.getRightClicked() instanceof Player) {
 			Player p = event.getPlayer();
 			Player victim = (Player) event.getRightClicked();
-			if (StoneType.MIND.hasStoneInHand(p)) {
+			if (StoneType.MIND.hasStoneInHand(p) && !StoneType.MIND.hasCooldownRightclick(p)) {
 				Inventory inv = Bukkit.createInventory(p, 9*5, INVENTORY_TITLE + victim.getName());
 				inv.setContents(victim.getInventory().getContents());
 				p.openInventory(inv);
+				StoneType.MIND.applyCooldownRightclick(p);
 				event.setCancelled(true);
 			}
 		}
@@ -43,7 +44,7 @@ public class MindStone implements Listener{
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Damageable) {
 			final Player p = (Player) event.getDamager();
 			final Damageable d = (Damageable) event.getEntity();
-			if (StoneType.MIND.hasStoneInHand(p)) {
+			if (StoneType.MIND.hasStoneInHand(p) && !StoneType.MIND.hasCooldownLeftclick(p)) {
 				if (!p.hasMetadata(METADATA_KEY_ISPOSSESSED) && !d.hasMetadata(METADATA_KEY_POSSESSES)) {
 					if (!p.hasMetadata(METADATA_KEY_POSSESSES) && !d.hasMetadata(METADATA_KEY_ISPOSSESSED)) {
 						p.setMetadata(METADATA_KEY_POSSESSES, new FixedMetadataValue(Main.getPlugin(), 1));
@@ -82,6 +83,7 @@ public class MindStone implements Listener{
 							player.playSound(p.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 2f);
 						}
 						p.spawnParticle(Particle.REVERSE_PORTAL, d.getLocation(), 300, 0, 0, 0);
+						StoneType.MIND.applyCooldownLeftclick(p);
 						event.setCancelled(true);
 					}
 				}

@@ -22,7 +22,7 @@ public class PowerStone implements Listener{
 	@EventHandler
 	public void usePowerStoneEntity(PlayerInteractEntityEvent event) {
 		Player p = event.getPlayer();
-		if (StoneType.POWER.hasStoneInHand(p)) {
+		if (StoneType.POWER.hasStoneInHand(p) && !StoneType.POWER.hasCooldownRightclick(p)) {
 			Entity e = event.getRightClicked();
 			if (e instanceof Player) {
 				((Player) e).damage(19, p);
@@ -32,6 +32,7 @@ public class PowerStone implements Listener{
 			World w = p.getWorld();
 			w.spawnParticle(Particle.SPELL_WITCH, e.getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
 			w.playSound(e.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1, 1);
+			StoneType.POWER.applyCooldownRightclick(p);
 			event.setCancelled(true);
 		}
 	}
@@ -40,13 +41,14 @@ public class PowerStone implements Listener{
 	public void usePowerStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
 		if (StoneType.POWER.hasStoneInHand(p)) {
-			if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !StoneType.POWER.hasCooldownRightclick(p)) {
 				Block b = event.getClickedBlock();
 				b.breakNaturally();
 				World w = p.getWorld();
 				w.spawnParticle(Particle.SPELL_WITCH, event.getClickedBlock().getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
 				w.playSound(event.getClickedBlock().getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1, 1);
-			} else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+				StoneType.POWER.applyCooldownRightclick(p);
+			} else if ((event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) && !StoneType.POWER.hasCooldownLeftclick(p)) {
 				new BukkitRunnable() {
 					
 					int count = 0;
@@ -83,6 +85,7 @@ public class PowerStone implements Listener{
 						count++;
 					}
 				}.runTaskTimer(Main.getPlugin(), 0, 10);
+				StoneType.POWER.applyCooldownLeftclick(p);
 			}
 			event.setCancelled(true);
 		}

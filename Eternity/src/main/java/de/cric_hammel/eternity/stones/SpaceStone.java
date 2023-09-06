@@ -30,9 +30,40 @@ public class SpaceStone implements Listener{
 		final Player p = event.getPlayer();
 		if (StoneType.SPACE.hasStoneInHand(p)) {
 			Action a = event.getAction();
-			if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
-				teleport(p);
-			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) && p.getGameMode() != GameMode.SPECTATOR) {
+			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && !StoneType.SPACE.hasCooldownRightclick(p)) {
+				World currentWorld = p.getWorld();
+				Location currentLocation = p.getLocation();
+				Entity armorStand1 = currentWorld.spawnEntity(currentLocation, EntityType.ARMOR_STAND);
+				ArmorStand armorStand = (ArmorStand) armorStand1;
+				armorStand.setInvisible(true);
+				float yaw = p.getLocation().getYaw();
+				float pitch = p.getLocation().getPitch();
+				armorStand.setGravity(false);
+				armorStand.setInvulnerable(true);
+				armorStand.setRotation(yaw, pitch);
+				
+				boolean inBlock = false;
+				int breakCounter = 0;
+				while(!inBlock) {
+					breakCounter++;
+					if(breakCounter >= 1000) {
+						armorStand.remove();
+						break;
+					}
+					armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection()));
+					if(!armorStand.getLocation().getBlock().isPassable()) {
+						inBlock = true;
+						armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection().multiply(-1)));
+						p.teleport(armorStand);
+						p.setFallDistance(0);
+						p.getLocation().getDirection().zero();
+						p.playEffect(EntityEffect.TELEPORT_ENDER);
+						p.playSound(currentLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 10, 1);
+						armorStand.remove();
+						StoneType.SPACE.applyCooldownRightclick(p);
+					}
+				}
+			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) && !StoneType.SPACE.hasCooldownLeftclick(p) && p.getGameMode() != GameMode.SPECTATOR) {
 				lastGameMode.put(p, p.getGameMode());
 				p.setGameMode(GameMode.SPECTATOR);
 				p.playEffect(EntityEffect.TELEPORT_ENDER);
@@ -47,42 +78,9 @@ public class SpaceStone implements Listener{
 						p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1, 1);
 					}
 				}.runTaskLater(Main.getPlugin(), 5*20);
+				StoneType.SPACE.applyCooldownLeftclick(p);
 			}
 			event.setCancelled(true);
-		}
-	}
-	
-	private void teleport(Player p) {
-		World currentWorld = p.getWorld();
-		Location currentLocation = p.getLocation();
-		Entity armorStand1 = currentWorld.spawnEntity(currentLocation, EntityType.ARMOR_STAND);
-		ArmorStand armorStand = (ArmorStand) armorStand1;
-		armorStand.setInvisible(true);
-		float yaw = p.getLocation().getYaw();
-		float pitch = p.getLocation().getPitch();
-		armorStand.setGravity(false);
-		armorStand.setInvulnerable(true);
-		armorStand.setRotation(yaw, pitch);
-		
-		boolean inBlock = false;
-		int breakCounter = 0;
-		while(!inBlock) {
-			breakCounter++;
-			if(breakCounter >= 1000) {
-				armorStand.remove();
-				break;
-			}
-			armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection()));
-			if(!armorStand.getLocation().getBlock().isPassable()) {
-				inBlock = true;
-				armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection().multiply(-1)));
-				p.teleport(armorStand);
-				p.setFallDistance(0);
-				p.getLocation().getDirection().zero();
-				p.playEffect(EntityEffect.TELEPORT_ENDER);
-				p.playSound(currentLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 10, 1);
-				armorStand.remove();
-			}
 		}
 	}
 	

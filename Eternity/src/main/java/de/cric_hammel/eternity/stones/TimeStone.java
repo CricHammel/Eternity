@@ -34,7 +34,7 @@ public class TimeStone implements Listener{
 		final Player p = event.getPlayer();
 		if (StoneType.TIME.hasStoneInHand(p)) {
 			Action a = event.getAction();
-			if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
+			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && !StoneType.TIME.hasCooldownRightclick(p)) {
 				LinkedList<Location> locations = lastLocations.get(p.getUniqueId());
 				if (locations != null && !locations.isEmpty()) {
 					int removed = 0;
@@ -47,8 +47,9 @@ public class TimeStone implements Listener{
 					p.teleport(locations.getLast());
 					p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, p.getLocation(), 50, 0.25, 0.5, 0.25);
 					p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_BLOW_UP, 1, 0);
+					StoneType.TIME.applyCooldownRightclick(p);
 				}
-			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK)) {
+			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) && !StoneType.TIME.hasCooldownLeftclick(p)) {
 				LinkedList<DeadEntityStorage> list = killedEntities.get(p.getUniqueId());
 				if (list != null && !list.isEmpty()) {
 					DeadEntityStorage s = list.get(list.size() - 1);
@@ -56,6 +57,7 @@ public class TimeStone implements Listener{
 					list.remove(s);
 					p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, s.getLocation(), 50, 0.25, 0.5, 0.25);
 					p.playSound(s.getLocation(), Sound.ENTITY_WARDEN_SONIC_CHARGE, 1, 1.5f);
+					StoneType.TIME.applyCooldownLeftclick(p);
 				}
 			}	
 			event.setCancelled(true);
