@@ -14,10 +14,10 @@ import org.bukkit.util.StringUtil;
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.util.StoneType;
 
-public class GetStonesCommand implements TabExecutor{
+public class GetStonesCommand implements TabExecutor {
 
-	private static final String[] ARGUMENTS = {"power", "space", "reality", "soul", "mind", "time"};
-	
+	private static final String[] ARGUMENTS = { "power", "space", "reality", "soul", "mind", "time" };
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
@@ -30,10 +30,12 @@ public class GetStonesCommand implements TabExecutor{
 						player.getInventory().addItem(stone);
 						return true;
 					} else {
-						player.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
+						player.sendMessage(Main.defaultMessages.get("wrongArgs")
+								+ "/getstones [power|space|reality|soul|mind|time]");
 					}
 				} else {
-					player.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
+					player.sendMessage(
+							Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
 				}
 			} else {
 				player.sendMessage(Main.defaultMessages.get("noPermission"));
@@ -53,5 +55,5 @@ public class GetStonesCommand implements TabExecutor{
 		}
 		return null;
 	}
-	
+
 }

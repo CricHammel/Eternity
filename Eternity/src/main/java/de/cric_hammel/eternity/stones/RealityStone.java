@@ -20,10 +20,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.util.StoneType;
 
-public class RealityStone implements Listener{
-	
+public class RealityStone implements Listener {
+
 	private static final String METADATA_KEY = "eternity_scaffold";
-	
+
 	@EventHandler
 	public void useRealityStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
@@ -54,10 +54,9 @@ public class RealityStone implements Listener{
 					p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 1, 0);
 				}
 			}
-			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Location from = event.getFrom();

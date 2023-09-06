@@ -6,19 +6,19 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
 public class DeadEntityStorage {
-	
+
 	private EntityType type;
 	private ItemStack[] equipment;
 	private Location location;
 	private String customName;
-	
+
 	public DeadEntityStorage(LivingEntity e) {
 		type = e.getType();
 		equipment = e.getEquipment().getArmorContents();
 		location = e.getLocation();
 		customName = e.getCustomName();
 	}
-	
+
 	public void resurrect() {
 		LivingEntity e = (LivingEntity) location.getWorld().spawnEntity(location, type, false);
 		e.getEquipment().setArmorContents(equipment);

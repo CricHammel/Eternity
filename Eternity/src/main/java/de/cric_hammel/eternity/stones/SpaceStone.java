@@ -21,16 +21,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.util.StoneType;
 
-public class SpaceStone implements Listener{
-	
+public class SpaceStone implements Listener {
+
 	private final HashMap<Player, GameMode> lastGameMode = new HashMap<Player, GameMode>();
-	
+
 	@EventHandler
 	public void useSpaceStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
 		if (StoneType.SPACE.hasStoneInHand(p)) {
 			Action a = event.getAction();
-			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && !StoneType.SPACE.hasCooldownRightclick(p)) {
+			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK)
+					&& !StoneType.SPACE.hasCooldownRightclick(p)) {
 				World currentWorld = p.getWorld();
 				Location currentLocation = p.getLocation();
 				Entity armorStand1 = currentWorld.spawnEntity(currentLocation, EntityType.ARMOR_STAND);
@@ -41,19 +42,20 @@ public class SpaceStone implements Listener{
 				armorStand.setGravity(false);
 				armorStand.setInvulnerable(true);
 				armorStand.setRotation(yaw, pitch);
-				
+
 				boolean inBlock = false;
 				int breakCounter = 0;
-				while(!inBlock) {
+				while (!inBlock) {
 					breakCounter++;
-					if(breakCounter >= 1000) {
+					if (breakCounter >= 1000) {
 						armorStand.remove();
 						break;
 					}
 					armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection()));
-					if(!armorStand.getLocation().getBlock().isPassable()) {
+					if (!armorStand.getLocation().getBlock().isPassable()) {
 						inBlock = true;
-						armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection().multiply(-1)));
+						armorStand.teleport(
+								armorStand.getLocation().add(armorStand.getLocation().getDirection().multiply(-1)));
 						p.teleport(armorStand);
 						p.setFallDistance(0);
 						p.getLocation().getDirection().zero();
@@ -63,13 +65,14 @@ public class SpaceStone implements Listener{
 						StoneType.SPACE.applyCooldownRightclick(p);
 					}
 				}
-			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) && !StoneType.SPACE.hasCooldownLeftclick(p) && p.getGameMode() != GameMode.SPECTATOR) {
+			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK)
+					&& !StoneType.SPACE.hasCooldownLeftclick(p) && p.getGameMode() != GameMode.SPECTATOR) {
 				lastGameMode.put(p, p.getGameMode());
 				p.setGameMode(GameMode.SPECTATOR);
 				p.playEffect(EntityEffect.TELEPORT_ENDER);
 				p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
 				new BukkitRunnable() {
-					
+
 					@Override
 					public void run() {
 						p.setGameMode(lastGameMode.get(p));
@@ -77,13 +80,12 @@ public class SpaceStone implements Listener{
 						p.playEffect(EntityEffect.TELEPORT_ENDER);
 						p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1, 1);
 					}
-				}.runTaskLater(Main.getPlugin(), 5*20);
+				}.runTaskLater(Main.getPlugin(), 5 * 20);
 				StoneType.SPACE.applyCooldownLeftclick(p);
 			}
-			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player p = event.getPlayer();

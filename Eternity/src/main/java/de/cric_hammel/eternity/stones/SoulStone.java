@@ -27,15 +27,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import de.cric_hammel.eternity.util.StoneType;
 
-public class SoulStone implements Listener{
-	
+public class SoulStone implements Listener {
+
 	private HashMap<Player, Location> lastLoc = new HashMap<Player, Location>();
-	
+
 	@EventHandler
 	public void useSoulStone(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action a = event.getAction();
-		if (StoneType.SOUL.hasStoneInHand(p) && (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && !StoneType.SOUL.hasCooldownRightclick(p)) {
+		if (StoneType.SOUL.hasStoneInHand(p) && (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK)
+				&& !StoneType.SOUL.hasCooldownRightclick(p)) {
 			World soulWorld = Bukkit.getWorld(p.getName());
 			if (soulWorld == null) {
 				WorldCreator soulWorldCreator = new WorldCreator(p.getName());
@@ -62,10 +63,9 @@ public class SoulStone implements Listener{
 				p.teleport(soulWorld.getSpawnLocation());
 			}
 			p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 1, 2);
-			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void useSoulStoneEntityHit(EntityDamageByEntityEvent event) {
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Damageable) {
@@ -87,7 +87,7 @@ public class SoulStone implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player p = event.getPlayer();
@@ -100,7 +100,7 @@ public class SoulStone implements Listener{
 			}
 		}
 	}
-	
+
 	private String getLevelname() {
 		Properties prop = new Properties();
 		try {

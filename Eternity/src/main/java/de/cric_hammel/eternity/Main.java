@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.cric_hammel.eternity.commands.GetStonesCommand;
+import de.cric_hammel.eternity.stones.InfinityStone;
 import de.cric_hammel.eternity.stones.MindStone;
 import de.cric_hammel.eternity.stones.PowerStone;
 import de.cric_hammel.eternity.stones.RealityStone;
@@ -31,13 +32,14 @@ public class Main extends JavaPlugin{
 		getCommand("getstones").setTabCompleter(new GetStonesCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
+		pluginManager.registerEvents(new InfinityStone(), plugin);
 		pluginManager.registerEvents(new PowerStone(), plugin);
 		pluginManager.registerEvents(new SpaceStone(), plugin);
 		pluginManager.registerEvents(new RealityStone(), plugin);
 		pluginManager.registerEvents(new SoulStone(), plugin);
 		pluginManager.registerEvents(new MindStone(), plugin);
 		pluginManager.registerEvents(new TimeStone(), plugin);
-		
+
 	}
 
 	public static Main getPlugin() {

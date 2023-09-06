@@ -23,18 +23,19 @@ import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.util.DeadEntityStorage;
 import de.cric_hammel.eternity.util.StoneType;
 
-public class TimeStone implements Listener{
-	
+public class TimeStone implements Listener {
+
 	private static final String METADATA_KEY = "eternity_time";
 	private HashMap<UUID, LinkedList<DeadEntityStorage>> killedEntities = new HashMap<UUID, LinkedList<DeadEntityStorage>>();
 	private HashMap<UUID, LinkedList<Location>> lastLocations = new HashMap<UUID, LinkedList<Location>>();
-	
+
 	@EventHandler
 	public void useTimeStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
 		if (StoneType.TIME.hasStoneInHand(p)) {
 			Action a = event.getAction();
-			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && !StoneType.TIME.hasCooldownRightclick(p)) {
+			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK)
+					&& !StoneType.TIME.hasCooldownRightclick(p)) {
 				LinkedList<Location> locations = lastLocations.get(p.getUniqueId());
 				if (locations != null && !locations.isEmpty()) {
 					int removed = 0;
@@ -49,7 +50,8 @@ public class TimeStone implements Listener{
 					p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_BLOW_UP, 1, 0);
 					StoneType.TIME.applyCooldownRightclick(p);
 				}
-			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) && !StoneType.TIME.hasCooldownLeftclick(p)) {
+			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK)
+					&& !StoneType.TIME.hasCooldownLeftclick(p)) {
 				LinkedList<DeadEntityStorage> list = killedEntities.get(p.getUniqueId());
 				if (list != null && !list.isEmpty()) {
 					DeadEntityStorage s = list.get(list.size() - 1);
@@ -59,11 +61,10 @@ public class TimeStone implements Listener{
 					p.playSound(s.getLocation(), Sound.ENTITY_WARDEN_SONIC_CHARGE, 1, 1.5f);
 					StoneType.TIME.applyCooldownLeftclick(p);
 				}
-			}	
-			event.setCancelled(true);
+			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerKillEntity(EntityDeathEvent event) {
 		LivingEntity e = event.getEntity();
@@ -75,7 +76,7 @@ public class TimeStone implements Listener{
 			killedEntities.get(p.getUniqueId()).add(new DeadEntityStorage(e));
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
@@ -83,13 +84,13 @@ public class TimeStone implements Listener{
 			startTimer(p);
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerPickupTimeStone(EntityPickupItemEvent event) {
 		if (event.getEntity() instanceof Player) {
 			final Player p = (Player) event.getEntity();
 			new BukkitRunnable() {
-				
+
 				@Override
 				public void run() {
 					if (StoneType.TIME.hasStoneInInv(p)) {
@@ -99,15 +100,15 @@ public class TimeStone implements Listener{
 			}.runTaskLater(Main.getPlugin(), 1);
 		}
 	}
-	
+
 	private void startTimer(final Player p) {
 		if (p.hasMetadata(METADATA_KEY)) {
 			return;
 		}
-		
+
 		p.setMetadata(METADATA_KEY, new FixedMetadataValue(Main.getPlugin(), true));
 		new BukkitRunnable() {
-			
+
 			@Override
 			public void run() {
 				if (!lastLocations.containsKey(p.getUniqueId())) {
