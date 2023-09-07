@@ -7,7 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.cric_hammel.eternity.commands.GetGauntletCommand;
 import de.cric_hammel.eternity.commands.GetStonesCommand;
+import de.cric_hammel.eternity.stones.Gauntlet;
 import de.cric_hammel.eternity.stones.InfinityStone;
 import de.cric_hammel.eternity.stones.MindStone;
 import de.cric_hammel.eternity.stones.PowerStone;
@@ -28,10 +30,12 @@ public class Main extends JavaPlugin{
 		defaultMessages.put("noPermission", "You don't have the permission to execute this command!");
 		defaultMessages.put("wrongArgs", "Wrong arguments! Correct usage: ");
 		
+		getCommand("getgauntlet").setExecutor(new GetGauntletCommand());
 		getCommand("getstones").setExecutor(new GetStonesCommand());
 		getCommand("getstones").setTabCompleter(new GetStonesCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
+		pluginManager.registerEvents(new Gauntlet(), plugin);
 		pluginManager.registerEvents(new InfinityStone(), plugin);
 		pluginManager.registerEvents(new PowerStone(), plugin);
 		pluginManager.registerEvents(new SpaceStone(), plugin);

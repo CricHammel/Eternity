@@ -5,4 +5,6 @@ api-version: 1.20
 
 commands:
    getstones:
-      description: Gives you the mighty Infinity Stones
+      description: Gives you the powerful Infinity Stones
+   getgauntlet:
+      description: Gives you the mighty Infinity Gauntlet
