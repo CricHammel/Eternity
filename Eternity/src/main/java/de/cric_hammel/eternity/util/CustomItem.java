@@ -14,7 +14,7 @@ public class CustomItem {
 	
 	public static boolean hasInHand(Player p, String lore, Material m) {
 		ItemStack item = p.getInventory().getItemInMainHand();
-		if (item != null && item.getItemMeta().hasLore() && item.getItemMeta().getLore().get(0).equals(lore)
+		if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().getLore().get(0).equals(lore)
 				&& item.getType() == m) {
 			return true;
 		}
@@ -23,7 +23,7 @@ public class CustomItem {
 	
 	public static boolean hasInInv(Player p, String lore, Material m) {
 		for (ItemStack item : p.getInventory().getContents()) {
-			if (item != null && item.getItemMeta().hasLore() && item.getItemMeta().getLore().get(0).equals(lore)
+			if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().getLore().get(0).equals(lore)
 					&& item.getType() == m) {
 				return true;
 			}

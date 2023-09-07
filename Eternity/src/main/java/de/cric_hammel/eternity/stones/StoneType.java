@@ -43,7 +43,7 @@ public enum StoneType {
 
 	public static boolean hasAnyStoneInHand(Player p) {
 		ItemStack stone = p.getInventory().getItemInMainHand();
-		if (stone != null && stone.getItemMeta().hasLore() && stone.getItemMeta().getLore().get(0).equals(LORE)) {
+		if (stone != null && stone.hasItemMeta() && stone.getItemMeta().hasLore() && stone.getItemMeta().getLore().get(0).equals(LORE)) {
 			return true;
 		}
 		return false;
