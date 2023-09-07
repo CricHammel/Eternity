@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.util.StoneType;
 
 public class PowerStone implements Listener {
 	@EventHandler

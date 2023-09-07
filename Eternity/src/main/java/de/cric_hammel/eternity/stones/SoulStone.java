@@ -25,8 +25,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import de.cric_hammel.eternity.util.StoneType;
-
 public class SoulStone implements Listener {
 
 	private HashMap<Player, Location> lastLoc = new HashMap<Player, Location>();

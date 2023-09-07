@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.util.StoneType;
+import de.cric_hammel.eternity.stones.StoneType;
 
 public class GetStonesCommand implements TabExecutor {
 
@@ -21,24 +21,24 @@ public class GetStonesCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
-			Player player = (Player) sender;
-			if (player.hasPermission("eternity.getstones")) {
+			Player p = (Player) sender;
+			if (p.hasPermission("eternity.getstones")) {
 				if (args.length == 1) {
 					StoneType type = StoneType.getValue(args[0]);
 					if (type != null) {
 						ItemStack stone = type.getItem();
-						player.getInventory().addItem(stone);
+						p.getInventory().addItem(stone);
 						return true;
 					} else {
-						player.sendMessage(Main.defaultMessages.get("wrongArgs")
+						p.sendMessage(Main.defaultMessages.get("wrongArgs")
 								+ "/getstones [power|space|reality|soul|mind|time]");
 					}
 				} else {
-					player.sendMessage(
+					p.sendMessage(
 							Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
 				}
 			} else {
-				player.sendMessage(Main.defaultMessages.get("noPermission"));
+				p.sendMessage(Main.defaultMessages.get("noPermission"));
 			}
 		} else {
 			sender.sendMessage(Main.defaultMessages.get("notPlayer"));

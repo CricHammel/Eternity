@@ -7,8 +7,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import de.cric_hammel.eternity.util.StoneType;
-
 public class InfinityStone implements Listener{
 	
 	@EventHandler

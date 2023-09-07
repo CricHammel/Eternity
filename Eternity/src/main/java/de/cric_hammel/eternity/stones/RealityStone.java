@@ -18,7 +18,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.util.StoneType;
 
 public class RealityStone implements Listener {
 
