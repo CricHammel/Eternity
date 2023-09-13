@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.stones;
+package de.cric_hammel.eternity.infinity.items.stones;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

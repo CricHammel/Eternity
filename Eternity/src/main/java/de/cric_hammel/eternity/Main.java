@@ -7,16 +7,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import de.cric_hammel.eternity.commands.GetGauntletCommand;
-import de.cric_hammel.eternity.commands.GetStonesCommand;
-import de.cric_hammel.eternity.stones.Gauntlet;
-import de.cric_hammel.eternity.stones.InfinityStone;
-import de.cric_hammel.eternity.stones.MindStone;
-import de.cric_hammel.eternity.stones.PowerStone;
-import de.cric_hammel.eternity.stones.RealityStone;
-import de.cric_hammel.eternity.stones.SoulStone;
-import de.cric_hammel.eternity.stones.SpaceStone;
-import de.cric_hammel.eternity.stones.TimeStone;
+import de.cric_hammel.eternity.infinity.commands.GetGauntletCommand;
+import de.cric_hammel.eternity.infinity.commands.GetStonesCommand;
+import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
+import de.cric_hammel.eternity.infinity.items.stones.InfinityStoneListener;
+import de.cric_hammel.eternity.infinity.items.stones.MindStone;
+import de.cric_hammel.eternity.infinity.items.stones.PowerStone;
+import de.cric_hammel.eternity.infinity.items.stones.RealityStone;
+import de.cric_hammel.eternity.infinity.items.stones.SoulStone;
+import de.cric_hammel.eternity.infinity.items.stones.SpaceStone;
+import de.cric_hammel.eternity.infinity.items.stones.TimeStone;
 
 public class Main extends JavaPlugin{
 
@@ -36,7 +36,7 @@ public class Main extends JavaPlugin{
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new Gauntlet(), plugin);
-		pluginManager.registerEvents(new InfinityStone(), plugin);
+		pluginManager.registerEvents(new InfinityStoneListener(), plugin);
 		pluginManager.registerEvents(new PowerStone(), plugin);
 		pluginManager.registerEvents(new SpaceStone(), plugin);
 		pluginManager.registerEvents(new RealityStone(), plugin);

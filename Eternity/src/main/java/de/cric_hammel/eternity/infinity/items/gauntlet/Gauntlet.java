@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.stones;
+package de.cric_hammel.eternity.infinity.items.gauntlet;
 
 import java.util.UUID;
 
@@ -28,7 +28,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.util.CustomItem;
+import de.cric_hammel.eternity.infinity.items.CustomItem;
 
 public class Gauntlet implements Listener{
 	
@@ -118,7 +118,7 @@ public class Gauntlet implements Listener{
 	
 	private boolean hasGauntletInOffHand(Player p) {
 		ItemStack gauntlet = p.getInventory().getItemInOffHand();
-		if (gauntlet != null && gauntlet.hasItemMeta() && gauntlet.getItemMeta().hasLore() && gauntlet.getItemMeta().getLore().get(0).equals(LORE) && !StoneType.hasAnyStoneInHand(p)) {
+		if (gauntlet != null && gauntlet.hasItemMeta() && gauntlet.getItemMeta().hasLore() && gauntlet.getItemMeta().getLore().get(0).equals(LORE) && !CustomItem.hasAnyInHand(p)) {
 			return true;
 		}
 		return false;

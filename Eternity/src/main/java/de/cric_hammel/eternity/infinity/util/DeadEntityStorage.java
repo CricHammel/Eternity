@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.util;
+package de.cric_hammel.eternity.infinity.util;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;

@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.stones;
+package de.cric_hammel.eternity.infinity.items.stones;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -6,7 +6,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import de.cric_hammel.eternity.util.CustomItem;
+import de.cric_hammel.eternity.infinity.items.CustomItem;
 
 public enum StoneType {
 
@@ -39,14 +39,6 @@ public enum StoneType {
 
 	public boolean hasStoneInInv(Player p) {
 		return CustomItem.hasInInv(p, LORE, m);
-	}
-
-	public static boolean hasAnyStoneInHand(Player p) {
-		ItemStack stone = p.getInventory().getItemInMainHand();
-		if (stone != null && stone.hasItemMeta() && stone.getItemMeta().hasLore() && stone.getItemMeta().getLore().get(0).equals(LORE)) {
-			return true;
-		}
-		return false;
 	}
 
 	public void applyCooldownLeftclick(Player p) {

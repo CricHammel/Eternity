@@ -1,7 +1,9 @@
-package de.cric_hammel.eternity.util;
+package de.cric_hammel.eternity.infinity.items;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,23 +14,46 @@ import de.cric_hammel.eternity.Main;
 
 public class CustomItem {
 	
+	private static final String LORE_ID = ChatColor.MAGIC + "eternity";
+	
 	public static boolean hasInHand(Player p, String lore, Material m) {
-		ItemStack item = p.getInventory().getItemInMainHand();
-		if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().getLore().get(0).equals(lore)
-				&& item.getType() == m) {
-			return true;
+		try {
+			ItemStack item = p.getInventory().getItemInMainHand();
+			List<String> loreList = item.getItemMeta().getLore();
+			if (loreList.get(1).equals(LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
 		}
-		return false;
 	}
 	
 	public static boolean hasInInv(Player p, String lore, Material m) {
 		for (ItemStack item : p.getInventory().getContents()) {
-			if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().getLore().get(0).equals(lore)
-					&& item.getType() == m) {
-				return true;
+			try {
+				List<String> loreList = item.getItemMeta().getLore();
+				if (loreList.get(1).equals(LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
+					return true;
+				}
+			} catch (Exception e) {
+				
 			}
 		}
 		return false;
+	}
+	
+	public static boolean hasAnyInHand(Player p) {
+		try {
+			ItemStack item = p.getInventory().getItemInMainHand();
+			List<String> loreList = item.getItemMeta().getLore();
+			if (loreList.get(1).equals(LORE_ID)) {
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	public static void applyCooldown(Player p, String metaKey, int cooldown, Material m) {
@@ -58,6 +83,7 @@ public class CustomItem {
 		stoneMeta.setDisplayName(name);
 		ArrayList<String> loreList = new ArrayList<String>();
 		loreList.add(lore);
+		loreList.add(LORE_ID);
 		stoneMeta.setLore(loreList);
 		stone.setItemMeta(stoneMeta);
 		return stone;

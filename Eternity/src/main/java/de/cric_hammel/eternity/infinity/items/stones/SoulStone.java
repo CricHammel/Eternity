@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.stones;
+package de.cric_hammel.eternity.infinity.items.stones;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,12 +72,15 @@ public class SoulStone implements Listener {
 			if (StoneType.SOUL.hasStoneInHand(p) && !StoneType.SOUL.hasCooldownLeftclick(p)) {
 				double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 				double currentHealth = p.getHealth();
+				double missingHealth = maxHealth - currentHealth;
 				if ((currentHealth + 4) <= maxHealth) {
-					d.damage(4);
 					p.setHealth(currentHealth + 4);
-				} else {
-					d.damage(maxHealth - currentHealth);
+					d.damage(4);
+				} else if (missingHealth != 0){
 					p.setHealth(maxHealth);
+					d.damage(missingHealth);
+				} else {
+					return;
 				}
 				p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 1, 1.5f);
 				p.getWorld().spawnParticle(Particle.HEART, d.getLocation(), 2, 0.5, 0.5, 0.5);

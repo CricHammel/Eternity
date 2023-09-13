@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.commands;
+package de.cric_hammel.eternity.infinity.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.stones.StoneType;
+import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 
 public class GetStonesCommand implements TabExecutor {
 

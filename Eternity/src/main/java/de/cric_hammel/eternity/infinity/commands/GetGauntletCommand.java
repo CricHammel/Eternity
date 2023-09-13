@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.commands;
+package de.cric_hammel.eternity.infinity.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.stones.Gauntlet;
+import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
 
 public class GetGauntletCommand implements CommandExecutor{
 

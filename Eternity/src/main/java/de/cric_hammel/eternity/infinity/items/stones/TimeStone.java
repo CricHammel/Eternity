@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.stones;
+package de.cric_hammel.eternity.infinity.items.stones;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.util.DeadEntityStorage;
+import de.cric_hammel.eternity.infinity.util.DeadEntityStorage;
 
 public class TimeStone implements Listener {
 

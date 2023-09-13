@@ -1,4 +1,4 @@
-package de.cric_hammel.eternity.stones;
+package de.cric_hammel.eternity.infinity.items.stones;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -27,6 +27,8 @@ public class PowerStone implements Listener {
 				((Player) e).damage(19, p);
 			} else if (e instanceof Damageable) {
 				((Damageable) e).damage(1000, p);
+			} else {
+				return;
 			}
 			World w = p.getWorld();
 			w.spawnParticle(Particle.SPELL_WITCH, e.getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
