@@ -1,5 +1,7 @@
 package de.cric_hammel.eternity.infinity.items.stones;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,44 +19,43 @@ public enum StoneType {
 	MIND(30, 1, Material.YELLOW_DYE, ChatColor.YELLOW + "Mind Stone"),
 	TIME(2, 10, Material.LIME_DYE, ChatColor.GREEN + "Time Stone");
 
-	private static final String METADATA_KEY_LEFT = "eternity_cooldown_left_";
-	private static final String METADATA_KEY_RIGHT = "eternity_cooldown_right_";
-	private static final String LORE = "One of the six powerful Infinity Stones";
+	private static final String METADATA_KEY_COOLDOWN_LEFT = "eternity_cooldown_left_";
+	private static final String METADATA_KEY_COOLDOWN_RIGHT = "eternity_cooldown_right_";
 
 	private final int cooldownLeftclick;
 	private final int cooldownRightclick;
 	public final Material m;
-	private final String itemName;
+	private final InfinityStone infinityStone;
 
 	private StoneType(int cooldownLeftClick, int cooldownRightClick, Material m, String itemName) {
 		this.cooldownLeftclick = cooldownLeftClick;
 		this.cooldownRightclick = cooldownRightClick;
 		this.m = m;
-		this.itemName = itemName;
+		infinityStone = new InfinityStone(m, itemName);
 	}
 
 	public boolean hasStoneInHand(Player p) {
-		return CustomItem.hasInHand(p, LORE, m);
+		return infinityStone.hasInHand(p);
 	}
 
 	public boolean hasStoneInInv(Player p) {
-		return CustomItem.hasInInv(p, LORE, m);
+		return infinityStone.hasInInv(p);
 	}
 
 	public void applyCooldownLeftclick(Player p) {
-		CustomItem.applyCooldown(p, METADATA_KEY_LEFT + this.toString(), cooldownLeftclick, m);
+		infinityStone.applyCooldown(p, METADATA_KEY_COOLDOWN_LEFT + this.toString(), cooldownLeftclick);
 	}
 
 	public void applyCooldownRightclick(Player p) {
-		CustomItem.applyCooldown(p, METADATA_KEY_RIGHT + this.toString(), cooldownRightclick, m);
+		infinityStone.applyCooldown(p, METADATA_KEY_COOLDOWN_RIGHT + this.toString(), cooldownRightclick);
 	}
 
 	public boolean hasCooldownLeftclick(Player p) {
-		return CustomItem.hasCooldown(p, METADATA_KEY_LEFT + this.toString(), m);
+		return infinityStone.hasCooldown(p, METADATA_KEY_COOLDOWN_LEFT + this.toString());
 	}
 
 	public boolean hasCooldownRightclick(Player p) {
-		return CustomItem.hasCooldown(p, METADATA_KEY_RIGHT + this.toString(), m);
+		return infinityStone.hasCooldown(p, METADATA_KEY_COOLDOWN_RIGHT + this.toString());
 	}
 
 	public static StoneType getValue(String v) {
@@ -66,9 +67,33 @@ public enum StoneType {
 		return null;
 	}
 
+	public static boolean hasAnyInHand(Player p) {
+		try {
+			for (StoneType type : StoneType.values()) {
+				ItemStack item = p.getInventory().getItemInMainHand();
+				List<String> loreList = item.getItemMeta().getLore();
+				if (loreList.get(1).equals(CustomItem.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	public ItemStack getItem() {
-		ItemStack stone = CustomItem.getItem(m, itemName, LORE);
+		ItemStack stone = infinityStone.getItem();
 		stone.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
 		return stone;
+	}
+	
+	
+	private class InfinityStone extends CustomItem{
+
+		public InfinityStone(Material m, String name) {
+			super(m, name, "One of the six powerful Infinity Stones");
+		}
+		
 	}
 }

@@ -29,24 +29,26 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
+import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 
-public class Gauntlet implements Listener{
+public class Gauntlet extends CustomItem implements Listener{
 	
-	public static final String LORE = "Designed to channel the power of all six Infinity Stones";
 	private static final String METADATA_KEY_FREEZE = "eternity_gauntlet_freeze";
 	private static final String METADATA_KEY_COOLDOWN_LEFT = "eternity_gauntlet_cooldown_left";
 	private static final String METADATA_KEY_COOLDOWN_RIGHT = "eternity_gauntlet_cooldown_right";
 	
 	private static final int cooldownLeftclick = 120;
 	private static final int cooldownRightclick = 60;
-	private static final Material m = Material.TORCHFLOWER;
 	
+	public Gauntlet() {
+		super(Material.TORCHFLOWER, ChatColor.GOLD + "Infinity Gauntlet", "Designed to channel the power of all six Infinity Stones");
+	}
 	@EventHandler
 	public void useGauntlet(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		if (hasGauntletInOffHand(p)) {
 			Action a = event.getAction();
-			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && !CustomItem.hasCooldown(p, METADATA_KEY_COOLDOWN_RIGHT, m)) {
+			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && !super.hasCooldown(p, METADATA_KEY_COOLDOWN_RIGHT)) {
 				boolean remove = true;
 				for (Entity e : p.getNearbyEntities(200, 200, 200)) {
 					if (e instanceof Monster) {
@@ -60,8 +62,8 @@ public class Gauntlet implements Listener{
 					}
 				}
 				p.playSound(p.getLocation(), Sound.PARTICLE_SOUL_ESCAPE, 10, 0.5f);
-				CustomItem.applyCooldown(p, METADATA_KEY_COOLDOWN_RIGHT, cooldownRightclick, m);
-			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) && !CustomItem.hasCooldown(p, METADATA_KEY_COOLDOWN_LEFT, m)) {
+				super.applyCooldown(p, METADATA_KEY_COOLDOWN_RIGHT, cooldownRightclick);
+			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) && !super.hasCooldown(p, METADATA_KEY_COOLDOWN_LEFT)) {
 				World w = p.getWorld();
 				w.setTime(1000);
 				w.setThundering(false);
@@ -110,7 +112,7 @@ public class Gauntlet implements Listener{
 				p.getInventory().setContents(contents);
 				p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1.5f);
 				p.getWorld().spawnParticle(Particle.HEART, p.getLocation(), 50, 0.75, 0.5, 0.75);
-				CustomItem.applyCooldown(p, METADATA_KEY_COOLDOWN_LEFT, cooldownLeftclick, m);
+				super.applyCooldown(p, METADATA_KEY_COOLDOWN_LEFT, cooldownLeftclick);
 			}
 			event.setCancelled(true);
 		}
@@ -118,7 +120,7 @@ public class Gauntlet implements Listener{
 	
 	private boolean hasGauntletInOffHand(Player p) {
 		ItemStack gauntlet = p.getInventory().getItemInOffHand();
-		if (gauntlet != null && gauntlet.hasItemMeta() && gauntlet.getItemMeta().hasLore() && gauntlet.getItemMeta().getLore().get(0).equals(LORE) && !CustomItem.hasAnyInHand(p)) {
+		if (gauntlet != null && gauntlet.hasItemMeta() && gauntlet.getItemMeta().hasLore() && gauntlet.getItemMeta().getLore().get(0).equals(super.getLore()) && !StoneType.hasAnyInHand(p)) {
 			return true;
 		}
 		return false;
@@ -145,8 +147,8 @@ public class Gauntlet implements Listener{
 		}
 	}
 	
-	public static ItemStack getItem() {
-		ItemStack gauntlet = CustomItem.getItem(m, ChatColor.GOLD + "Infinity Gauntlet", LORE);
+	public ItemStack getItem() {
+		ItemStack gauntlet = super.getItem();
 		ItemMeta gauntletMeta = gauntlet.getItemMeta();
 		gauntletMeta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, new AttributeModifier(UUID.randomUUID(), "generic.max_health", 2*20, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
 		gauntletMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "generic.attack_damage", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));

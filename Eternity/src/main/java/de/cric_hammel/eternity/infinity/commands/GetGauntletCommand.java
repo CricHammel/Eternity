@@ -17,7 +17,7 @@ public class GetGauntletCommand implements CommandExecutor{
 			Player p = (Player) sender;
 			if (p.hasPermission("eternity.getgauntlet")) {
 				if (args.length == 0) {
-					ItemStack gauntlet = Gauntlet.getItem();
+					ItemStack gauntlet = new Gauntlet().getItem();
 					p.getInventory().addItem(gauntlet);
 					return true;
 				} else {

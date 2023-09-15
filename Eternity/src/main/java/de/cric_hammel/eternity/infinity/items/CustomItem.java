@@ -12,11 +12,31 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import de.cric_hammel.eternity.Main;
 
-public class CustomItem {
+public abstract class CustomItem {
 	
-	private static final String LORE_ID = ChatColor.MAGIC + "eternity";
+	private Material m;
+	private String lore;
+	private ItemStack item;
 	
-	public static boolean hasInHand(Player p, String lore, Material m) {
+	public static final String LORE_ID = ChatColor.MAGIC + "eternity";
+	
+	public CustomItem(Material m, String name, String lore) {
+		this.m = m;
+		this.lore = lore;
+		
+		ItemStack item = new ItemStack(m);
+		ItemMeta itemMeta = item.getItemMeta();
+		itemMeta.setDisplayName(name);
+		ArrayList<String> loreList = new ArrayList<String>();
+		loreList.add(lore);
+		loreList.add(LORE_ID);
+		itemMeta.setLore(loreList);
+		item.setItemMeta(itemMeta);
+		
+		this.item = item;
+	}
+	
+	public boolean hasInHand(Player p) {
 		try {
 			ItemStack item = p.getInventory().getItemInMainHand();
 			List<String> loreList = item.getItemMeta().getLore();
@@ -29,7 +49,7 @@ public class CustomItem {
 		}
 	}
 	
-	public static boolean hasInInv(Player p, String lore, Material m) {
+	public boolean hasInInv(Player p) {
 		for (ItemStack item : p.getInventory().getContents()) {
 			try {
 				List<String> loreList = item.getItemMeta().getLore();
@@ -43,20 +63,7 @@ public class CustomItem {
 		return false;
 	}
 	
-	public static boolean hasAnyInHand(Player p) {
-		try {
-			ItemStack item = p.getInventory().getItemInMainHand();
-			List<String> loreList = item.getItemMeta().getLore();
-			if (loreList.get(1).equals(LORE_ID)) {
-				return true;
-			}
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	
-	public static void applyCooldown(Player p, String metaKey, int cooldown, Material m) {
+	public void applyCooldown(Player p, String metaKey, int cooldown) {
 		if (!p.hasMetadata(metaKey)) {
 			p.setMetadata(metaKey,
 					new FixedMetadataValue(Main.getPlugin(), System.currentTimeMillis() + cooldown * 1000));
@@ -64,7 +71,7 @@ public class CustomItem {
 		}
 	}
 	
-	public static boolean hasCooldown(Player p, String metaKey, Material m) {
+	public boolean hasCooldown(Player p, String metaKey) {
 		if (p.hasMetadata(metaKey)) {
 			long time = (long) p.getMetadata(metaKey).get(0).value();
 			if (System.currentTimeMillis() > time) {
@@ -75,17 +82,14 @@ public class CustomItem {
 			p.setCooldown(m, Math.round(time - System.currentTimeMillis()) / 50);
 			return true;
 		}
-		return false;	}
+		return false;
+	}
 	
-	public static ItemStack getItem(Material m, String name, String lore) {
-		ItemStack stone = new ItemStack(m);
-		ItemMeta stoneMeta = stone.getItemMeta();
-		stoneMeta.setDisplayName(name);
-		ArrayList<String> loreList = new ArrayList<String>();
-		loreList.add(lore);
-		loreList.add(LORE_ID);
-		stoneMeta.setLore(loreList);
-		stone.setItemMeta(stoneMeta);
-		return stone;
+	public ItemStack getItem() {
+		return item;
+	}
+
+	public String getLore() {
+		return lore;
 	}
 }

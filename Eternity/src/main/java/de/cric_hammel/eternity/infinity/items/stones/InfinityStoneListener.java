@@ -6,14 +6,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import de.cric_hammel.eternity.infinity.items.CustomItem;
-
 public class InfinityStoneListener implements Listener{
 	
 	@EventHandler
 	public void useInfinityStone(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
-		if (CustomItem.hasAnyInHand(p)) {
+		if (StoneType.hasAnyInHand(p)) {
 			event.setCancelled(true);
 		}
 	}
@@ -21,7 +19,7 @@ public class InfinityStoneListener implements Listener{
 	@EventHandler
 	public void useInfinityStoneEntity(PlayerInteractEntityEvent event) {
 		Player p = event.getPlayer();
-		if (CustomItem.hasAnyInHand(p)) {
+		if (StoneType.hasAnyInHand(p)) {
 			event.setCancelled(true);
 		}
 	}
