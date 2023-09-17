@@ -25,6 +25,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import de.cric_hammel.eternity.infinity.util.ActionUtils;
+
 public class SoulStone implements Listener {
 
 	private HashMap<Player, Location> lastLoc = new HashMap<Player, Location>();
@@ -33,82 +35,108 @@ public class SoulStone implements Listener {
 	public void useSoulStone(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action a = event.getAction();
-		if (StoneType.SOUL.hasStoneInHand(p) && (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK)
-				&& !StoneType.SOUL.hasCooldownRightclick(p)) {
-			World soulWorld = Bukkit.getWorld(p.getName());
-			if (soulWorld == null) {
-				WorldCreator soulWorldCreator = new WorldCreator(p.getName());
-				soulWorldCreator.environment(Environment.NORMAL);
-				soulWorldCreator.generateStructures(false);
-				soulWorldCreator.type(WorldType.FLAT);
-				soulWorldCreator.generatorSettings(
-						"{\"structures\": {\"structures\": {}}, \"layers\": [{\"block\": \"bedrock\", \"height\": 1}, {\"block\": \"water\", \"height\": 1}], \"biome\":\"the_void\"}");
 
-				soulWorld = soulWorldCreator.createWorld();
-				soulWorld.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-				soulWorld.setTime(12500);
-			}
-			if (p.getWorld() == soulWorld) {
-				if (lastLoc.containsKey(p)) {
-					p.teleport(lastLoc.get(p));
-					lastLoc.remove(p);
-				} else {
-					p.teleport(Bukkit.getWorld(getLevelname()).getSpawnLocation());
-				}
-				StoneType.SOUL.applyCooldownRightclick(p);
-			} else {
-				lastLoc.put(p, p.getLocation());
-				p.teleport(soulWorld.getSpawnLocation());
-			}
-			p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 1, 2);
+		if (!StoneType.SOUL.hasStoneInHand(p) || StoneType.SOUL.hasCooldownRightclick(p)
+				|| !ActionUtils.isRightclick(a)) {
+			return;
 		}
-	}
 
-	@EventHandler
-	public void useSoulStoneEntityHit(EntityDamageByEntityEvent event) {
-		if (event.getDamager() instanceof Player && event.getEntity() instanceof Damageable) {
-			Player p = (Player) event.getDamager();
-			Damageable d = (Damageable) event.getEntity();
-			if (StoneType.SOUL.hasStoneInHand(p) && !StoneType.SOUL.hasCooldownLeftclick(p)) {
-				double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-				double currentHealth = p.getHealth();
-				double missingHealth = maxHealth - currentHealth;
-				if ((currentHealth + 4) <= maxHealth) {
-					p.setHealth(currentHealth + 4);
-					d.damage(4);
-				} else if (missingHealth != 0){
-					p.setHealth(maxHealth);
-					d.damage(missingHealth);
-				} else {
-					return;
-				}
-				p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 1, 1.5f);
-				p.getWorld().spawnParticle(Particle.HEART, d.getLocation(), 2, 0.5, 0.5, 0.5);
-				StoneType.SOUL.applyCooldownLeftclick(p);
-			}
+		World soulWorld = Bukkit.getWorld(p.getName());
+
+		if (soulWorld == null) {
+			soulWorld = createWorld(p);
 		}
-	}
 
-	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		Player p = event.getPlayer();
-		if (p.getWorld().getName().equals(p.getName())) {
+		if (p.getWorld() == soulWorld) {
+
 			if (lastLoc.containsKey(p)) {
 				p.teleport(lastLoc.get(p));
 				lastLoc.remove(p);
 			} else {
 				p.teleport(Bukkit.getWorld(getLevelname()).getSpawnLocation());
 			}
+
+			StoneType.SOUL.applyCooldownRightclick(p);
+		} else {
+			lastLoc.put(p, p.getLocation());
+			p.teleport(soulWorld.getSpawnLocation());
+		}
+
+		p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 1, 2);
+	}
+
+	private World createWorld(Player p) {
+		World soulWorld;
+		WorldCreator soulWorldCreator = new WorldCreator(p.getName());
+		soulWorldCreator.environment(Environment.NORMAL);
+		soulWorldCreator.generateStructures(false);
+		soulWorldCreator.type(WorldType.FLAT);
+		soulWorldCreator.generatorSettings(
+				"{\"structures\": {\"structures\": {}}, \"layers\": [{\"block\": \"bedrock\", \"height\": 1}, {\"block\": \"water\", \"height\": 1}], \"biome\":\"the_void\"}");
+		soulWorld = soulWorldCreator.createWorld();
+		soulWorld.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+		soulWorld.setTime(12500);
+		return soulWorld;
+	}
+
+	@EventHandler
+	public void useSoulStoneEntityHit(EntityDamageByEntityEvent event) {
+
+		if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Damageable)) {
+			return;
+		}
+
+		Player p = (Player) event.getDamager();
+
+		if (!StoneType.SOUL.hasStoneInHand(p) || StoneType.SOUL.hasCooldownLeftclick(p)) {
+			return;
+		}
+
+		Damageable d = (Damageable) event.getEntity();
+		double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+		double currentHealth = p.getHealth();
+		double missingHealth = maxHealth - currentHealth;
+
+		if ((currentHealth + 4) <= maxHealth) {
+			p.setHealth(currentHealth + 4);
+			d.damage(4);
+		} else if (missingHealth != 0) {
+			p.setHealth(maxHealth);
+			d.damage(missingHealth);
+		} else {
+			return;
+		}
+
+		p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 1, 1.5f);
+		p.getWorld().spawnParticle(Particle.HEART, d.getLocation(), 2, 0.5, 0.5, 0.5);
+		StoneType.SOUL.applyCooldownLeftclick(p);
+	}
+
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		Player p = event.getPlayer();
+
+		if (!p.getWorld().getName().equals(p.getName())) {
+			return;
+		}
+
+		if (lastLoc.containsKey(p)) {
+			p.teleport(lastLoc.get(p));
+			lastLoc.remove(p);
+		} else {
+			p.teleport(Bukkit.getWorld(getLevelname()).getSpawnLocation());
 		}
 	}
 
 	private String getLevelname() {
 		Properties prop = new Properties();
+
 		try {
 			prop.load(new FileInputStream(new File("server.properties")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		return prop.getProperty("level-name");
 	}
 }

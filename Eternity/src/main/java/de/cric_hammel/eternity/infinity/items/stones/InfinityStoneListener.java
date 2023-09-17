@@ -6,19 +6,21 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class InfinityStoneListener implements Listener{
-	
+public class InfinityStoneListener implements Listener {
+
 	@EventHandler
 	public void useInfinityStone(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
+
 		if (StoneType.hasAnyInHand(p)) {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void useInfinityStoneEntity(PlayerInteractEntityEvent event) {
 		Player p = event.getPlayer();
+
 		if (StoneType.hasAnyInHand(p)) {
 			event.setCancelled(true);
 		}

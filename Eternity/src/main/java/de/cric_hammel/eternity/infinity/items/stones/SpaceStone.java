@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.infinity.util.ActionUtils;
 
 public class SpaceStone implements Listener {
 
@@ -27,60 +28,73 @@ public class SpaceStone implements Listener {
 	@EventHandler
 	public void useSpaceStone(PlayerInteractEvent event) {
 		final Player p = event.getPlayer();
-		if (StoneType.SPACE.hasStoneInHand(p)) {
-			Action a = event.getAction();
-			if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK)
-					&& !StoneType.SPACE.hasCooldownRightclick(p)) {
-				World currentWorld = p.getWorld();
-				Location currentLocation = p.getLocation();
-				Entity armorStand1 = currentWorld.spawnEntity(currentLocation, EntityType.ARMOR_STAND);
-				ArmorStand armorStand = (ArmorStand) armorStand1;
-				armorStand.setInvisible(true);
-				float yaw = p.getLocation().getYaw();
-				float pitch = p.getLocation().getPitch();
-				armorStand.setGravity(false);
-				armorStand.setInvulnerable(true);
-				armorStand.setRotation(yaw, pitch);
 
-				boolean inBlock = false;
-				int breakCounter = 0;
-				while (!inBlock) {
-					breakCounter++;
-					if (breakCounter >= 1000) {
-						armorStand.remove();
-						break;
-					}
-					armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection()));
-					if (!armorStand.getLocation().getBlock().isPassable()) {
-						inBlock = true;
-						armorStand.teleport(
-								armorStand.getLocation().add(armorStand.getLocation().getDirection().multiply(-1)));
-						p.teleport(armorStand);
-						p.setFallDistance(0);
-						p.getLocation().getDirection().zero();
-						p.playEffect(EntityEffect.TELEPORT_ENDER);
-						p.playSound(currentLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 10, 1);
-						armorStand.remove();
-						StoneType.SPACE.applyCooldownRightclick(p);
-					}
+		if (!StoneType.SPACE.hasStoneInHand(p)) {
+			return;
+		}
+
+		Action a = event.getAction();
+
+		if (ActionUtils.isRightclick(a) && !StoneType.SPACE.hasCooldownRightclick(p)) {
+			teleport(p);
+		} else if (ActionUtils.isLeftclick(a) && !StoneType.SPACE.hasCooldownLeftclick(p)
+				&& p.getGameMode() != GameMode.SPECTATOR) {
+			lastGameMode.put(p, p.getGameMode());
+			p.setGameMode(GameMode.SPECTATOR);
+			p.playEffect(EntityEffect.TELEPORT_ENDER);
+			p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
+
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					p.setGameMode(lastGameMode.get(p));
+					lastGameMode.remove(p);
+					p.playEffect(EntityEffect.TELEPORT_ENDER);
+					p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1, 1);
 				}
-			} else if ((a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK)
-					&& !StoneType.SPACE.hasCooldownLeftclick(p) && p.getGameMode() != GameMode.SPECTATOR) {
-				lastGameMode.put(p, p.getGameMode());
-				p.setGameMode(GameMode.SPECTATOR);
-				p.playEffect(EntityEffect.TELEPORT_ENDER);
-				p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
-				new BukkitRunnable() {
 
-					@Override
-					public void run() {
-						p.setGameMode(lastGameMode.get(p));
-						lastGameMode.remove(p);
-						p.playEffect(EntityEffect.TELEPORT_ENDER);
-						p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1, 1);
-					}
-				}.runTaskLater(Main.getPlugin(), 5 * 20);
-				StoneType.SPACE.applyCooldownLeftclick(p);
+			}.runTaskLater(Main.getPlugin(), 5 * 20);
+
+			StoneType.SPACE.applyCooldownLeftclick(p);
+		}
+	}
+
+	private void teleport(final Player p) {
+		World currentWorld = p.getWorld();
+		Location currentLocation = p.getLocation();
+		Entity armorStand1 = currentWorld.spawnEntity(currentLocation, EntityType.ARMOR_STAND);
+		ArmorStand armorStand = (ArmorStand) armorStand1;
+		armorStand.setInvisible(true);
+		float yaw = p.getLocation().getYaw();
+		float pitch = p.getLocation().getPitch();
+		armorStand.setGravity(false);
+		armorStand.setInvulnerable(true);
+		armorStand.setRotation(yaw, pitch);
+
+		boolean inBlock = false;
+		int breakCounter = 0;
+
+		while (!inBlock) {
+			breakCounter++;
+
+			if (breakCounter >= 1000) {
+				armorStand.remove();
+				break;
+			}
+
+			armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection()));
+
+			if (!armorStand.getLocation().getBlock().isPassable()) {
+				inBlock = true;
+				armorStand.teleport(armorStand.getLocation().add(armorStand.getLocation().getDirection().multiply(-1)));
+				p.teleport(armorStand);
+				p.setFallDistance(0);
+				p.getLocation().getDirection().zero();
+				p.playEffect(EntityEffect.TELEPORT_ENDER);
+				p.playSound(currentLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 10, 1);
+				armorStand.remove();
+				StoneType.SPACE.applyCooldownRightclick(p);
 			}
 		}
 	}
@@ -88,6 +102,7 @@ public class SpaceStone implements Listener {
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player p = event.getPlayer();
+
 		if (lastGameMode.containsKey(p)) {
 			p.setGameMode(lastGameMode.get(p));
 		}

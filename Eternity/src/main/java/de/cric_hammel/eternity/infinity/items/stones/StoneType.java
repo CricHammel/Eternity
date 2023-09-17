@@ -60,41 +60,47 @@ public enum StoneType {
 	}
 
 	public static StoneType getValue(String v) {
+
 		for (StoneType type : StoneType.values()) {
+
 			if (type.name().equalsIgnoreCase(v)) {
 				return type;
 			}
 		}
+
 		return null;
 	}
 
 	public static boolean hasAnyInHand(Player p) {
+
 		try {
+
 			for (StoneType type : StoneType.values()) {
 				ItemStack item = p.getInventory().getItemInMainHand();
 				List<String> loreList = item.getItemMeta().getLore();
+
 				if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
 					return true;
 				}
 			}
+
 			return false;
 		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	public ItemStack getItem() {
 		ItemStack stone = infinityStone.getItem();
 		stone.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
 		return stone;
 	}
-	
-	
-	private class InfinityStone extends CustomItem{
+
+	private class InfinityStone extends CustomItem {
 
 		public InfinityStone(Material m, String name) {
 			super(m, name, "One of the six powerful Infinity Stones");
 		}
-		
+
 	}
 }

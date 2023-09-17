@@ -20,30 +20,34 @@ public class GetStonesCommand implements TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (sender instanceof Player) {
-			Player p = (Player) sender;
-			if (p.hasPermission("eternity.getstones")) {
-				if (args.length == 1) {
-					StoneType type = StoneType.getValue(args[0]);
-					if (type != null) {
-						ItemStack stone = type.getItem();
-						p.getInventory().addItem(stone);
-						return true;
-					} else {
-						p.sendMessage(Main.defaultMessages.get("wrongArgs")
-								+ "/getstones [power|space|reality|soul|mind|time]");
-					}
-				} else {
-					p.sendMessage(
-							Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
-				}
-			} else {
-				p.sendMessage(Main.defaultMessages.get("noPermission"));
-			}
-		} else {
+
+		if (!(sender instanceof Player)) {
 			sender.sendMessage(Main.defaultMessages.get("notPlayer"));
+			return false;
 		}
-		return false;
+
+		Player p = (Player) sender;
+
+		if (!p.hasPermission("eternity.getstones")) {
+			p.sendMessage(Main.defaultMessages.get("noPermission"));
+			return false;
+		}
+
+		if (args.length != 1) {
+			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
+			return false;
+		}
+
+		StoneType type = StoneType.getValue(args[0]);
+
+		if (type == null) {
+			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
+			return false;
+		}
+
+		ItemStack stone = type.getItem();
+		p.getInventory().addItem(stone);
+		return true;
 	}
 
 	@Override

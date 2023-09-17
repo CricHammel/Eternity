@@ -19,23 +19,23 @@ import de.cric_hammel.eternity.infinity.items.stones.SoulStone;
 import de.cric_hammel.eternity.infinity.items.stones.SpaceStone;
 import de.cric_hammel.eternity.infinity.items.stones.TimeStone;
 
-public class Main extends JavaPlugin{
+public class Main extends JavaPlugin {
 
 	private static Main plugin;
 	public static Map<String, String> defaultMessages = new HashMap<String, String>();
 	public static final String LORE_ID = ChatColor.MAGIC + "eternity";
-	
+
 	public void onEnable() {
 		plugin = this;
-		
+
 		defaultMessages.put("notPlayer", "This command can only be executed by players!");
 		defaultMessages.put("noPermission", "You don't have the permission to execute this command!");
 		defaultMessages.put("wrongArgs", "Wrong arguments! Correct usage: ");
-		
+
 		getCommand("getgauntlet").setExecutor(new GetGauntletCommand());
 		getCommand("getstones").setExecutor(new GetStonesCommand());
 		getCommand("getstones").setTabCompleter(new GetStonesCommand());
-		
+
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new Gauntlet(), plugin);
 		pluginManager.registerEvents(new InfinityStoneListener(), plugin);
