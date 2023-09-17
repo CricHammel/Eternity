@@ -43,6 +43,7 @@ public class Gauntlet extends CustomItem implements Listener{
 	public Gauntlet() {
 		super(Material.TORCHFLOWER, ChatColor.GOLD + "Infinity Gauntlet", "Designed to channel the power of all six Infinity Stones");
 	}
+	
 	@EventHandler
 	public void useGauntlet(PlayerInteractEvent event) {
 		Player p = event.getPlayer();

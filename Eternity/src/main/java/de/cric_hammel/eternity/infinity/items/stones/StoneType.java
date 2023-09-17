@@ -8,6 +8,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 
 public enum StoneType {
@@ -72,7 +73,7 @@ public enum StoneType {
 			for (StoneType type : StoneType.values()) {
 				ItemStack item = p.getInventory().getItemInMainHand();
 				List<String> loreList = item.getItemMeta().getLore();
-				if (loreList.get(1).equals(CustomItem.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
+				if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
 					return true;
 				}
 			}

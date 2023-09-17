@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +23,7 @@ public class Main extends JavaPlugin{
 
 	private static Main plugin;
 	public static Map<String, String> defaultMessages = new HashMap<String, String>();
+	public static final String LORE_ID = ChatColor.MAGIC + "eternity";
 	
 	public void onEnable() {
 		plugin = this;
