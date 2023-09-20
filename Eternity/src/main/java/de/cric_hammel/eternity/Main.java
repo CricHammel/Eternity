@@ -9,8 +9,11 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.cric_hammel.eternity.infinity.commands.GetGauntletCommand;
+import de.cric_hammel.eternity.infinity.commands.GetKreeArmorCommand;
 import de.cric_hammel.eternity.infinity.commands.GetStonesCommand;
+import de.cric_hammel.eternity.infinity.commands.SpawnKreeCommand;
 import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
+import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.items.stones.InfinityStoneListener;
 import de.cric_hammel.eternity.infinity.items.stones.MindStone;
 import de.cric_hammel.eternity.infinity.items.stones.PowerStone;
@@ -18,6 +21,8 @@ import de.cric_hammel.eternity.infinity.items.stones.RealityStone;
 import de.cric_hammel.eternity.infinity.items.stones.SoulStone;
 import de.cric_hammel.eternity.infinity.items.stones.SpaceStone;
 import de.cric_hammel.eternity.infinity.items.stones.TimeStone;
+import de.cric_hammel.eternity.infinity.mobs.kree.KreeGeneral;
+import de.cric_hammel.eternity.infinity.mobs.kree.KreeSoldier;
 
 public class Main extends JavaPlugin {
 
@@ -35,6 +40,8 @@ public class Main extends JavaPlugin {
 		getCommand("getgauntlet").setExecutor(new GetGauntletCommand());
 		getCommand("getstones").setExecutor(new GetStonesCommand());
 		getCommand("getstones").setTabCompleter(new GetStonesCommand());
+		getCommand("getkreearmor").setExecutor(new GetKreeArmorCommand());
+		getCommand("spawnkree").setExecutor(new SpawnKreeCommand());
 
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new Gauntlet(), plugin);
@@ -45,6 +52,9 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new SoulStone(), plugin);
 		pluginManager.registerEvents(new MindStone(), plugin);
 		pluginManager.registerEvents(new TimeStone(), plugin);
+		pluginManager.registerEvents(new KreeArmor(), plugin);
+		pluginManager.registerEvents(new KreeSoldier(), plugin);
+		pluginManager.registerEvents(new KreeGeneral(), plugin);
 
 	}
 

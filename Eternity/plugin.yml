@@ -8,3 +8,7 @@ commands:
       description: Gives you the powerful Infinity Stones
    getgauntlet:
       description: Gives you the mighty Infinity Gauntlet
+   getkreearmor:
+      description: Gives you the armor of the mighty Kree
+   spawnkree:
+      description: Spawns one og the mighty Kree

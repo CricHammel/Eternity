@@ -1,15 +1,12 @@
 package de.cric_hammel.eternity.infinity.items.gauntlet;
 
-import java.util.UUID;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -31,6 +28,7 @@ import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
+import de.cric_hammel.eternity.infinity.util.AttributeUtils;
 
 public class Gauntlet extends CustomItem implements Listener {
 
@@ -182,15 +180,9 @@ public class Gauntlet extends CustomItem implements Listener {
 
 	public ItemStack getItem() {
 		ItemStack gauntlet = super.getItem();
-		ItemMeta gauntletMeta = gauntlet.getItemMeta();
-		gauntletMeta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, new AttributeModifier(UUID.randomUUID(),
-				"generic.max_health", 2 * 20, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
-		gauntletMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),
-				"generic.attack_damage", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
-		gauntletMeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(),
-				"generic.armor_toughness", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
-		gauntlet.setItemMeta(gauntletMeta);
-		gauntlet.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
+		AttributeUtils.add(gauntlet, Attribute.GENERIC_MAX_HEALTH, 2 * 20, Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);
+		AttributeUtils.add(gauntlet, Attribute.GENERIC_ATTACK_DAMAGE, 10, Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);
+		AttributeUtils.add(gauntlet, Attribute.GENERIC_ARMOR_TOUGHNESS, 10, Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);
 		return gauntlet;
 	}
 

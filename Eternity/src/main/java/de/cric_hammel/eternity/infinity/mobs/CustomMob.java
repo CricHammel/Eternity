@@ -4,6 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTable;
 
 public abstract class CustomMob {
@@ -21,20 +23,35 @@ public abstract class CustomMob {
 	public Mob spawn(Location loc) {
 		Mob m = (Mob) loc.getWorld().spawnEntity(loc, type, false);
 		m.setCustomName(name);
-
-		if (lootTable != null) {
-			m.setLootTable(lootTable);
-		}
-
+		m.setLootTable(lootTable);
 		return m;
 	}
 
 	public boolean isMob(Entity e) {
-
-		if (e.getType() == type && e.getCustomName().equals(name)) {
-			return true;
+		try {
+			
+			if (e.getType() == type && e.getCustomName().equals(name)) {
+				return true;
+			}
+		} catch (Exception exception) {
+			
 		}
-
+		
 		return false;
+	}
+	
+	public static void setArmor(Mob m, ItemStack[] armor, float dropChance) {
+		EntityEquipment e = m.getEquipment();
+		e.setArmorContents(armor);
+		e.setHelmetDropChance(dropChance);
+		e.setChestplateDropChance(dropChance);
+		e.setLeggingsDropChance(dropChance);
+		e.setBootsDropChance(dropChance);
+	}
+	
+	public static void setMainHand(Mob m, ItemStack item, float dropChance) {
+		EntityEquipment e = m.getEquipment();
+		e.setItemInMainHand(item);
+		e.setItemInMainHandDropChance(dropChance);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class CustomTieredItem extends CustomItem {
 
@@ -28,7 +29,11 @@ public abstract class CustomTieredItem extends CustomItem {
 	private void setTier(ItemStack item, int tier) {
 
 		try {
-			item.getItemMeta().getLore().set(2, "Tier " + tier);
+			ItemMeta meta = item.getItemMeta();
+			List<String> lore = meta.getLore();
+			lore.add("Tier " + tier);
+			meta.setLore(lore);
+			item.setItemMeta(meta);
 		} catch (Exception e) {
 			return;
 		}

@@ -2,8 +2,9 @@ package de.cric_hammel.eternity.infinity.items;
 
 import java.util.List;
 
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class CustomTieredArmor extends CustomArmor {
 
@@ -19,6 +20,9 @@ public abstract class CustomTieredArmor extends CustomArmor {
 		setTier(tierTwo, 2);
 		tierThree = super.getArmor();
 		setTier(tierThree, 3);
+		changeTierOne();
+		changeTierTwo();
+		changeTierThree();
 	}
 
 	private void setTier(ItemStack[] armor, int tier) {
@@ -26,7 +30,11 @@ public abstract class CustomTieredArmor extends CustomArmor {
 		try {
 
 			for (ItemStack item : armor) {
-				item.getItemMeta().getLore().set(2, "Tier " + tier);
+				ItemMeta meta = item.getItemMeta();
+				List<String> lore = meta.getLore();
+				lore.add("Tier " + tier);
+				meta.setLore(lore);
+				item.setItemMeta(meta);
 			}
 
 		} catch (Exception e) {
@@ -40,15 +48,15 @@ public abstract class CustomTieredArmor extends CustomArmor {
 
 	public abstract void changeTierThree();
 
-	public boolean isWearingTier(Player p, int tier) {
+	public boolean isWearingTier(LivingEntity e, int tier) {
 
-		if (!super.isWearing(p)) {
+		if (!super.isWearing(e)) {
 			return false;
 		}
 
-		ItemStack[] playerArmor = p.getInventory().getArmorContents();
+		ItemStack[] entityArmor = e.getEquipment().getArmorContents();
 
-		for (ItemStack item : playerArmor) {
+		for (ItemStack item : entityArmor) {
 			List<String> loreList = item.getItemMeta().getLore();
 
 			if (!loreList.get(2).contains(Integer.toString(tier))) {

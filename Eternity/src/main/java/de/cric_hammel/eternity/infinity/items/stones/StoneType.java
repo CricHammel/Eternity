@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -91,9 +90,7 @@ public enum StoneType {
 	}
 
 	public ItemStack getItem() {
-		ItemStack stone = infinityStone.getItem();
-		stone.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
-		return stone;
+		return infinityStone.getItem();
 	}
 
 	private class InfinityStone extends CustomItem {

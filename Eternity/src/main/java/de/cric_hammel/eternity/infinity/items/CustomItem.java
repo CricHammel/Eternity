@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -32,6 +33,7 @@ public abstract class CustomItem {
 		loreList.add(Main.LORE_ID);
 		itemMeta.setLore(loreList);
 		item.setItemMeta(itemMeta);
+		item.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
 		return item;
 	}
 
