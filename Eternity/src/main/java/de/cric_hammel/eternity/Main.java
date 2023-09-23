@@ -8,10 +8,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.cric_hammel.eternity.infinity.commands.DungeonCommand;
 import de.cric_hammel.eternity.infinity.commands.GetGauntletCommand;
 import de.cric_hammel.eternity.infinity.commands.GetKreeArmorCommand;
 import de.cric_hammel.eternity.infinity.commands.GetStonesCommand;
 import de.cric_hammel.eternity.infinity.commands.SpawnKreeCommand;
+import de.cric_hammel.eternity.infinity.dungeons.PowerDungeon;
 import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.items.stones.InfinityStoneListener;
@@ -22,6 +24,7 @@ import de.cric_hammel.eternity.infinity.items.stones.SoulStone;
 import de.cric_hammel.eternity.infinity.items.stones.SpaceStone;
 import de.cric_hammel.eternity.infinity.items.stones.TimeStone;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGeneral;
+import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeSoldier;
 
 public class Main extends JavaPlugin {
@@ -29,6 +32,8 @@ public class Main extends JavaPlugin {
 	private static Main plugin;
 	public static Map<String, String> defaultMessages = new HashMap<String, String>();
 	public static final String LORE_ID = ChatColor.MAGIC + "eternity";
+	
+	public static final PowerDungeon powerDungeon = new PowerDungeon();
 
 	public void onEnable() {
 		plugin = this;
@@ -42,6 +47,7 @@ public class Main extends JavaPlugin {
 		getCommand("getstones").setTabCompleter(new GetStonesCommand());
 		getCommand("getkreearmor").setExecutor(new GetKreeArmorCommand());
 		getCommand("spawnkree").setExecutor(new SpawnKreeCommand());
+		getCommand("dungeon").setExecutor(new DungeonCommand());
 
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new Gauntlet(), plugin);
@@ -55,6 +61,9 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new KreeArmor(), plugin);
 		pluginManager.registerEvents(new KreeSoldier(), plugin);
 		pluginManager.registerEvents(new KreeGeneral(), plugin);
+		pluginManager.registerEvents(new KreeGuard(), plugin);
+		
+		pluginManager.registerEvents(powerDungeon, plugin);
 
 	}
 

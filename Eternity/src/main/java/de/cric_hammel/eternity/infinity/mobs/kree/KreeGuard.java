@@ -7,12 +7,16 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.ItemStack;
 
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 
-public class KreeGuard extends Kree {
+public class KreeGuard extends Kree implements Listener {
 
 	public KreeGuard() {
 		super(EntityType.IRON_GOLEM, "Guard", null);
@@ -30,5 +34,13 @@ public class KreeGuard extends Kree {
 		golem.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(120);
 		golem.setHealth(120);
 		return golem;
+	}
+	
+	@EventHandler
+	public void onEntityTarget(EntityTargetEvent event) {
+		
+		if (!(event.getTarget() instanceof Player)) {
+			event.setCancelled(true);
+		}
 	}
 }

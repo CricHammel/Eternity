@@ -178,6 +178,7 @@ public class Gauntlet extends CustomItem implements Listener {
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack gauntlet = super.getItem();
 		AttributeUtils.add(gauntlet, Attribute.GENERIC_MAX_HEALTH, 2 * 20, Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);

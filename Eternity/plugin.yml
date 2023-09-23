@@ -12,3 +12,5 @@ commands:
       description: Gives you the armor of the mighty Kree
    spawnkree:
       description: Spawns one og the mighty Kree
+   dungeon:
+      description: Teleports you into a dungeon of your choice

@@ -5,9 +5,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.loot.LootTable;
 
-import de.cric_hammel.eternity.infinity.mobs.CustomMob;
+import de.cric_hammel.eternity.infinity.mobs.DungeonMob;
 
-public abstract class Kree extends CustomMob{
+public abstract class Kree extends DungeonMob {
 
 	private static final String KREE_PREFIX = ChatColor.RED + "Kree ";
 	

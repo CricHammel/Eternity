@@ -7,6 +7,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTable;
+import org.bukkit.loot.LootTables;
 
 public abstract class CustomMob {
 
@@ -23,7 +24,11 @@ public abstract class CustomMob {
 	public Mob spawn(Location loc) {
 		Mob m = (Mob) loc.getWorld().spawnEntity(loc, type, false);
 		m.setCustomName(name);
-		m.setLootTable(lootTable);
+		if (lootTable != null) {
+			m.setLootTable(lootTable);
+		} else {
+			m.setLootTable(LootTables.EMPTY.getLootTable());
+		}
 		return m;
 	}
 

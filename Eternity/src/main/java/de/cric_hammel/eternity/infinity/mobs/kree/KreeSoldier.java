@@ -53,8 +53,9 @@ public class KreeSoldier extends Kree implements Listener {
 	
 	@EventHandler
 	public void onEntityTarget(EntityTargetEvent event) {
+		Entity e = event.getEntity();
 		
-		if (!super.isMob(event.getEntity()) || !(event.getTarget() instanceof Player)) {
+		if (!super.isMob(e) || !(event.getTarget() instanceof Player)) {
 			return;
 		}
 		
@@ -71,11 +72,11 @@ public class KreeSoldier extends Kree implements Listener {
 		Entity entity = event.getEntity();
 		
 		if (damager instanceof Player && super.isKree(entity)) {
-			aggro(damager);
+			aggro((Player) damager);
 		}
 		
 		if (super.isKree(damager) && entity instanceof Player) {
-			aggro(entity);
+			aggro((Player) entity);
 		}
 	}
 
@@ -90,17 +91,17 @@ public class KreeSoldier extends Kree implements Listener {
 		aggro(p);
 	}
 	
-	public void aggro(final Entity e) {
+	public void aggro(final Player p) {
 		
-		if (!e.hasMetadata(METADATA_KEY_TARGET)) {
-			e.setMetadata(METADATA_KEY_TARGET, new FixedMetadataValue(Main.getPlugin(), 1));
+		if (!p.hasMetadata(METADATA_KEY_TARGET)) {
+			p.setMetadata(METADATA_KEY_TARGET, new FixedMetadataValue(Main.getPlugin(), 1));
 			
 			new BukkitRunnable() {
 				
 				@Override
 				public void run() {
-					if (e.hasMetadata(METADATA_KEY_TARGET)) {
-						e.removeMetadata(METADATA_KEY_TARGET, Main.getPlugin());
+					if (p.hasMetadata(METADATA_KEY_TARGET)) {
+						p.removeMetadata(METADATA_KEY_TARGET, Main.getPlugin());
 					}
 				}
 				
