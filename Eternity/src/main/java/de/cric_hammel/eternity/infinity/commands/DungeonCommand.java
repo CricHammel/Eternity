@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.infinity.dungeons.Dungeon;
+import de.cric_hammel.eternity.infinity.dungeons.PowerDungeon;
 
 public class DungeonCommand implements CommandExecutor{
 
@@ -30,10 +32,11 @@ public class DungeonCommand implements CommandExecutor{
 		}
 
 		if (args[0].equals("power")) {
-			if (Main.powerDungeon.isInDungeon(p)) {
-				Main.powerDungeon.delete(p);
+			new PowerDungeon();
+			if (Dungeon.isInDungeon(p)) {
+				new PowerDungeon().delete(p);
 			} else {
-				Main.powerDungeon.create(p);
+				new PowerDungeon().create(p);
 			}
 		}
 		

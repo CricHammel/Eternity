@@ -3,7 +3,6 @@ package de.cric_hammel.eternity.infinity.dungeons;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.AreaEffectCloud;
@@ -31,6 +30,11 @@ public class PowerDungeon extends Dungeon implements Listener {
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
+		
+		if (!super.isInDungeon(event.getPlayer())) {
+			return;
+		}
+		
 		Location from = event.getFrom();
 		Location to = event.getTo();
 
@@ -44,12 +48,12 @@ public class PowerDungeon extends Dungeon implements Listener {
 			return;
 		}
 		
-		to.setX(to.getBlockX() + 0.5);
-		to.setZ(to.getBlockZ() + 0.5);
-		AreaEffectCloud cloud = (AreaEffectCloud) to.getWorld().spawnEntity(to, EntityType.AREA_EFFECT_CLOUD);
-		cloud.setRadius(1);
+		Location spawn = to.clone();
+		spawn.setX(to.getBlockX() + 0.5);
+		spawn.setZ(to.getBlockZ() + 0.5);
+		AreaEffectCloud cloud = (AreaEffectCloud) to.getWorld().spawnEntity(spawn, EntityType.AREA_EFFECT_CLOUD);
+		cloud.setRadius(1.5f);
 		cloud.setBasePotionData(new PotionData(PotionType.INSTANT_DAMAGE));
-		cloud.setParticle(Particle.CLOUD);
 		cloud.setColor(Color.RED);
 		cloud.setDuration(3*20);
 		cloud.setRadiusPerTick(0);

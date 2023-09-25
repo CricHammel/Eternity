@@ -1,16 +1,13 @@
 package de.cric_hammel.eternity.infinity.dungeons;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
@@ -22,24 +19,24 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.loot.LootTable;
 
-import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.BlockParser;
 import de.cric_hammel.eternity.infinity.util.BlockParser.BlockAction;
 
 public abstract class Dungeon implements Listener {
 	
 	protected final BlockParser parser;
-	private final Map<Player, World> worlds = new HashMap<Player, World>();
-	private final Map<Player, Location> lastLoc = new HashMap<Player, Location>();
 	private final Material mineable;
-	private final List<Material> interactionAllowed = new ArrayList<Material>();
+	
+	private static final Map<Player, World> worlds = new HashMap<Player, World>();
+	private static final Map<Player, Location> lastLoc = new HashMap<Player, Location>();
 	
 	public Dungeon(String fileName, LootTable loot, Material mineable) {
 		parser = new BlockParser(fileName);
@@ -57,9 +54,6 @@ public abstract class Dungeon implements Listener {
 		});
 		
 		this.mineable = mineable;
-		
-		interactionAllowed.add(Material.CHEST);
-		interactionAllowed.addAll(Tag.WOODEN_DOORS.getValues());
 	}
 	
 	public World create(Player p) {
@@ -115,7 +109,7 @@ public abstract class Dungeon implements Listener {
 	    return directoryToBeDeleted.delete();
 	}
 	
-	public boolean isInDungeon(Player p) {
+	public static boolean isInDungeon(Player p) {
 		return worlds.containsKey(p);
 	}
 	
@@ -155,18 +149,27 @@ public abstract class Dungeon implements Listener {
 			event.setCancelled(true);
 		}
 	}
+
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		
+		if (isInDungeon(event.getPlayer())) {
+			event.setCancelled(true);
+		}
+	}
 	
 	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent event) {
-		Action a = event.getAction();
-		Player p = event.getPlayer();
-		Block b = event.getClickedBlock();
+	public void onPlayerBucketFill(PlayerBucketFillEvent event) {
 		
-		if (!isInDungeon(p) || ActionUtils.isLeftclick(a)) {
-			return;
+		if (isInDungeon(event.getPlayer())) {
+			event.setCancelled(true);
 		}
+	}
+	
+	@EventHandler
+	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		
-		if (b == null || !interactionAllowed.contains(b.getType()) || p.isSneaking()) {
+		if (isInDungeon(event.getPlayer())) {
 			event.setCancelled(true);
 		}
 	}
