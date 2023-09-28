@@ -14,3 +14,5 @@ commands:
       description: Spawns one og the mighty Kree
    dungeon:
       description: Teleports you into a dungeon of your choice
+   getstoneuploader:
+      description: Gives you the StoneUploader

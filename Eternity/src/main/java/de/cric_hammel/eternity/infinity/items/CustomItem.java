@@ -15,11 +15,13 @@ import de.cric_hammel.eternity.Main;
 public abstract class CustomItem {
 
 	private final Material m;
+	private final String name;
 	private final String lore;
 	private final ItemStack item;
 
 	public CustomItem(Material m, String name, String lore) {
 		this.m = m;
+		this.name = name;
 		this.lore = lore;
 		item = createItem(m, name, lore);
 	}
@@ -100,15 +102,20 @@ public abstract class CustomItem {
 		return false;
 	}
 
-	public ItemStack getItem() {
-		return item.clone();
-	}
-
 	public Material getMaterial() {
 		return m;
 	}
+	
 
+	public String getName() {
+		return name;
+	}
+	
 	public String getLore() {
 		return lore;
+	}
+	
+	public ItemStack getItem() {
+		return item.clone();
 	}
 }

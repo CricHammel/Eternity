@@ -35,7 +35,7 @@ public abstract class Dungeon implements Listener {
 	protected final BlockParser parser;
 	private final Material mineable;
 	
-	private static final Map<Player, World> worlds = new HashMap<Player, World>();
+	protected static final Map<Player, World> worlds = new HashMap<Player, World>();
 	private static final Map<Player, Location> lastLoc = new HashMap<Player, Location>();
 	
 	public Dungeon(String fileName, LootTable loot, Material mineable) {
