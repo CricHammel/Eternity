@@ -22,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.DeadEntityStorage;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class TimeStone implements Listener {
 
@@ -51,8 +52,8 @@ public class TimeStone implements Listener {
 			DeadEntityStorage s = list.get(list.size() - 1);
 			s.resurrect();
 			list.remove(s);
+			SoundUtils.playToAll(s.getLocation(), Sound.ENTITY_WARDEN_SONIC_CHARGE, 1f, 1.5f);
 			p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, s.getLocation(), 50, 0.25, 0.5, 0.25);
-			p.playSound(s.getLocation(), Sound.ENTITY_WARDEN_SONIC_CHARGE, 1, 1.5f);
 			StoneType.TIME.applyCooldownLeftclick(p);
 		}
 	}
@@ -68,11 +69,11 @@ public class TimeStone implements Listener {
 				removed++;
 			}
 			
+			SoundUtils.playToAll(p, Sound.ENTITY_PUFFER_FISH_BLOW_OUT, 1f, 0f);
 			p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, p.getLocation(), 50, 0.25, 0.5, 0.25);
-			p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_BLOW_OUT, 1, 0);
 			p.teleport(locations.getLast());
+			SoundUtils.playToAll(p, Sound.ENTITY_PUFFER_FISH_BLOW_UP, 1f, 0f);
 			p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, p.getLocation(), 50, 0.25, 0.5, 0.25);
-			p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_BLOW_UP, 1, 0);
 			StoneType.TIME.applyCooldownRightclick(p);
 		}
 	}

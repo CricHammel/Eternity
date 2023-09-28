@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class PowerStone implements Listener {
 
@@ -39,8 +40,8 @@ public class PowerStone implements Listener {
 		}
 
 		World w = p.getWorld();
+		SoundUtils.playToAll(p, Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 1f);
 		w.spawnParticle(Particle.SPELL_WITCH, e.getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
-		w.playSound(e.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1, 1);
 		StoneType.POWER.applyCooldownRightclick(p);
 	}
 
@@ -55,8 +56,8 @@ public class PowerStone implements Listener {
 				Block b = event.getClickedBlock();
 				b.breakNaturally();
 				World w = p.getWorld();
+				SoundUtils.playToAll(event.getClickedBlock().getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 1f);
 				w.spawnParticle(Particle.SPELL_WITCH, event.getClickedBlock().getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
-				w.playSound(event.getClickedBlock().getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1, 1);
 				StoneType.POWER.applyCooldownRightclick(p);
 			} else if (ActionUtils.isLeftclick(a) && !StoneType.POWER.hasCooldownLeftclick(p)) {
 
@@ -89,7 +90,7 @@ public class PowerStone implements Listener {
 							}
 						}
 
-						p.getWorld().playSound(l, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 1, 1);
+						SoundUtils.playToAll(p, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 1f, 1f);
 
 						if (count >= 20) {
 							cancel();

@@ -29,6 +29,7 @@ import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.AttributeUtils;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class Gauntlet extends CustomItem implements Listener {
 
@@ -81,7 +82,7 @@ public class Gauntlet extends CustomItem implements Listener {
 			}
 		}
 
-		p.playSound(p.getLocation(), Sound.PARTICLE_SOUL_ESCAPE, 10, 0.5f);
+		SoundUtils.playToAll(p, Sound.PARTICLE_SOUL_ESCAPE, 10f, 0.5f);
 		super.applyCooldown(p, METADATA_KEY_COOLDOWN_RIGHT, cooldownRightclick);
 	}
 
@@ -124,7 +125,7 @@ public class Gauntlet extends CustomItem implements Listener {
 		}
 
 		p.getInventory().setContents(contents);
-		p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1.5f);
+		SoundUtils.playToAll(p, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1.5f);
 		p.getWorld().spawnParticle(Particle.HEART, p.getLocation(), 50, 0.75, 0.5, 0.75);
 		super.applyCooldown(p, METADATA_KEY_COOLDOWN_LEFT, cooldownLeftclick);
 	}

@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,6 +25,7 @@ import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.BooleanArrayDataType;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class StoneUploader extends CustomItem implements Listener {
 
@@ -44,6 +46,7 @@ public class StoneUploader extends CustomItem implements Listener {
 		}
 		
 		p.openInventory(buildInv(p));
+		SoundUtils.play(p, Sound.BLOCK_BARREL_OPEN, 1f, 1.5f);
 		event.setCancelled(true);
 	}
 	
@@ -107,7 +110,10 @@ public class StoneUploader extends CustomItem implements Listener {
 			}.runTask(Main.getPlugin());
 		} else {
 			event.setCancelled(true);
+			return;
 		}
+		
+		SoundUtils.play(p, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 2f);
 	}
 	
 	private Inventory buildInv(Player p) {

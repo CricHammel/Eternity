@@ -16,6 +16,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class MindStone implements Listener {
 
@@ -94,9 +95,7 @@ public class MindStone implements Listener {
 
 		}.runTaskTimer(Main.getPlugin(), 0, 1);
 
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.playSound(p.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_CHARGE, 1f, 2f);
-		}
+		SoundUtils.playToAll(p, Sound.BLOCK_RESPAWN_ANCHOR_CHARGE, 1f, 2f);
 
 		p.spawnParticle(Particle.PORTAL, d.getLocation(), 300, 0, 0, 0);
 	}
@@ -106,10 +105,7 @@ public class MindStone implements Listener {
 		d.removeMetadata(METADATA_KEY_ISPOSSESSED, Main.getPlugin());
 		p.setInvisible(false);
 
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.playSound(p.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 2f);
-		}
-
+		SoundUtils.playToAll(p, Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 2f);
 		p.spawnParticle(Particle.REVERSE_PORTAL, d.getLocation(), 300, 0, 0, 0);
 		StoneType.MIND.applyCooldownLeftclick(p);
 	}

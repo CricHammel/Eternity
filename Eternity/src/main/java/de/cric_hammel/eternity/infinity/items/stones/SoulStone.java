@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class SoulStone implements Listener {
 
@@ -62,7 +63,7 @@ public class SoulStone implements Listener {
 			p.teleport(soulWorld.getSpawnLocation());
 		}
 
-		p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 1, 2);
+		SoundUtils.playToAll(p, Sound.AMBIENT_CAVE, 1f, 2f);
 	}
 
 	private World createWorld(Player p) {
@@ -107,7 +108,7 @@ public class SoulStone implements Listener {
 			return;
 		}
 
-		p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 1, 1.5f);
+		SoundUtils.playToAll(p, Sound.ENTITY_ENDERMAN_SCREAM, 1f, 1.5f);
 		p.getWorld().spawnParticle(Particle.HEART, d.getLocation(), 2, 0.5, 0.5, 0.5);
 		StoneType.SOUL.applyCooldownLeftclick(p);
 	}

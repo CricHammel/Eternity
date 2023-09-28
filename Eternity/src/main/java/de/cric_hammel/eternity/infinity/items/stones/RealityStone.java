@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class RealityStone implements Listener {
 
@@ -39,8 +40,8 @@ public class RealityStone implements Listener {
 
 			if (ActionUtils.isRightclick(a)) {
 				w.setTime(w.getTime() + 900);
+				SoundUtils.playToAll(p, Sound.ENTITY_ENDER_EYE_DEATH, 1f, 1f);
 				w.spawnParticle(Particle.END_ROD, p.getLocation().add(0, 3.5, 0), 50, 0.4, 0.25, 0.4, 0.01);
-				w.playSound(p.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, 1);
 			} else if (ActionUtils.isLeftclick(a)) {
 
 				if (w.isClearWeather()) {
@@ -50,18 +51,18 @@ public class RealityStone implements Listener {
 					w.setThundering(false);
 				}
 
+				SoundUtils.playToAll(p, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1f, 1f);
 				w.spawnParticle(Particle.VILLAGER_ANGRY, p.getLocation().add(0, 3.5, 0), 20, 0.5, 0, 0.5, 1);
-				w.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
 			}
 
 		} else {
 
 			if (ActionUtils.isRightclick(a)) {
 				p.setMetadata(METADATA_KEY, new FixedMetadataValue(Main.getPlugin(), true));
-				p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 1, 2);
+				SoundUtils.playToAll(p, Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 2f);
 			} else if (ActionUtils.isLeftclick(a)) {
 				p.removeMetadata(METADATA_KEY, Main.getPlugin());
-				p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 1, 0);
+				SoundUtils.playToAll(p, Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 0f);
 			}
 		}
 	}
@@ -100,7 +101,7 @@ public class RealityStone implements Listener {
 		}
 
 		underPlayer.setType(Material.RED_STAINED_GLASS);
-		p.playSound(underPlayer.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 2);
+		SoundUtils.playToAll(underPlayer.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 2f);
 
 		new BukkitRunnable() {
 
@@ -110,7 +111,7 @@ public class RealityStone implements Listener {
 				if (underPlayer.hasMetadata(METADATA_KEY)) {
 					state.update(true);
 					underPlayer.removeMetadata(METADATA_KEY, Main.getPlugin());
-					p.playSound(underPlayer.getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 2);
+					SoundUtils.playToAll(underPlayer.getLocation(), Sound.BLOCK_GLASS_BREAK, 1f, 2f);
 				}
 			}
 

@@ -20,6 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class SpaceStone implements Listener {
 
@@ -41,8 +42,8 @@ public class SpaceStone implements Listener {
 				&& p.getGameMode() != GameMode.SPECTATOR) {
 			lastGameMode.put(p, p.getGameMode());
 			p.setGameMode(GameMode.SPECTATOR);
+			SoundUtils.playToAll(p, Sound.BLOCK_BEACON_ACTIVATE, 1f, 1f);
 			p.playEffect(EntityEffect.TELEPORT_ENDER);
-			p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
 
 			new BukkitRunnable() {
 
@@ -50,8 +51,8 @@ public class SpaceStone implements Listener {
 				public void run() {
 					p.setGameMode(lastGameMode.get(p));
 					lastGameMode.remove(p);
+					SoundUtils.playToAll(p, Sound.BLOCK_BEACON_DEACTIVATE, 1f, 1f);
 					p.playEffect(EntityEffect.TELEPORT_ENDER);
-					p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1, 1);
 				}
 
 			}.runTaskLater(Main.getPlugin(), 5 * 20);
@@ -91,8 +92,8 @@ public class SpaceStone implements Listener {
 				p.teleport(armorStand);
 				p.setFallDistance(0);
 				p.getLocation().getDirection().zero();
+				SoundUtils.playToAll(p, Sound.ENTITY_ENDERMAN_TELEPORT, 2f, 1f);
 				p.playEffect(EntityEffect.TELEPORT_ENDER);
-				p.playSound(currentLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 10, 1);
 				armorStand.remove();
 				StoneType.SPACE.applyCooldownRightclick(p);
 			}
