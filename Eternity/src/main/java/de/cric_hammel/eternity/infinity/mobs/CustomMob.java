@@ -24,6 +24,8 @@ public abstract class CustomMob {
 	public Mob spawn(Location loc) {
 		Mob m = (Mob) loc.getWorld().spawnEntity(loc, type, false);
 		m.setCustomName(name);
+		m.setPersistent(true);
+		m.setRemoveWhenFarAway(false);
 		if (lootTable != null) {
 			m.setLootTable(lootTable);
 		} else {

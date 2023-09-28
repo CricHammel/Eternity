@@ -31,10 +31,10 @@ public class KreeGeneral extends Kree implements Listener {
 		ItemStack[] armor = new KreeArmor().getTierTwo();
 		CustomMob.setArmor(mob, armor, 0.015f);
 		ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
-		sword.addEnchantment(Enchantment.DAMAGE_ALL, 3);
+		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
 		sword.addEnchantment(Enchantment.KNOCKBACK, 1);
 		CustomMob.setMainHand(mob, sword, 0);
-		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(60);
+		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(120);
 		mob.setHealth(60);
 		mob.setImmuneToZombification(true);
 		return mob;

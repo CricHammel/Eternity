@@ -31,7 +31,7 @@ public class KreeGuard extends Kree implements Listener {
 		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
 		sword.addEnchantment(Enchantment.KNOCKBACK, 2);
 		CustomMob.setMainHand(golem, sword, 0);
-		golem.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(120);
+		golem.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(240);
 		golem.setHealth(120);
 		return golem;
 	}

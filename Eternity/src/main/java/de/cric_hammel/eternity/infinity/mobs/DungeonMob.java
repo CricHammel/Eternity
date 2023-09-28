@@ -35,8 +35,16 @@ public class DungeonMob extends CustomMob implements Listener {
 	@EventHandler
 	public void onEntityTargetFreeze(EntityTargetEvent event) {
 		Entity e = event.getEntity();
+		Entity target = event.getTarget();
 		
-		if (!isMob(e) || !(event.getTarget() instanceof Player)) {
+		if (!super.isMob(e) || !(target instanceof Player)) {
+			return;
+		}
+		
+		Player p = (Player) target;
+		
+		if (!p.hasLineOfSight(e)) {
+			event.setCancelled(true);
 			return;
 		}
 		

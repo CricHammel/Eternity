@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Chest;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -36,8 +37,10 @@ public class KreeSoldier extends Kree implements Listener {
 		Piglin mob = (Piglin) super.spawn(loc);
 		ItemStack[] armor = new KreeArmor().getTierOne();
 		CustomMob.setArmor(mob, armor, 0.05f);
-		CustomMob.setMainHand(mob, new ItemStack(Material.IRON_SWORD), 0);
-		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30);
+		ItemStack sword = new ItemStack(Material.IRON_SWORD);
+		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
+		CustomMob.setMainHand(mob, sword, 0);
+		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(60);
 		mob.setHealth(30);
 		mob.setImmuneToZombification(true);
 		return mob;
@@ -54,8 +57,9 @@ public class KreeSoldier extends Kree implements Listener {
 	@EventHandler
 	public void onEntityTarget(EntityTargetEvent event) {
 		Entity e = event.getEntity();
+		Entity target = event.getTarget();
 		
-		if (!super.isMob(e) || !(event.getTarget() instanceof Player)) {
+		if (!super.isMob(e) || !(target instanceof Player)) {
 			return;
 		}
 		
