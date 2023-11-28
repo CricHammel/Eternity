@@ -10,6 +10,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -59,6 +60,13 @@ public class BlockParser {
 	
 	public void addAction(Material m, BlockAction action) {
 		actions.put(m, action);
+	}
+	
+	public void addAction(Tag<Material> t, BlockAction action) {
+		
+		for (Material m : t.getValues()) {
+			actions.put(m, action);
+		}
 	}
 	
 	public interface BlockAction {

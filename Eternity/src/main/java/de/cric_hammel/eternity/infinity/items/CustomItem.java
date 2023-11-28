@@ -40,20 +40,7 @@ public abstract class CustomItem {
 	}
 
 	public boolean hasInHand(Player p) {
-
-		try {
-			ItemStack item = p.getInventory().getItemInMainHand();
-			List<String> loreList = item.getItemMeta().getLore();
-
-			if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
-				return true;
-			}
-
-			return false;
-
-		} catch (Exception e) {
-			return false;
-		}
+		return isItem(p.getInventory().getItemInMainHand());
 	}
 
 	public boolean hasInInv(Player p) {
@@ -73,6 +60,21 @@ public abstract class CustomItem {
 		}
 
 		return false;
+	}
+	
+	public boolean isItem(ItemStack item) {
+		try {
+			List<String> loreList = item.getItemMeta().getLore();
+
+			if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
+				return true;
+			}
+
+			return false;
+
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public void applyCooldown(Player p, String metaKey, int cooldown) {

@@ -67,15 +67,16 @@ public abstract class CustomTieredArmor extends CustomArmor {
 		return true;
 	}
 
-	public ItemStack[] getTierOne() {
-		return tierOne;
-	}
-
-	public ItemStack[] getTierTwo() {
-		return tierTwo;
-	}
-
-	public ItemStack[] getTierThree() {
-		return tierThree;
+	public ItemStack[] getTier(int tier) {
+		switch (tier) {
+			case 1:
+				return tierOne;
+			case 2:
+				return tierTwo;
+			case 3:
+				return tierThree;
+			default:
+				return null;
+		}
 	}
 }

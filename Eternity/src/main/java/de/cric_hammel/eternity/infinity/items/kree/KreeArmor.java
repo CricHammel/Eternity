@@ -24,19 +24,19 @@ public class KreeArmor extends CustomTieredArmor implements Listener {
 
 	@Override
 	public void changeTierOne() {
-		ItemStack[] tierOne = super.getTierOne();
+		ItemStack[] tierOne = super.getTier(1);
 		AttributeUtils.addToArmor(tierOne, Attribute.GENERIC_ATTACK_DAMAGE, 0.25, Operation.ADD_SCALAR);
 	}
 
 	@Override
 	public void changeTierTwo() {
-		ItemStack[] tierTwo = super.getTierTwo();
+		ItemStack[] tierTwo = super.getTier(2);
 		AttributeUtils.addToArmor(tierTwo, Attribute.GENERIC_ATTACK_DAMAGE, 0.5, Operation.ADD_SCALAR);
 	}
 
 	@Override
 	public void changeTierThree() {
-		ItemStack[] tierThree = super.getTierThree();
+		ItemStack[] tierThree = super.getTier(3);
 		AttributeUtils.addToArmor(tierThree, Attribute.GENERIC_ATTACK_DAMAGE, 0.75, Operation.ADD_SCALAR);
 	}
 	

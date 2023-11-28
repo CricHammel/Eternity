@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
+import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
 
 public enum StoneType {
 
@@ -60,7 +61,7 @@ public enum StoneType {
 	
 	public boolean canGetStone(Player p) {
 		
-		if (hasAnyInInv(p) || StoneUploader.getStoneContainer(p)[StoneUploader.Data.fromType(this).getId()]) {
+		if (hasAnyInInv(p) || StoneUploader.getStoneContainer(p)[StoneUploader.Data.fromType(this).getId()] || new Gauntlet().hasInInv(p)) {
 			return false;
 		}
 		

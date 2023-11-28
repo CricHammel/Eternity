@@ -31,11 +31,11 @@ public class GetKreeArmorCommand implements CommandExecutor {
 			return false;
 		}
 
-		ItemStack[] tierOne = new KreeArmor().getTierOne();
+		ItemStack[] tierOne = new KreeArmor().getTier(1);
 		p.getInventory().addItem(tierOne);
-		ItemStack[] tierTwo = new KreeArmor().getTierTwo();
+		ItemStack[] tierTwo = new KreeArmor().getTier(2);
 		p.getInventory().addItem(tierTwo);
-		ItemStack[] tierThree = new KreeArmor().getTierThree();
+		ItemStack[] tierThree = new KreeArmor().getTier(3);
 		p.getInventory().addItem(tierThree);
 		return true;
 	}

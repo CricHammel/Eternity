@@ -35,8 +35,8 @@ public class KreeSoldier extends Kree implements Listener {
 	@Override
 	public Mob spawn(Location loc) {
 		Piglin mob = (Piglin) super.spawn(loc);
-		ItemStack[] armor = new KreeArmor().getTierOne();
-		CustomMob.setArmor(mob, armor, 0.05f);
+		ItemStack[] armor = new KreeArmor().getTier(1);
+		CustomMob.setArmor(mob, armor, 0.0125f);
 		ItemStack sword = new ItemStack(Material.IRON_SWORD);
 		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
 		CustomMob.setMainHand(mob, sword, 0);
