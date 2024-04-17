@@ -12,7 +12,11 @@ commands:
       description: Gives you the armor of the mighty Kree
    spawnkree:
       description: Spawns one og the mighty Kree
-   dungeon:
-      description: Teleports you into a dungeon of your choice
    getstoneuploader:
       description: Gives you the StoneUploader
+   getinfinicoin:
+      description: Get the currency of Eternity
+   spawnchitauri:
+      description: Spawns the mighty chitauri
+   bossfight:
+      description: Lets you start or stop the thanos bossfight

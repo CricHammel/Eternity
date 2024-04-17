@@ -1,0 +1,60 @@
+minSlots: 4
+maxSlots: 12
+
+Loot:
+   PHANTOM_MEMBRANE:
+      minCount: 1
+      maxCount: 3
+      weight: 100
+   SPIDER_EYE:
+      minCount: 1
+      maxCount: 13
+      weight: 100
+   ROTTEN_FLESH:
+      minCount: 4
+      maxCount: 16
+      weight: 100
+   BONE:
+      minCount: 2
+      maxCount: 30
+      weight: 100
+   COBWEB:
+      minCount: 1
+      maxCount: 1
+      weight: 120
+   GOLDEN_HELMET:
+      minCount: 1
+      maxCount: 1
+      weight: 5
+   GOLDEN_CHESTPLATE:
+      minCount: 1
+      maxCount: 1
+      weight: 5
+   GOLDEN_LEGGINGS:
+      minCount: 1
+      maxCount: 1
+      weight: 5
+   GOLDEN_BOOTS:
+      minCount: 1
+      maxCount: 1
+      weight: 5
+   IRON_INGOT:
+      minCount: 2
+      maxCount: 16
+      weight: 50
+   DIAMOND:
+      minCount: 1
+      maxCount: 6
+      weight: 50
+   ENCHANTED_BOOK_PROT:
+      minCount: 1
+      maxCount: 1
+      weight: 10
+   NETHERITE_INGOT:
+      minCount: 1
+      maxCount: 2
+      weight: 5
+   COIN:
+      minCount: 1
+      maxCount: 2
+      weight: 3

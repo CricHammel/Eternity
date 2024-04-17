@@ -6,10 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.infinity.dungeons.Dungeon;
-import de.cric_hammel.eternity.infinity.dungeons.PowerDungeon;
+import de.cric_hammel.eternity.infinity.mobs.thanos.ChitauriShip;
 
-public class DungeonCommand implements CommandExecutor{
+public class SpawnChitauriCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -26,20 +25,13 @@ public class DungeonCommand implements CommandExecutor{
 			return false;
 		}
 
-		if (args.length != 1) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/dungeon [power]");
+		if (args.length != 0) {
+			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/spawnchitauri");
 			return false;
 		}
 
-		if (args[0].equals("power")) {
-			new PowerDungeon();
-			if (Dungeon.isInDungeon(p)) {
-				new PowerDungeon().delete(p);
-			} else {
-				new PowerDungeon().create(p);
-			}
-		}
-		
+		new ChitauriShip().spawn(p.getLocation());
+
 		return true;
 	}
 }
