@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -30,7 +31,7 @@ public abstract class CustomItem {
 		ItemStack item = new ItemStack(m);
 		ItemMeta itemMeta = item.getItemMeta();
 		itemMeta.setDisplayName(name);
-		ArrayList<String> loreList = new ArrayList<String>();
+		ArrayList<String> loreList = new ArrayList<>();
 		loreList.add(lore);
 		loreList.add(Main.LORE_ID);
 		itemMeta.setLore(loreList);
@@ -41,6 +42,10 @@ public abstract class CustomItem {
 
 	public boolean hasInHand(Player p) {
 		return isItem(p.getInventory().getItemInMainHand());
+	}
+
+	public boolean hasInHand(LivingEntity e) {
+		return isItem(e.getEquipment().getItemInMainHand());
 	}
 
 	public boolean hasInInv(Player p) {
@@ -61,7 +66,7 @@ public abstract class CustomItem {
 
 		return false;
 	}
-	
+
 	public boolean isItem(ItemStack item) {
 		try {
 			List<String> loreList = item.getItemMeta().getLore();
@@ -107,16 +112,16 @@ public abstract class CustomItem {
 	public Material getMaterial() {
 		return m;
 	}
-	
+
 
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getLore() {
 		return lore;
 	}
-	
+
 	public ItemStack getItem() {
 		return item.clone();
 	}

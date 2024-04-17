@@ -53,7 +53,7 @@ public class GetStonesCommand implements TabExecutor {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 1) {
-			ArrayList<String> completions = new ArrayList<String>();
+			ArrayList<String> completions = new ArrayList<>();
 			StringUtil.copyPartialMatches(args[0], Arrays.asList(ARGUMENTS), completions);
 			return completions;
 		}

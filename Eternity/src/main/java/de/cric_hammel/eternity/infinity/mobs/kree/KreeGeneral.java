@@ -20,11 +20,11 @@ import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 
 public class KreeGeneral extends Kree implements Listener {
-	
+
 	public KreeGeneral() {
 		super(EntityType.PIGLIN_BRUTE, "General", null);
 	}
-	
+
 	@Override
 	public Mob spawn(Location loc) {
 		PiglinBrute mob = (PiglinBrute) super.spawn(loc);
@@ -39,17 +39,17 @@ public class KreeGeneral extends Kree implements Listener {
 		mob.setImmuneToZombification(true);
 		return mob;
 	}
-	
+
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 		Entity damager = event.getDamager();
-		
+
 		if (!super.isMob(damager)) {
 			return;
 		}
-		
+
 		for (Entity e : damager.getNearbyEntities(5, 5, 5)) {
-			
+
 			if (super.isKree(e)) {
 				((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 1));
 			}

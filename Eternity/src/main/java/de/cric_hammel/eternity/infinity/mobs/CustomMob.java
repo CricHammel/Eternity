@@ -7,7 +7,6 @@ import org.bukkit.entity.Mob;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTable;
-import org.bukkit.loot.LootTables;
 
 public abstract class CustomMob {
 
@@ -26,27 +25,29 @@ public abstract class CustomMob {
 		m.setCustomName(name);
 		m.setPersistent(true);
 		m.setRemoveWhenFarAway(false);
-		if (lootTable != null) {
-			m.setLootTable(lootTable);
-		} else {
-			m.setLootTable(LootTables.EMPTY.getLootTable());
-		}
+		m.setLootTable(lootTable);
+//		if (lootTable == null) {
+//			m.setLootTable(LootTables.EMPTY.getLootTable());
+//		} else {
+//			m.setLootTable(lootTable);
+//		}
+
 		return m;
 	}
 
 	public boolean isMob(Entity e) {
 		try {
-			
+
 			if (e.getType() == type && e.getCustomName().equals(name)) {
 				return true;
 			}
 		} catch (Exception exception) {
-			
+
 		}
-		
+
 		return false;
 	}
-	
+
 	public static void setArmor(Mob m, ItemStack[] armor, float dropChance) {
 		EntityEquipment e = m.getEquipment();
 		e.setArmorContents(armor);
@@ -55,7 +56,7 @@ public abstract class CustomMob {
 		e.setLeggingsDropChance(dropChance);
 		e.setBootsDropChance(dropChance);
 	}
-	
+
 	public static void setMainHand(Mob m, ItemStack item, float dropChance) {
 		EntityEquipment e = m.getEquipment();
 		e.setItemInMainHand(item);

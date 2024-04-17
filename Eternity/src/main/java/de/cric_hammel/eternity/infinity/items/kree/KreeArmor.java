@@ -39,23 +39,23 @@ public class KreeArmor extends CustomTieredArmor implements Listener {
 		ItemStack[] tierThree = super.getTier(3);
 		AttributeUtils.addToArmor(tierThree, Attribute.GENERIC_ATTACK_DAMAGE, 0.75, Operation.ADD_SCALAR);
 	}
-	
+
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 		Entity d = event.getDamager();
 		Entity e = event.getEntity();
-		
+
 		if (!(d instanceof LivingEntity) || !(e instanceof LivingEntity)) {
 			return;
 		}
-		
+
 		LivingEntity ld = (LivingEntity) d;
 		LivingEntity le = (LivingEntity) e;
-		
+
 		if (!super.isWearingTier(ld, 3)) {
 			return;
 		}
-		
+
 		le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3 * 20, 2));
 	}
 }

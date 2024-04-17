@@ -32,64 +32,64 @@ public class InfinityStoneListener implements Listener {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void moveInfinityStone(InventoryClickEvent event) {
 		Inventory inv = event.getClickedInventory();
-		
+
 		if (StoneUploader.invs.contains(inv)) {
 			return;
 		}
-		
+
 		if (inv == event.getWhoClicked().getInventory()) {
-			
+
 			if (event.getClick().isShiftClick()) {
 				ItemStack current = event.getCurrentItem();
-				
+
 				if (StoneType.whichStone(current) != null) {
 					event.setCancelled(true);
 				}
 			}
 		} else {
 			ItemStack cursor = event.getCursor();
-			
+
 			if (StoneType.whichStone(cursor) != null) {
 				event.setCancelled(true);
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void dragInfinityStone(InventoryDragEvent event) {
 		ItemStack drag = event.getOldCursor();
 		Inventory inv = event.getInventory();
-		
+
 		if (StoneType.whichStone(drag) == null || StoneUploader.invs.contains(inv)) {
 			return;
 		}
-		
+
 		int invSize = inv.getSize();
-		
+
 		for (int i : event.getRawSlots()) {
-			
+
 			if (i < invSize) {
 				event.setCancelled(true);
 				break;
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void dropInfinityStone(PlayerDropItemEvent event) {
-		
+
 		if (StoneType.whichStone(event.getItemDrop().getItemStack()) != null) {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void pickupInfinityStone(InventoryPickupItemEvent event) {
-		
+
 		if (event.getInventory().getType() == InventoryType.HOPPER && StoneType.whichStone(event.getItem().getItemStack()) != null) {
 			event.setCancelled(true);
 		}

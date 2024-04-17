@@ -16,9 +16,9 @@ import org.bukkit.metadata.FixedMetadataValue;
 import de.cric_hammel.eternity.Main;
 
 public class DungeonMob extends CustomMob implements Listener {
-	
+
 	private static final String METADATA_KEY_FROZEN = "eternity_dungeon_frozen";
-	
+
 	public DungeonMob(EntityType type, String name, LootTable lootTable) {
 		super(type, name, lootTable);
 	}
@@ -31,29 +31,29 @@ public class DungeonMob extends CustomMob implements Listener {
 		attribute.setBaseValue(0);
 		return m;
 	}
-	
+
 	@EventHandler
 	public void onEntityTargetFreeze(EntityTargetEvent event) {
 		Entity e = event.getEntity();
 		Entity target = event.getTarget();
-		
+
 		if (!super.isMob(e) || !(target instanceof Player)) {
 			return;
 		}
-		
+
 		Player p = (Player) target;
-		
+
 		if (!p.hasLineOfSight(e)) {
 			event.setCancelled(true);
 			return;
 		}
-		
+
 		Mob m = (Mob) e;
-		
+
 		if (!m.hasMetadata(METADATA_KEY_FROZEN)) {
 			return;
 		}
-		
+
 		AttributeInstance speed = m.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
 		speed.setBaseValue(m.getMetadata(METADATA_KEY_FROZEN).get(0).asDouble());
 		m.removeMetadata(METADATA_KEY_FROZEN, Main.getPlugin());

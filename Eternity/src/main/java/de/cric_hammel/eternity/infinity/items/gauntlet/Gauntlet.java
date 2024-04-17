@@ -14,9 +14,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -175,6 +181,63 @@ public class Gauntlet extends CustomItem implements Listener {
 		Player p = event.getPlayer();
 
 		if (p.hasMetadata(METADATA_KEY_FREEZE)) {
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void moveGauntlet(InventoryClickEvent event) {
+		Inventory inv = event.getClickedInventory();
+
+		if (inv == event.getWhoClicked().getInventory()) {
+			if (event.getClick().isShiftClick()) {
+				ItemStack current = event.getCurrentItem();
+
+				if (super.isItem(current)) {
+					event.setCancelled(true);
+				}
+			}
+		} else {
+			ItemStack cursor = event.getCursor();
+
+			if (super.isItem(cursor)) {
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	public void dragGauntlet(InventoryDragEvent event) {
+		ItemStack drag = event.getOldCursor();
+		Inventory inv = event.getInventory();
+
+		if (!super.isItem(drag)) {
+			return;
+		}
+
+		int invSize = inv.getSize();
+
+		for (int i : event.getRawSlots()) {
+
+			if (i < invSize) {
+				event.setCancelled(true);
+				break;
+			}
+		}
+	}
+
+	@EventHandler
+	public void dropGauntlet(PlayerDropItemEvent event) {
+
+		if (super.isItem(event.getItemDrop().getItemStack())) {
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void pickupGauntlet(InventoryPickupItemEvent event) {
+
+		if (event.getInventory().getType() == InventoryType.HOPPER && super.isItem(event.getItem().getItemStack())) {
 			event.setCancelled(true);
 		}
 	}

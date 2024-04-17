@@ -16,22 +16,11 @@ public class AttributeUtils {
 		meta.addAttributeModifier(a, new AttributeModifier(UUID.randomUUID(), a.toString(), value, o, e));
 		item.setItemMeta(meta);
 	}
-	
+
 	public static void addToArmor(ItemStack[] armor, Attribute a, double value, Operation o) {
-		ItemMeta helmetMeta = armor[3].getItemMeta();
-		helmetMeta.addAttributeModifier(a, new AttributeModifier(UUID.randomUUID(), a.toString(), value, o, EquipmentSlot.HEAD));
-		armor[3].setItemMeta(helmetMeta);
-		
-		ItemMeta chestplateMeta = armor[2].getItemMeta();
-		chestplateMeta.addAttributeModifier(a, new AttributeModifier(UUID.randomUUID(), a.toString(), value, o, EquipmentSlot.CHEST));
-		armor[2].setItemMeta(chestplateMeta);
-		
-		ItemMeta leggingsMeta = armor[1].getItemMeta();
-		leggingsMeta.addAttributeModifier(a, new AttributeModifier(UUID.randomUUID(), a.toString(), value, o, EquipmentSlot.LEGS));
-		armor[1].setItemMeta(leggingsMeta);
-		
-		ItemMeta bootsMeta = armor[0].getItemMeta();
-		bootsMeta.addAttributeModifier(a, new AttributeModifier(UUID.randomUUID(), a.toString(), value, o, EquipmentSlot.FEET));
-		armor[0].setItemMeta(bootsMeta);
+		add(armor[3], a, value, o, EquipmentSlot.HEAD);
+		add(armor[2], a, value, o, EquipmentSlot.CHEST);
+		add(armor[1], a, value, o, EquipmentSlot.LEGS);
+		add(armor[0], a, value, o, EquipmentSlot.FEET);
 	}
 }

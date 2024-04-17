@@ -24,7 +24,7 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class SpaceStone implements Listener {
 
-	private final HashMap<Player, GameMode> lastGameMode = new HashMap<Player, GameMode>();
+	private final HashMap<Player, GameMode> lastGameMode = new HashMap<>();
 
 	@EventHandler
 	public void useSpaceStone(PlayerInteractEvent event) {

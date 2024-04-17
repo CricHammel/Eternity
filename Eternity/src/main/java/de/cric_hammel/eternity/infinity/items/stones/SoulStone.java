@@ -30,7 +30,7 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class SoulStone implements Listener {
 
-	private HashMap<Player, Location> lastLoc = new HashMap<Player, Location>();
+	private HashMap<Player, Location> lastLoc = new HashMap<>();
 
 	@EventHandler
 	public void useSoulStone(PlayerInteractEvent event) {

@@ -10,7 +10,7 @@ public class ActionUtils {
 		}
 		return false;
 	}
-	
+
 	public static boolean isLeftclick(Action a) {
 		if (a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) {
 			return true;

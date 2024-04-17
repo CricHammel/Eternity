@@ -29,7 +29,7 @@ public abstract class CustomArmor {
 		ItemStack item = new ItemStack(m);
 		ItemMeta itemMeta = item.getItemMeta();
 		itemMeta.setDisplayName(name);
-		ArrayList<String> loreList = new ArrayList<String>();
+		ArrayList<String> loreList = new ArrayList<>();
 		loreList.add(lore);
 		loreList.add(Main.LORE_ID);
 		itemMeta.setLore(loreList);

@@ -11,7 +11,7 @@ import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeSoldier;
 
 public class SpawnKreeCommand implements CommandExecutor {
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -39,7 +39,7 @@ public class SpawnKreeCommand implements CommandExecutor {
 		} else if (args[0].equals("2")) {
 			new KreeGuard().spawn(p.getLocation());
 		}
-		
+
 		return true;
 	}
 }

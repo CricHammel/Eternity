@@ -58,13 +58,13 @@ public enum StoneType {
 	public boolean hasCooldownRightclick(Player p) {
 		return infinityStone.hasCooldown(p, METADATA_KEY_COOLDOWN_RIGHT + this.toString());
 	}
-	
+
 	public boolean canGetStone(Player p) {
-		
+
 		if (hasAnyInInv(p) || StoneUploader.getStoneContainer(p)[StoneUploader.Data.fromType(this).getId()] || new Gauntlet().hasInInv(p)) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -85,7 +85,7 @@ public enum StoneType {
 		try {
 			ItemStack item = p.getInventory().getItemInMainHand();
 			List<String> loreList = item.getItemMeta().getLore();
-			
+
 			for (StoneType type : StoneType.values()) {
 
 				if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
@@ -98,16 +98,16 @@ public enum StoneType {
 			return false;
 		}
 	}
-	
+
 	public static boolean hasAnyInInv(Player p) {
 
 		for (ItemStack item : p.getInventory().getContents()) {
-			
+
 			try {
 				List<String> loreList = item.getItemMeta().getLore();
-				
+
 				for (StoneType type : StoneType.values()) {
-	
+
 					if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
 						return true;
 					}
@@ -116,15 +116,15 @@ public enum StoneType {
 				continue;
 			}
 		}
-		
+
 		return false;
 	}
 
 	public static StoneType whichStone(ItemStack item) {
-		
+
 		try {
 			List<String> loreList = item.getItemMeta().getLore();
-			
+
 			for (StoneType type : StoneType.values()) {
 
 				if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore()) && item.getType() == type.m) {
@@ -137,7 +137,7 @@ public enum StoneType {
 			return null;
 		}
 	}
-	
+
 	public ItemStack getItem() {
 		return infinityStone.getItem();
 	}

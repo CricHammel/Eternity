@@ -21,7 +21,7 @@ public class KreeGuard extends Kree implements Listener {
 	public KreeGuard() {
 		super(EntityType.IRON_GOLEM, "Guard", null);
 	}
-	
+
 	@Override
 	public Mob spawn(Location loc) {
 		IronGolem golem = (IronGolem) super.spawn(loc);
@@ -35,10 +35,10 @@ public class KreeGuard extends Kree implements Listener {
 		golem.setHealth(120);
 		return golem;
 	}
-	
+
 	@EventHandler
 	public void onEntityTarget(EntityTargetEvent event) {
-		
+
 		if (!(event.getTarget() instanceof Player)) {
 			event.setCancelled(true);
 		}

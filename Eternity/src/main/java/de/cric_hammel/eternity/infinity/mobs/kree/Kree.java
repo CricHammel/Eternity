@@ -10,21 +10,21 @@ import de.cric_hammel.eternity.infinity.mobs.DungeonMob;
 public abstract class Kree extends DungeonMob {
 
 	private static final String KREE_PREFIX = ChatColor.RED + "Kree ";
-	
+
 	public Kree(EntityType type, String name, LootTable lootTable) {
 		super(type, KREE_PREFIX + name, lootTable);
 	}
 
 	public boolean isKree(Entity e) {
-		
+
 		try {
-			
+
 			if (e.getCustomName().startsWith(KREE_PREFIX)) {
 				return true;
 			}
-			
+
 		} catch (Exception exception) {
-			
+
 		}
 		return false;
 	}
