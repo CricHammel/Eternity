@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
@@ -81,10 +82,53 @@ public enum StoneType {
 	}
 
 	public static boolean hasAnyInHand(Player p) {
+		ItemStack item = p.getInventory().getItemInMainHand();
+		
+		if (item == null || !item.hasItemMeta()) {
+			return false;
+		}
+		
+		ItemMeta meta = item.getItemMeta();
+		
+		if (!meta.hasLore()) {
+			return false;
+		}
+		
+		List<String> loreList = meta.getLore();
+		
+		if (loreList.size() < 2) {
+			return false;
+		}
 
-		try {
-			ItemStack item = p.getInventory().getItemInMainHand();
-			List<String> loreList = item.getItemMeta().getLore();
+		for (StoneType type : StoneType.values()) {
+
+			if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static boolean hasAnyInInv(Player p) {
+
+		for (ItemStack item : p.getInventory().getContents()) {
+
+			if (item == null || !item.hasItemMeta()) {
+				continue;
+			}
+			
+			ItemMeta meta = item.getItemMeta();
+			
+			if (!meta.hasLore()) {
+				continue;
+			}
+			
+			List<String> loreList = meta.getLore();
+			
+			if (loreList.size() < 2) {
+				continue;
+			}
 
 			for (StoneType type : StoneType.values()) {
 
@@ -92,50 +136,37 @@ public enum StoneType {
 					return true;
 				}
 			}
-
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	public static boolean hasAnyInInv(Player p) {
-
-		for (ItemStack item : p.getInventory().getContents()) {
-
-			try {
-				List<String> loreList = item.getItemMeta().getLore();
-
-				for (StoneType type : StoneType.values()) {
-
-					if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore())) {
-						return true;
-					}
-				}
-			} catch (Exception e) {
-				continue;
-			}
 		}
 
 		return false;
 	}
 
 	public static StoneType whichStone(ItemStack item) {
-
-		try {
-			List<String> loreList = item.getItemMeta().getLore();
-
-			for (StoneType type : StoneType.values()) {
-
-				if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore()) && item.getType() == type.m) {
-					return type;
-				}
-			}
-
-			return null;
-		} catch (Exception e) {
+		
+		if (item == null || !item.hasItemMeta()) {
 			return null;
 		}
+		
+		ItemMeta meta = item.getItemMeta();
+		
+		if (!meta.hasLore()) {
+			return null;
+		}
+
+		List<String> loreList = meta.getLore();
+		
+		if (loreList.size() < 2) {
+			return null;
+		}
+
+		for (StoneType type : StoneType.values()) {
+
+			if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(type.infinityStone.getLore()) && item.getType() == type.m) {
+				return type;
+			}
+		}
+
+		return null;
 	}
 
 	public ItemStack getItem() {

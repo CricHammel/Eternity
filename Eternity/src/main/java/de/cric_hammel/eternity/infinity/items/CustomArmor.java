@@ -39,23 +39,32 @@ public abstract class CustomArmor {
 	}
 
 	public boolean isWearing(LivingEntity m) {
+		ItemStack[] entityArmor = m.getEquipment().getArmorContents();
 
-		try {
-			ItemStack[] entityArmor = m.getEquipment().getArmorContents();
-
-			for (ItemStack item : entityArmor) {
-				List<String> loreList = item.getItemMeta().getLore();
-
-				if (!loreList.get(1).equals(Main.LORE_ID) || !loreList.get(0).equals(lore)) {
-					return false;
-				}
+		for (ItemStack item : entityArmor) {
+			
+			if (item == null || !item.hasItemMeta()) {
+				return false;
+			}
+			
+			ItemMeta meta = item.getItemMeta();
+			
+			if (!meta.hasLore()) {
+				return false;
+			}
+			
+			List<String> loreList = meta.getLore();
+			
+			if (loreList.size() < 2) {
+				return false;
 			}
 
-			return true;
-
-		} catch (Exception e) {
-			return false;
+			if (!loreList.get(1).equals(Main.LORE_ID) || !loreList.get(0).equals(lore)) {
+				return false;
+			}
 		}
+
+		return true;
 	}
 
 	public ItemStack[] getArmor() {

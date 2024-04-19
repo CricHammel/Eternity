@@ -46,19 +46,29 @@ public abstract class CustomTieredItem extends CustomItem {
 	public abstract void changeTierThree();
 
 	public boolean hasTierInHand(Player p, int tier) {
-
-		try {
-			ItemStack item = p.getInventory().getItemInMainHand();
-			List<String> loreList = item.getItemMeta().getLore();
-
-			if (super.hasInHand(p) && loreList.get(2).contains(Integer.toString(tier))) {
-				return true;
-			}
-
-			return false;
-		} catch (Exception e) {
+		ItemStack item = p.getInventory().getItemInMainHand();
+		
+		if (item == null || !item.hasItemMeta()) {
 			return false;
 		}
+		
+		ItemMeta meta = item.getItemMeta();
+		
+		if (!meta.hasLore()) {
+			return false;
+		}
+		
+		List<String> loreList = meta.getLore();
+		
+		if (loreList.size() < 2) {
+			return false;
+		}
+
+		if (super.hasInHand(p) && loreList.get(2).contains(Integer.toString(tier))) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public ItemStack getTier(int tier) {

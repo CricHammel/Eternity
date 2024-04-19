@@ -16,16 +16,15 @@ public abstract class Kree extends DungeonMob {
 	}
 
 	public boolean isKree(Entity e) {
-
-		try {
-
-			if (e.getCustomName().startsWith(KREE_PREFIX)) {
-				return true;
-			}
-
-		} catch (Exception exception) {
-
+		
+		if (e.getCustomName() == null) {
+			return false;
 		}
+		
+		if (e.getCustomName().startsWith(KREE_PREFIX)) {
+			return true;
+		}
+		
 		return false;
 	}
 }

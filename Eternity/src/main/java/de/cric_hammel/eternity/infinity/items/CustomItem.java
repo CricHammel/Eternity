@@ -51,16 +51,25 @@ public abstract class CustomItem {
 	public boolean hasInInv(Player p) {
 
 		for (ItemStack item : p.getInventory().getContents()) {
-
-			try {
-				List<String> loreList = item.getItemMeta().getLore();
-
-				if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
-					return true;
-				}
-
-			} catch (Exception e) {
+			
+			if (item == null || !item.hasItemMeta()) {
 				continue;
+			}
+			
+			ItemMeta meta = item.getItemMeta();
+			
+			if (!meta.hasLore()) {
+				continue;
+			}
+
+			List<String> loreList = meta.getLore();
+			
+			if (loreList.size() < 2) {
+				continue;
+			}
+
+			if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
+				return true;
 			}
 		}
 
@@ -68,18 +77,28 @@ public abstract class CustomItem {
 	}
 
 	public boolean isItem(ItemStack item) {
-		try {
-			List<String> loreList = item.getItemMeta().getLore();
-
-			if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
-				return true;
-			}
-
-			return false;
-
-		} catch (Exception e) {
+		
+		if (item == null || !item.hasItemMeta()) {
 			return false;
 		}
+		
+		ItemMeta meta = item.getItemMeta();
+		
+		if (!meta.hasLore()) {
+			return false;
+		}
+		
+		List<String> loreList = meta.getLore();
+		
+		if (loreList.size() < 2) {
+			return false;
+		}
+
+		if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public void applyCooldown(Player p, String metaKey, int cooldown) {
