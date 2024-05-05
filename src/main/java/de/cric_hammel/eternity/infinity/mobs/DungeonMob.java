@@ -17,7 +17,7 @@ import de.cric_hammel.eternity.Main;
 
 public class DungeonMob extends CustomMob implements Listener {
 
-	private static final String METADATA_KEY_FROZEN = "eternity_dungeon_frozen";
+	public static final String METADATA_KEY_FROZEN = "eternity_dungeon_frozen";
 
 	public DungeonMob(EntityType type, String name, LootTable lootTable) {
 		super(type, name, lootTable);

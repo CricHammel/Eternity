@@ -36,13 +36,9 @@ public abstract class CustomMob {
 	}
 
 	public boolean isMob(Entity e) {
-		try {
-
-			if (e.getType() == type && e.getCustomName().equals(name)) {
-				return true;
-			}
-		} catch (Exception exception) {
-
+		
+		if (e != null && e.getType() == type && e.getCustomName().equals(name)) {
+			return true;
 		}
 
 		return false;

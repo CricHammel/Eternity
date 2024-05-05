@@ -18,6 +18,8 @@ import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 
 public class KreeGuard extends Kree implements Listener {
 
+	private static KreeArmor armor = new KreeArmor();
+	
 	public KreeGuard() {
 		super(EntityType.IRON_GOLEM, "Guard", null);
 	}
@@ -25,8 +27,8 @@ public class KreeGuard extends Kree implements Listener {
 	@Override
 	public Mob spawn(Location loc) {
 		IronGolem golem = (IronGolem) super.spawn(loc);
-		ItemStack[] armor = new KreeArmor().getTier(3);
-		CustomMob.setArmor(golem, armor, 0.005f);
+		ItemStack[] armorStack = armor.getTier(3);
+		CustomMob.setArmor(golem, armorStack, 0.005f);
 		ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
 		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
 		sword.addEnchantment(Enchantment.KNOCKBACK, 2);

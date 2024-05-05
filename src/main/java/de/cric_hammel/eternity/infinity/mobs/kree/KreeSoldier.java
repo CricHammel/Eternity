@@ -27,6 +27,7 @@ import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 public class KreeSoldier extends Kree implements Listener {
 
 	private static final String METADATA_KEY_TARGET = "eternity_kree_target";
+	private static KreeArmor armor = new KreeArmor();
 
 	public KreeSoldier() {
 		super(EntityType.PIGLIN, "Soldier", null);
@@ -35,8 +36,8 @@ public class KreeSoldier extends Kree implements Listener {
 	@Override
 	public Mob spawn(Location loc) {
 		Piglin mob = (Piglin) super.spawn(loc);
-		ItemStack[] armor = new KreeArmor().getTier(1);
-		CustomMob.setArmor(mob, armor, 0.0125f);
+		ItemStack[] armorStack = armor.getTier(1);
+		CustomMob.setArmor(mob, armorStack, 0.0125f);
 		ItemStack sword = new ItemStack(Material.IRON_SWORD);
 		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
 		CustomMob.setMainHand(mob, sword, 0);
@@ -95,7 +96,7 @@ public class KreeSoldier extends Kree implements Listener {
 		aggro(p);
 	}
 
-	public void aggro(final Player p) {
+	private void aggro(final Player p) {
 
 		if (!p.hasMetadata(METADATA_KEY_TARGET)) {
 			p.setMetadata(METADATA_KEY_TARGET, new FixedMetadataValue(Main.getPlugin(), 1));

@@ -43,6 +43,7 @@ import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.keys.DungeonKeyCore;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.loot.CustomLootTable;
+import de.cric_hammel.eternity.infinity.mobs.DungeonMob;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser.BlockAction;
@@ -255,6 +256,37 @@ public class Dungeon implements Listener {
 					event.setCancelled(true);
 				}
 			}
+		}
+		
+		@EventHandler
+		public void onPlayerMoveAll(PlayerMoveEvent event) {
+			Player p = event.getPlayer();
+			Dungeon dungeon = DungeonFactory.getCurrentDungeon(p);
+
+			if (dungeon == null || dungeon.type != StoneType.POWER) {
+				return;
+			}
+
+			Location from = event.getFrom();
+			Location to = event.getTo();
+
+			if (to.getBlockX() == from.getBlockX() && to.getBlockY() == from.getBlockY() && to.getBlockZ() == from.getBlockZ()) {
+				return;
+			}
+			
+			Location loc = p.getLocation();
+			
+			p.getWorld().getLivingEntities().forEach((e) -> {
+				if (!e.hasMetadata(DungeonMob.METADATA_KEY_FROZEN)) {
+					return;
+				}
+				
+				if (loc.distanceSquared(e.getLocation()) >= (16^2)) {
+					e.setAI(false);
+				} else {
+					e.setAI(true);
+				}
+			});
 		}
 
 		@EventHandler
