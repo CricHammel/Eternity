@@ -17,12 +17,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.items.keys.PowerDungeonKey;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.items.misc.InterdimensionalShears;
 import de.cric_hammel.eternity.infinity.items.misc.PocketAnvil;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportCapsule;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportRailgun;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TwelveTeraVoltBattery;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.mobs.npc.DialogueNpc;
 import de.cric_hammel.eternity.infinity.mobs.npc.DialogueNpc.Dialogue;
@@ -97,11 +101,29 @@ public class Lobby extends MultiplayerWorld {
 		});
 		parser.addAction(Material.PINK_GLAZED_TERRACOTTA, (loc, data) -> {
 			ArrayList<ShopItem> items = new ArrayList<>();
-			items.add(new ShopItem(ChatColor.GOLD + "Buy Dungeon Key", Material.NAME_TAG, new ArrayList<>(Arrays.asList("8 Phantom Membrane", "8 Iron Blocks", "1 Emerald Block")), 0, (p) -> {
+			items.add(new ShopItem(ChatColor.GOLD + "Buy Dungeon Key", Material.NAME_TAG, new ArrayList<String>(Arrays.asList("8 Phantom Membrane", "8 Iron Blocks", "1 Emerald Block")), 0, (p) -> {
 				return buyDungeonKey(p, StoneType.POWER, new ItemStack(Material.PHANTOM_MEMBRANE, 8), new ItemStack(Material.IRON_BLOCK, 8), new ItemStack(Material.EMERALD_BLOCK, 1));
 			}));
-			items.add(new ShopItem(ChatColor.GOLD + "Buy Interdimensional Shears", Material.SHEARS, new ArrayList<>(), 1, (p) -> {
+			items.add(new ShopItem(ChatColor.GOLD + "Buy Interdimensional Shears", Material.SHEARS, new ArrayList<String>(), 1, (p) -> {
 				return p.getInventory().addItem(new InterdimensionalShears().getItem()).isEmpty();
+			}));
+			items.add(new ShopItem(ChatColor.GOLD + "Buy Teleport Railgun", Material.GOLDEN_HOE, new ArrayList<String>(Arrays.asList("1 Golden Hoe", "1 12-Teravolt Battery")), 10, (p) -> {
+				ItemStack battery = new TwelveTeraVoltBattery().getItem();
+				PlayerInventory inv = p.getInventory();
+				
+				if (!inv.containsAtLeast(battery, 1)) {
+					return false;
+				}
+				
+				inv.removeItem(battery);
+				ItemStack gun = new TeleportRailgun().getItem();
+				inv.addItem(gun);
+				return true;
+			}));
+			items.add(new ShopItem(ChatColor.GOLD + "Buy 3 Teleport Capsule", Material.SUNFLOWER, new ArrayList<String>(), 1, (p) -> {
+				ItemStack capsule = new TeleportCapsule().getItem();
+				capsule.setAmount(3);
+				return p.getInventory().addItem(capsule).isEmpty();
 			}));
 			loc.setYaw(180f);
 			new ShopNpc(EntityType.PIGLIN, ChatColor.RED + "Kree Merchant", loc, items);

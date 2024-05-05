@@ -46,6 +46,7 @@ import de.cric_hammel.eternity.infinity.loot.CustomLootTable;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser.BlockAction;
+import de.cric_hammel.eternity.infinity.util.ActionUtils;
 
 /**
  * Represents a custom dungeon, bound to a player.
@@ -209,7 +210,7 @@ public class Dungeon implements Listener {
 		}
 
 		@EventHandler
-		public void onPlayerInteractAll(PlayerInteractEvent event) {
+		public void onPlayerInteractAllChests(PlayerInteractEvent event) {
 			Dungeon dungeon = DungeonFactory.getCurrentDungeon(event.getPlayer());
 
 			if (dungeon == null || event.getAction() != Action.RIGHT_CLICK_BLOCK || !(event.getClickedBlock().getState() instanceof Chest)) {
@@ -224,6 +225,20 @@ public class Dungeon implements Listener {
 
 			dungeon.loot.generateLoot(chest.getInventory(), new Random());
 			chest.setMetadata(META_KEY_OPENED, new FixedMetadataValue(Main.getPlugin(), 1));
+		}
+		
+		@EventHandler
+		public void onPlayerInteractAllPearls(PlayerInteractEvent event) {
+			Player p = event.getPlayer();
+			Dungeon dungeon = DungeonFactory.getCurrentDungeon(p);
+			
+			if (dungeon == null || !ActionUtils.isRightclick(event.getAction())) {
+				return;
+			}
+			
+			if (event.getMaterial() == Material.ENDER_PEARL) {
+				event.setCancelled(true);
+			}
 		}
 
 		@EventHandler

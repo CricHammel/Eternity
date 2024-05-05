@@ -101,12 +101,12 @@ public abstract class CustomItem {
 		return false;
 	}
 
-	public void applyCooldown(Player p, String metaKey, int cooldown) {
+	public void applyCooldown(Player p, String metaKey, int cooldownSec) {
 
 		if (!p.hasMetadata(metaKey)) {
 			p.setMetadata(metaKey,
-					new FixedMetadataValue(Main.getPlugin(), System.currentTimeMillis() + cooldown * 1000));
-			p.setCooldown(m, cooldown * 20);
+					new FixedMetadataValue(Main.getPlugin(), System.currentTimeMillis() + cooldownSec * 1000));
+			p.setCooldown(m, cooldownSec * 20);
 		}
 	}
 

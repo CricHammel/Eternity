@@ -28,6 +28,8 @@ import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.items.misc.InterdimensionalShears;
 import de.cric_hammel.eternity.infinity.items.misc.PocketAnvil;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportCapsule;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportRailgun;
 import de.cric_hammel.eternity.infinity.items.stones.InfinityStoneListener;
 import de.cric_hammel.eternity.infinity.items.stones.MindStone;
 import de.cric_hammel.eternity.infinity.items.stones.PowerStone;
@@ -85,6 +87,8 @@ public class Main extends JavaPlugin {
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new InterdimensionalShears(), plugin);
 		pluginManager.registerEvents(new PocketAnvil(), plugin);
+		pluginManager.registerEvents(new TeleportRailgun(), plugin);
+		pluginManager.registerEvents(new TeleportCapsule(), plugin);
 		pluginManager.registerEvents(new Gauntlet(), plugin);
 		pluginManager.registerEvents(new InfinityStoneListener(), plugin);
 		pluginManager.registerEvents(new PowerStone(), plugin);

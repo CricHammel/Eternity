@@ -58,3 +58,11 @@ Loot:
       minCount: 1
       maxCount: 2
       weight: 3
+   CAPSULE:
+      minCount: 1
+      maxCount: 2
+      weight: 8
+   BATTERY:
+      minCount: 1
+      maxCount: 1
+      weight: 1

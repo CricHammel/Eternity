@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.misc.InfiniCoin;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportCapsule;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TwelveTeraVoltBattery;
 
 public class DungeonChestLoot implements CustomLootTable {
 
@@ -80,12 +82,18 @@ public class DungeonChestLoot implements CustomLootTable {
 					ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, count);
 					book.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 					return book;
-				}
-
-	            if (itemString.equals("COIN")) {
+				} else if (itemString.equals("COIN")) {
 	            	ItemStack coin = new InfiniCoin().getItem();
 	            	coin.setAmount(count);
 	            	return coin;
+	            } else if (itemString.equals("CAPSULE")) {
+	            	ItemStack capsule = new TeleportCapsule().getItem();
+	            	capsule.setAmount(count);
+	            	return capsule;
+	            } else if (itemString.equals("BATTERY")) {
+	            	ItemStack battery = new TwelveTeraVoltBattery().getItem();
+	            	battery.setAmount(count);
+	            	return battery;
 	            }
 
 				Material m;
