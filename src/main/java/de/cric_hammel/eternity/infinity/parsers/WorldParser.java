@@ -1,13 +1,8 @@
-package de.cric_hammel.eternity.infinity.util;
+package de.cric_hammel.eternity.infinity.parsers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -17,27 +12,22 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.io.BukkitObjectInputStream;
 
 import de.cric_hammel.eternity.Main;
 
-public class BlockParser {
-
-    private String fileName;
-    private World world;
-
+public class WorldParser extends BlockParser {
+	
     private boolean isParsing = false;
 
     private final Map<Material, BlockAction> actions = new HashMap<>();
 
-    public BlockParser(String fileName, World world) {
-        this.fileName = fileName;
-        this.world = world;
+    public WorldParser(String fileName, World world) {
+    	super(fileName, world);
     }
 
+    @Override
     public void parse() {
         if (isParsing) {
             return;
@@ -93,42 +83,6 @@ public class BlockParser {
         }.runTaskTimer(Main.getPlugin(), 1, 1);
     }
     
-    public Set<FallingBlock> parseAsFallingBlocks(Location startLoc) {
-    	List<Map<String, Object>> blocks = readData();
-    	Set<FallingBlock> fallingBlocks = new HashSet<FallingBlock>();
-    	
-    	for (Map<String, Object> block : blocks) {
-    		Location loc = new Location(world, Double.parseDouble(block.get("x").toString()),
-                    Double.parseDouble(block.get("y").toString()),
-                    Double.parseDouble(block.get("z").toString()));
-            BlockData data = Bukkit.getServer().createBlockData(block.get("data").toString());
-            Location spawnLoc = startLoc.clone().add(loc);
-            FallingBlock fallingBlock = world.spawnFallingBlock(spawnLoc, data);
-            fallingBlock.setCancelDrop(true);
-            fallingBlock.setHurtEntities(false);
-            fallingBlocks.add(fallingBlock);
-		}
-    	
-    	return fallingBlocks;
-    }
-
-    @SuppressWarnings("unchecked")
-	private List<Map<String, Object>> readData() {
-    	try {
-	    	File file = new File(Main.getPlugin().getDataFolder(), fileName);
-	        List<Map<String, Object>> blocks;
-	        FileInputStream fis = new FileInputStream(file);
-	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        BukkitObjectInputStream bois = new BukkitObjectInputStream(ois);
-	        blocks = (List<Map<String, Object>>) bois.readObject();
-	        bois.close();
-	        return blocks;
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return null;
-    	}
-    }
-    
     public void addAction(Material m, BlockAction action) {
         actions.put(m, action);
     }
@@ -137,10 +91,6 @@ public class BlockParser {
         for (Material m : t.getValues()) {
             actions.put(m, action);
         }
-    }
-
-    public void setWorld(World world) {
-    	this.world = world;
     }
 
     public void tryTeleport(Player p, float yaw) {

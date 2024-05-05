@@ -22,21 +22,21 @@ import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.infinity.util.BlockParser;
+import de.cric_hammel.eternity.infinity.parsers.WorldParser;
 
 public abstract class MultiplayerWorld implements Listener {
 
 	private World world;
 	private String name;
 
-	protected final BlockParser parser;
+	protected final WorldParser parser;
 
 	protected static final Map<Player, Location> lastLoc = new HashMap<>();
 
 	public MultiplayerWorld(String fileName, String name) {
 		this.name = "Eternity_" + name;
 		world = Bukkit.getWorld(this.name);
-		parser = new BlockParser(fileName, world);
+		parser = new WorldParser(fileName, world);
 		parser.addAction(Material.SPAWNER, (loc, data) -> loc.getWorld().setSpawnLocation(loc));
 	}
 

@@ -1,6 +1,7 @@
 package de.cric_hammel.eternity.infinity.worlds;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +30,7 @@ import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.mobs.thanos.ChitauriShip;
 import de.cric_hammel.eternity.infinity.mobs.thanos.Fangs;
 import de.cric_hammel.eternity.infinity.mobs.thanos.Thanos;
+import de.cric_hammel.eternity.infinity.parsers.StructureParser;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class ThanosFight implements Listener {
@@ -42,7 +44,8 @@ public class ThanosFight implements Listener {
 	private static int mobsToKill = 0;
 	private static Thanos thanos = new Thanos();
 	private static Mob thanosMob;
-	private static Set<BukkitTask> scheduledTasks = new HashSet<>();
+	private static Set<BukkitTask> scheduledTasks = new HashSet<BukkitTask>();
+	private static Set<StructureParser> parsers = new HashSet<StructureParser>();
 	private static BossBar bossbar;
 
 	private World lobby = Main.getLobby().getWorld();
@@ -121,7 +124,8 @@ public class ThanosFight implements Listener {
 		 * Dialogue
 		 * Spawns second army (Outriders)
 		 */
-		BukkitRunnable task1 = new BukkitRunnable() {
+		
+		BukkitRunnable task2 = new BukkitRunnable() {
 
 			Location fangsLoc = origin.clone().add(52, -27, -29);
 			Fangs fangs = new Fangs(fangsLoc, 70, 150);
@@ -131,7 +135,62 @@ public class ThanosFight implements Listener {
 				fangs.spawnRandom();
 			}
 		};
-		scheduledTasks.add(task1.runTaskTimer(Main.getPlugin(), 0, 3 * 20));
+		
+		BukkitRunnable task1 = new BukkitRunnable() {
+			
+			List<Location> spawnLocs = new ArrayList<Location>(Arrays.asList(origin.clone().add(59, -27, -44), origin.clone().add(50, -27, -6), origin.clone().add(51, -27, 41)));
+			int i = 0;
+			
+			@Override
+			public void run() {
+				
+				if (i >= spawnLocs.size()) {
+					cancel();
+					scheduledTasks.add(task2.runTaskTimer(Main.getPlugin(), 0, 2 * 20));
+					return;
+				}
+				
+				StructureParser parser = new StructureParser("spaceShip.txt", spawnLocs.get(i));
+				parser.parse();
+				parsers.add(parser);
+				i++;
+			}
+		};
+		
+		scheduledTasks.add(task1.runTaskTimer(Main.getPlugin(), 0, 2 * 20));
+//		WorldParser parser = new WorldParser("spaceShip.txt", lobby);
+		
+//		Set<FallingBlock> blocks = Stream.concat(Stream.concat(parser.parseAsFallingBlocks(origin.add(55, 150, -34)).stream(), parser.parseAsFallingBlocks(origin.add(55, 150, 12)).stream()), parser.parseAsFallingBlocks(origin.add(55, 150, 67)).stream()).collect(Collectors.toSet());
+//		Set<FallingBlock> blocks = parser.parseAsFallingBlocks(origin.add(55, 100, -34));
+		
+//		BukkitRunnable task1 = new BukkitRunnable() {
+//			
+//			int height = 150 * 20;
+//			
+//			@Override
+//			public void run() {
+//				if (height <= 0) {
+//					
+//					for (FallingBlock block : blocks) {
+//						block.getLocation().getBlock().setType(block.getBlockData().getMaterial());
+//						block.remove();
+//					}
+//					
+//					cancel();
+//					scheduledTasks.add(task2.runTaskTimer(Main.getPlugin(), 0, 2 * 20));
+//					return;
+//				}
+//				
+//				for (FallingBlock block : blocks) {
+//					block.teleport(block.getLocation().add(0, -(1 / 20), 0));
+//					block.setTicksLived(1);
+//				}
+//				
+//				height--;
+//			}
+//		};
+//		
+//		scheduledTasks.add(task1.runTaskTimer(Main.getPlugin(), 0, 1));
 	}
 
 	private void triggerSecondHitPhase() {
@@ -168,6 +227,8 @@ public class ThanosFight implements Listener {
 		running = false;
 		scheduledTasks.forEach(task -> task.cancel());
 		scheduledTasks.clear();
+		parsers.forEach(parser -> parser.unparse());
+		parsers.clear();
 		thanos.remove(thanosMob);
 		ChitauriShip ship = new ChitauriShip();
 		lobby.getEntities().forEach(e -> {
@@ -200,7 +261,7 @@ public class ThanosFight implements Listener {
 			bossbar.setTitle(THANOS_PREFIX);
 		}
 		
-		bossbar.setProgress(thanosMob.getHealth());
+		bossbar.setProgress(thanosMob.getHealth() / thanosMob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		lobby.getPlayers().forEach((p) -> bossbar.addPlayer(p));
 	}
 

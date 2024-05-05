@@ -17,7 +17,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -45,8 +44,8 @@ import de.cric_hammel.eternity.infinity.items.keys.DungeonKeyCore;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.loot.CustomLootTable;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
-import de.cric_hammel.eternity.infinity.util.BlockParser;
-import de.cric_hammel.eternity.infinity.util.BlockParser.BlockAction;
+import de.cric_hammel.eternity.infinity.parsers.WorldParser;
+import de.cric_hammel.eternity.infinity.parsers.WorldParser.BlockAction;
 
 /**
  * Represents a custom dungeon, bound to a player.
@@ -55,7 +54,7 @@ import de.cric_hammel.eternity.infinity.util.BlockParser.BlockAction;
 public class Dungeon implements Listener {
 
 	private Material mineable;
-	private BlockParser parser;
+	private WorldParser parser;
 	private CustomLootTable loot;
 	private Player p;
 	private StoneType type;
@@ -67,17 +66,13 @@ public class Dungeon implements Listener {
 		this.type = type;
 		this.loot = loot;
 		this.mineable = mineable;
-		parser = new BlockParser(fileName, null);
+		parser = new WorldParser(fileName, null);
 		parser.addAction(Material.SPAWNER, (loc, data) -> loc.getWorld().setSpawnLocation(loc));
-		parser.addAction(Material.CHEST, new BlockAction() {
-
-			@Override
-			public void execute(Location loc, BlockData data) {
-				Block b = loc.getBlock();
-				b.setBlockData(data);
-				Chest c = (Chest) b.getState();
-				c.update(true);
-			}
+		parser.addAction(Material.CHEST, (loc, data) -> {
+			Block b = loc.getBlock();
+			b.setBlockData(data);
+			Chest c = (Chest) b.getState();
+			c.update(true);
 		});
 		// TODO: Implement custom banners
 //		parser.addAction(Tag.BANNERS, new BlockAction() {
@@ -141,7 +136,7 @@ public class Dungeon implements Listener {
 	    return directoryToBeDeleted.delete();
 	}
 
-	public BlockParser getParser() {
+	public WorldParser getParser() {
 		return parser;
 	}
 

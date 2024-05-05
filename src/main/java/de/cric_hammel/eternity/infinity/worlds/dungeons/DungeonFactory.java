@@ -11,7 +11,7 @@ import de.cric_hammel.eternity.infinity.loot.DungeonChestLoot;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGeneral;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeSoldier;
-import de.cric_hammel.eternity.infinity.util.BlockParser;
+import de.cric_hammel.eternity.infinity.parsers.WorldParser;
 
 public class DungeonFactory {
 
@@ -36,7 +36,7 @@ public class DungeonFactory {
 		}
 
 		Dungeon dungeon = new Dungeon(p, StoneType.POWER, new DungeonChestLoot("power_chest.yml"), Material.CRACKED_STONE_BRICKS, "power_dungeon.txt");
-		BlockParser parser = dungeon.getParser();
+		WorldParser parser = dungeon.getParser();
 		parser.addAction(Material.MAGENTA_GLAZED_TERRACOTTA, (loc, data) -> new KreeSoldier().spawn(loc));
 		parser.addAction(Material.PINK_GLAZED_TERRACOTTA, (loc, data) -> new KreeGeneral().spawn(loc));
 		parser.addAction(Material.LIGHT_BLUE_GLAZED_TERRACOTTA, (loc, data) -> new KreeGuard().spawn(loc));
