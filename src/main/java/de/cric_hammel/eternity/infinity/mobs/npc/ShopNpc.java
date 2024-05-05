@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
@@ -117,6 +118,7 @@ public class ShopNpc {
 			meta.setDisplayName(name);
 			meta.setLore(lore);
 			item.setItemMeta(meta);
+			item.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
 			return item;
 		}
 	}
