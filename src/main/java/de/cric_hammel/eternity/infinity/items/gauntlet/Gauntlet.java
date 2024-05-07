@@ -103,7 +103,7 @@ public class Gauntlet extends CustomItem implements Listener {
 
 		for (PotionEffect effect : p.getActivePotionEffects()) {
 
-			if (NegativeEffects.contains(effect.getType().getName())) {
+			if (NegativeEffects.contains(effect.getType().getKey().getKey())) {
 				p.removePotionEffect(effect.getType());
 			}
 
