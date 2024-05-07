@@ -57,6 +57,8 @@ public abstract class MultiplayerWorld implements Listener {
 	}
 
 	public void delete() {
+		parser.interrupt();
+		
 		for (Player p : world.getPlayers()) {
 			teleport(p);
 		}

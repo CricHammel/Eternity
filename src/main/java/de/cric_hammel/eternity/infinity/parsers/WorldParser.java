@@ -20,6 +20,7 @@ import de.cric_hammel.eternity.Main;
 public class WorldParser extends BlockParser {
 	
     private boolean isParsing = false;
+    private boolean interrupt = false;
 
     private final Map<Material, BlockAction> actions = new HashMap<>();
 
@@ -54,6 +55,14 @@ public class WorldParser extends BlockParser {
 
             @Override
             public void run() {
+            	if (interrupt) {
+            		isParsing = false;
+            		interrupt = false;
+            		logger.info("[Eternity] Interrupted parsing for '" + world.getName() + "'");
+            		cancel();
+            		return;
+            	}
+            	
                 int currentBatch = processedBlocks;
                 processedBlocks++;
 
@@ -114,6 +123,12 @@ public class WorldParser extends BlockParser {
 				}
 			}
 		}.runTaskTimer(Main.getPlugin(), 0, 1);
+    }
+    
+    public void interrupt() {
+    	if (isParsing) {
+    		interrupt = true;
+    	}
     }
 
     public interface BlockAction {
