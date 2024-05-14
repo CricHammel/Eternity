@@ -237,6 +237,10 @@ public class ThanosFight implements Listener {
 			}
 
 		});
+		
+		if (bossbar != null) {
+			bossbar.removeAll();
+		}
 	}
 
 	private List<String> createFirstDialogue() {
