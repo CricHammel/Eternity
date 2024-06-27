@@ -36,7 +36,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
 import de.cric_hammel.eternity.Main;
@@ -315,7 +314,7 @@ public class Dungeon implements Listener {
 			spawn.setZ(to.getBlockZ() + 0.5);
 			AreaEffectCloud cloud = (AreaEffectCloud) to.getWorld().spawnEntity(spawn, EntityType.AREA_EFFECT_CLOUD);
 			cloud.setRadius(1.5f);
-			cloud.setBasePotionData(new PotionData(PotionType.INSTANT_DAMAGE));
+			cloud.setBasePotionType(PotionType.INSTANT_DAMAGE);
 			cloud.setColor(Color.RED);
 			cloud.setDuration(3*20);
 			cloud.setRadiusPerTick(0);
