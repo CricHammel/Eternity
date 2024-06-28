@@ -118,10 +118,9 @@ public class Dungeon implements Listener {
 	 * Deletes the associated world of the dungeon, kicking the player
 	 */
 	protected void delete() {
-
-		if (world.getPlayers().contains(p)) {
-			p.teleport(lastLoc);
-		}
+		world.getPlayers().forEach(worldP -> {
+			worldP.teleport(lastLoc);
+		});
 
 		Bukkit.unloadWorld(world, false);
 		removeDirectory(world.getWorldFolder());
