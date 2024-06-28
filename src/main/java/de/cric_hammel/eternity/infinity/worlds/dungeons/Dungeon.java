@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.FluidCollisionMode;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,7 +38,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionType;
-import org.bukkit.util.BlockIterator;
+import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import de.cric_hammel.eternity.Main;
@@ -276,36 +277,26 @@ public class Dungeon implements Listener {
 			}
 			
 			Location pLoc = p.getEyeLocation();
+			World world = p.getWorld();
 			
-			p.getWorld().getLivingEntities().forEach((e) -> {
+			world.getLivingEntities().forEach((e) -> {
 				
-				if (e instanceof Player) {
+				if (e instanceof Player || e.hasAI()) {
 					return;
 				}
 				
 				Location eLoc = e.getEyeLocation();
-				double detectSquared = Math.pow(MOB_DETECT_DISTANCE, 2);
 				
-				if (eLoc.distanceSquared(pLoc) > detectSquared) {
+				if (eLoc.distanceSquared(pLoc) > Math.pow(MOB_DETECT_DISTANCE, 2)) {
 					return;
 				}
 				
-				Vector eVec = eLoc.toVector();
-				Vector lineOfSight = pLoc.toVector().subtract(eVec).normalize();
-				BlockIterator i = new BlockIterator(p.getWorld(), eVec.clone(), lineOfSight, 0, 0);
+				Vector lineOfSight = pLoc.toVector().subtract(eLoc.toVector()).normalize();
 				
-				while (i.hasNext()) {
-					Block b = i.next();
-					Location bLoc = b.getLocation();
-					
-					if (bLoc.distanceSquared(eLoc) > detectSquared || !b.isPassable()) {
-						break;
-					}
-					
-					if (bLoc.distanceSquared(pLoc) < 1) {
-						e.setAI(true);
-						return;
-					}
+				RayTraceResult result = world.rayTrace(eLoc, lineOfSight, MOB_DETECT_DISTANCE, FluidCollisionMode.NEVER, true, 1, hit -> hit.equals(p));
+				
+				if (result != null && result.getHitBlock() == null) {
+					e.setAI(true);
 				}
 			});
 		}
