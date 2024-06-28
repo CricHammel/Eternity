@@ -37,12 +37,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionType;
+import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.keys.DungeonKeyCore;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.loot.CustomLootTable;
-import de.cric_hammel.eternity.infinity.mobs.DungeonMob;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser.BlockAction;
@@ -61,6 +62,8 @@ public class Dungeon implements Listener {
 	private StoneType type;
 	private World world;
 	private Location lastLoc;
+	
+	private static final int MOB_DETECT_DISTANCE = 16;
 
 	protected Dungeon(Player p, StoneType type, CustomLootTable loot, Material mineable, String fileName) {
 		this.p = p;
@@ -273,17 +276,37 @@ public class Dungeon implements Listener {
 				return;
 			}
 			
-			Location loc = p.getLocation();
+			Location pLoc = p.getEyeLocation();
 			
 			p.getWorld().getLivingEntities().forEach((e) -> {
-				if (!e.hasMetadata(DungeonMob.METADATA_KEY_FROZEN)) {
+				
+				if (e instanceof Player) {
 					return;
 				}
 				
-				if (loc.distanceSquared(e.getLocation()) >= (16^2)) {
-					e.setAI(false);
-				} else {
-					e.setAI(true);
+				Location eLoc = e.getEyeLocation();
+				double detectSquared = Math.pow(MOB_DETECT_DISTANCE, 2);
+				
+				if (eLoc.distanceSquared(pLoc) > detectSquared) {
+					return;
+				}
+				
+				Vector eVec = eLoc.toVector();
+				Vector lineOfSight = pLoc.toVector().subtract(eVec).normalize();
+				BlockIterator i = new BlockIterator(p.getWorld(), eVec.clone(), lineOfSight, 0, 0);
+				
+				while (i.hasNext()) {
+					Block b = i.next();
+					Location bLoc = b.getLocation();
+					
+					if (bLoc.distanceSquared(eLoc) > detectSquared || !b.isPassable()) {
+						break;
+					}
+					
+					if (bLoc.distanceSquared(pLoc) < 1) {
+						e.setAI(true);
+						return;
+					}
 				}
 			});
 		}
