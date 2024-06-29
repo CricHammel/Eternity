@@ -85,10 +85,15 @@ public abstract class MultiplayerWorld implements Listener {
 	}
 
 	public boolean teleport(Player p) {
+		
 		if (isInWorld(p)) {
+			
 			if (lastLoc.containsKey(p)) {
 				p.teleport(lastLoc.get(p));
+			} else {
+				p.teleport(Main.getMainWorld().getSpawnLocation());
 			}
+			
 			return false;
 		} else {
 			lastLoc.put(p, p.getLocation());

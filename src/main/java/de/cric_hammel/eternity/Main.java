@@ -148,6 +148,10 @@ public class Main extends JavaPlugin {
 		return getDataPath() + "/loot";
 	}
 
+	public static World getMainWorld() {
+		return mainWorld;
+	}
+
 	private String getLevelname() {
 		Properties prop = new Properties();
 		try {
