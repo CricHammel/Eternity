@@ -15,28 +15,31 @@ import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
-public class PocketAnvil extends CustomItem implements Listener {
+public class PocketAnvil extends CustomItem {
 
 	public PocketAnvil() {
 		super(Material.ANVIL, ChatColor.RED + "Pocket Anvil", "Lets you open an anvil out of your pocket");
 	}
 	
-	@EventHandler
-	public void onInteract(PlayerInteractEvent event) {
-		Player p = event.getPlayer();
-		
-		if (!super.hasInHand(p)) {
-			return;
-		} else if (!ActionUtils.isRightclick(event.getAction())) {
+	public static class Listeners implements Listener {
+
+		@EventHandler
+		public void onInteract(PlayerInteractEvent event) {
+			Player p = event.getPlayer();
+			
+			if (!(new PocketAnvil()).hasInHand(p)) {
+				return;
+			} else if (!ActionUtils.isRightclick(event.getAction())) {
+				event.setCancelled(true);
+				return;
+			}
+			
+			ItemStack anvil = event.getItem();
+			anvil.setAmount(0);
+			SoundUtils.play(p, Sound.BLOCK_ANVIL_DESTROY, 1, 1);
+			
+			p.openInventory(Bukkit.createInventory(p, InventoryType.ANVIL));
 			event.setCancelled(true);
-			return;
 		}
-		
-		ItemStack anvil = event.getItem();
-		anvil.setAmount(0);
-		SoundUtils.play(p, Sound.BLOCK_ANVIL_DESTROY, 1, 1);
-		
-		p.openInventory(Bukkit.createInventory(p, InventoryType.ANVIL));
-		event.setCancelled(true);
 	}
 }

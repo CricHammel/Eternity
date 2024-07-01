@@ -30,6 +30,7 @@ import de.cric_hammel.eternity.infinity.items.misc.InterdimensionalShears;
 import de.cric_hammel.eternity.infinity.items.misc.PocketAnvil;
 import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportCapsule;
 import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportRailgun;
+import de.cric_hammel.eternity.infinity.items.misc.teleport.TwelveTeraVoltBattery;
 import de.cric_hammel.eternity.infinity.items.stones.InfinityStoneListener;
 import de.cric_hammel.eternity.infinity.items.stones.MindStone;
 import de.cric_hammel.eternity.infinity.items.stones.PowerStone;
@@ -85,10 +86,11 @@ public class Main extends JavaPlugin {
 
 		// Register events
 		PluginManager pluginManager = Bukkit.getPluginManager();
-		pluginManager.registerEvents(new InterdimensionalShears(), plugin);
-		pluginManager.registerEvents(new PocketAnvil(), plugin);
-		pluginManager.registerEvents(new TeleportRailgun(), plugin);
-		pluginManager.registerEvents(new TeleportCapsule(), plugin);
+		pluginManager.registerEvents(new InterdimensionalShears.Listeners(), plugin);
+		pluginManager.registerEvents(new PocketAnvil.Listeners(), plugin);
+		pluginManager.registerEvents(new TeleportRailgun.Listeners(), plugin);
+		pluginManager.registerEvents(new TeleportCapsule.Listeners(), plugin);
+		pluginManager.registerEvents(new TwelveTeraVoltBattery.Listeners(), plugin);
 		pluginManager.registerEvents(new Gauntlet(), plugin);
 		pluginManager.registerEvents(new InfinityStoneListener(), plugin);
 		pluginManager.registerEvents(new PowerStone(), plugin);
@@ -98,18 +100,18 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new MindStone(), plugin);
 		pluginManager.registerEvents(new TimeStone(), plugin);
 		pluginManager.registerEvents(new StoneUploader(), plugin);
-		pluginManager.registerEvents(new KreeArmor(), plugin);
-		pluginManager.registerEvents(new KreeSoldier(), plugin);
-		pluginManager.registerEvents(new KreeGeneral(), plugin);
-		pluginManager.registerEvents(new KreeGuard(), plugin);
+		pluginManager.registerEvents(new KreeArmor.Listeners(), plugin);
+		pluginManager.registerEvents(new KreeSoldier.Listeners(), plugin);
+		pluginManager.registerEvents(new KreeGeneral.Listeners(), plugin);
+		pluginManager.registerEvents(new KreeGuard.Listeners(), plugin);
 		pluginManager.registerEvents(new ShopNpc.Listeners(), plugin);
 		pluginManager.registerEvents(new ChitauriShip.Listeners(), plugin);
 
 		pluginManager.registerEvents(lobby, plugin);
 		pluginManager.registerEvents(new Dungeon.Listeners(), plugin);
 
-		pluginManager.registerEvents(new ThanosFight(), plugin);
-		pluginManager.registerEvents(new ElectronCompressedChitauriDagger(), plugin);
+		pluginManager.registerEvents(new ThanosFight.Listeners(), plugin);
+		pluginManager.registerEvents(new ElectronCompressedChitauriDagger.Listeners(), plugin);
 
 		// Add recipes
 		ShapedRecipe shears = new ShapedRecipe(new NamespacedKey(plugin, "eternity_shears"), new InterdimensionalShears().getItem());

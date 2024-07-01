@@ -26,7 +26,7 @@ import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
-public class TeleportRailgun extends CustomItem implements Listener {
+public class TeleportRailgun extends CustomItem {
 	
 	private static final String COOLDOWN_KEY = "eternity_railgun_cooldown";
 	private static final String CHARGES_PREFIX = "Capsules: ";
@@ -47,58 +47,6 @@ public class TeleportRailgun extends CustomItem implements Listener {
 		gunMeta.setLore(lore);
 		gun.setItemMeta(gunMeta);
 		return gun;
-	}
-	
-	@EventHandler
-	public void onInteract(PlayerInteractEvent event) {
-		ItemStack item = event.getItem();
-		Player p = event.getPlayer();
-		
-		if (!super.isItem(item) || !ActionUtils.isRightclick(event.getAction()) || event.getHand() != EquipmentSlot.HAND) {
-			return;
-		}
-		
-		event.setCancelled(true);
-		
-		int charges = getCharges(item);
-		
-		if (charges <= 0 || super.hasCooldown(p, COOLDOWN_KEY)) {
-			SoundUtils.play(p, Sound.ENTITY_ENDERMITE_AMBIENT, 10, 1);
-			return;
-		}
-		
-		teleport(p);
-		
-		setCharges(item, charges - 1);
-		super.applyCooldown(p, COOLDOWN_KEY, 2);
-	}
-	
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event) {
-		HumanEntity h = event.getWhoClicked();
-		
-		if (!(h instanceof Player) || event.getClick() == ClickType.CREATIVE) {
-			return;
-		}
-
-		Player p = (Player) h;
-		
-		ItemStack current = event.getCurrentItem();
-		ItemStack cursor = event.getCursor();
-		
-		if (current == null || cursor == null) {
-			return;
-		}
-		
-		if (!super.isItem(current) || !(new TeleportCapsule().isItem(cursor))) {
-			return;
-		}
-		
-		event.setCancelled(true);
-		
-		setCharges(current, getCharges(current) + cursor.getAmount());
-		
-		p.setItemOnCursor(null);
 	}
 	
 	private int getCharges(ItemStack item) {
@@ -151,6 +99,63 @@ public class TeleportRailgun extends CustomItem implements Listener {
 				armorStand.remove();
 				break;
 			}
+		}
+	}
+
+	public static class Listeners implements Listener {
+		
+		@EventHandler
+		public void onInventoryClick(InventoryClickEvent event) {
+			TeleportRailgun gun = new TeleportRailgun();
+			HumanEntity h = event.getWhoClicked();
+			
+			if (!(h instanceof Player) || event.getClick() == ClickType.CREATIVE) {
+				return;
+			}
+	
+			Player p = (Player) h;
+			
+			ItemStack current = event.getCurrentItem();
+			ItemStack cursor = event.getCursor();
+			
+			if (current == null || cursor == null) {
+				return;
+			}
+			
+			if (!gun.isItem(current) || !(new TeleportCapsule().isItem(cursor))) {
+				return;
+			}
+			
+			event.setCancelled(true);
+			
+			gun.setCharges(current, gun.getCharges(current) + cursor.getAmount());
+			
+			p.setItemOnCursor(null);
+		}
+	
+		@EventHandler
+		public void onInteract(PlayerInteractEvent event) {
+			TeleportRailgun gun = new TeleportRailgun();
+			ItemStack item = event.getItem();
+			Player p = event.getPlayer();
+			
+			if (!gun.isItem(item) || !ActionUtils.isRightclick(event.getAction()) || event.getHand() != EquipmentSlot.HAND) {
+				return;
+			}
+			
+			event.setCancelled(true);
+			
+			int charges = gun.getCharges(item);
+			
+			if (charges <= 0 || gun.hasCooldown(p, COOLDOWN_KEY)) {
+				SoundUtils.play(p, Sound.ENTITY_ENDERMITE_AMBIENT, 10, 1);
+				return;
+			}
+			
+			gun.teleport(p);
+			
+			gun.setCharges(item, charges - 1);
+			gun.applyCooldown(p, COOLDOWN_KEY, 2);
 		}
 	}
 }

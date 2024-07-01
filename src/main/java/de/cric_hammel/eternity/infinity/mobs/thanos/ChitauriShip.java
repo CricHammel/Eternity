@@ -97,6 +97,7 @@ public class ChitauriShip extends ThanosFollower {
 	}
 
 	public static class Listeners implements Listener {
+		
 		@EventHandler
 		public void onEntityDeath(EntityDeathEvent event) {
 			LivingEntity e = event.getEntity();

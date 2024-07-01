@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 
-public class KreeGeneral extends Kree implements Listener {
+public class KreeGeneral extends Kree {
 
 	private static KreeArmor armor = new KreeArmor();
 	
@@ -42,18 +42,22 @@ public class KreeGeneral extends Kree implements Listener {
 		return mob;
 	}
 
-	@EventHandler
-	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-		Entity damager = event.getDamager();
+	public static class Listeners implements Listener {
 
-		if (!super.isMob(damager)) {
-			return;
-		}
+		@EventHandler
+		public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+			KreeGeneral kree = new KreeGeneral();
+			Entity damager = event.getDamager();
 
-		for (Entity e : damager.getNearbyEntities(5, 5, 5)) {
+			if (!kree.isMob(damager)) {
+				return;
+			}
 
-			if (super.isKree(e)) {
-				((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 1));
+			for (Entity e : damager.getNearbyEntities(5, 5, 5)) {
+
+				if (kree.isKree(e)) {
+					((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 1));
+				}
 			}
 		}
 	}

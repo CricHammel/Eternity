@@ -23,8 +23,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.mobs.CustomMob;
+import de.cric_hammel.eternity.infinity.worlds.dungeons.DungeonFactory;
 
-public class KreeSoldier extends Kree implements Listener {
+public class KreeSoldier extends Kree {
 
 	private static final String METADATA_KEY_TARGET = "eternity_kree_target";
 	private static KreeArmor armor = new KreeArmor();
@@ -47,70 +48,78 @@ public class KreeSoldier extends Kree implements Listener {
 		return mob;
 	}
 
-	@EventHandler
-	public void onEntityPickupItem(EntityPickupItemEvent event) {
+	public static class Listeners implements Listener {
 
-		if (super.isMob(event.getEntity())) {
-			event.setCancelled(true);
-		}
-	}
+		@EventHandler
+		public void onEntityPickupItem(EntityPickupItemEvent event) {
 
-	@EventHandler
-	public void onEntityTarget(EntityTargetEvent event) {
-		Entity e = event.getEntity();
-		Entity target = event.getTarget();
-
-		if (!super.isMob(e) || !(target instanceof Player)) {
-			return;
+			if ((new KreeSoldier()).isMob(event.getEntity())) {
+				event.setCancelled(true);
+			}
 		}
 
-		Player p = (Player) event.getTarget();
+		@EventHandler
+		public void onEntityTarget(EntityTargetEvent event) {
+			Entity e = event.getEntity();
+			Entity target = event.getTarget();
 
-		if (!p.hasMetadata(METADATA_KEY_TARGET)) {
-			event.setCancelled(true);
-		}
-	}
+			if (!(new KreeSoldier()).isMob(e) || !(target instanceof Player)) {
+				return;
+			}
 
-	@EventHandler
-	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-		Entity damager = event.getDamager();
-		Entity entity = event.getEntity();
+			Player p = (Player) event.getTarget();
 
-		if (damager instanceof Player && super.isKree(entity)) {
-			aggro((Player) damager);
-		}
-
-		if (super.isKree(damager) && entity instanceof Player) {
-			aggro((Player) entity);
-		}
-	}
-
-	@EventHandler
-	public void onInventoryOpen(InventoryOpenEvent event) {
-
-		if (!(event.getPlayer() instanceof Player) || !(event.getInventory().getHolder() instanceof Chest)) {
-			return;
+			if (!p.hasMetadata(METADATA_KEY_TARGET)) {
+				event.setCancelled(true);
+			}
 		}
 
-		Player p = (Player) event.getPlayer();
-		aggro(p);
-	}
+		@EventHandler
+		public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+			KreeSoldier kree = new KreeSoldier();
+			Entity damager = event.getDamager();
+			Entity entity = event.getEntity();
 
-	private void aggro(final Player p) {
+			if (damager instanceof Player && kree.isKree(entity)) {
+				aggro((Player) damager);
+			}
 
-		if (!p.hasMetadata(METADATA_KEY_TARGET)) {
-			p.setMetadata(METADATA_KEY_TARGET, new FixedMetadataValue(Main.getPlugin(), 1));
+			if (kree.isKree(damager) && entity instanceof Player) {
+				aggro((Player) entity);
+			}
+		}
 
-			new BukkitRunnable() {
+		@EventHandler
+		public void onInventoryOpen(InventoryOpenEvent event) {
 
-				@Override
-				public void run() {
-					if (p.hasMetadata(METADATA_KEY_TARGET)) {
-						p.removeMetadata(METADATA_KEY_TARGET, Main.getPlugin());
+			if (!(event.getPlayer() instanceof Player) || !(event.getInventory().getHolder() instanceof Chest)) {
+				return;
+			}
+
+			Player p = (Player) event.getPlayer();
+			aggro(p);
+		}
+
+		private void aggro(final Player p) {
+
+			if (DungeonFactory.getCurrentDungeon(p) == null) {
+				return;
+			}
+			
+			if (!p.hasMetadata(METADATA_KEY_TARGET)) {
+				p.setMetadata(METADATA_KEY_TARGET, new FixedMetadataValue(Main.getPlugin(), 1));
+
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						if (p.hasMetadata(METADATA_KEY_TARGET)) {
+							p.removeMetadata(METADATA_KEY_TARGET, Main.getPlugin());
+						}
 					}
-				}
 
-			}.runTaskLater(Main.getPlugin(), 120 * 20);
+				}.runTaskLater(Main.getPlugin(), 120 * 20);
+			}
 		}
 	}
 }

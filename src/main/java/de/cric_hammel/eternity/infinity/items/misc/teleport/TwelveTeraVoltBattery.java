@@ -9,18 +9,21 @@ import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import net.md_5.bungee.api.ChatColor;
 
-public class TwelveTeraVoltBattery extends CustomItem implements Listener {
+public class TwelveTeraVoltBattery extends CustomItem {
 
 	public TwelveTeraVoltBattery() {
 		super(Material.SEA_PICKLE, ChatColor.AQUA + "12-Teravolt Battery", "Powers flashlights and/or teleporters");
 	}
 	
-	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent event) {
-		if (!super.isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
-			return;
+	public static class Listeners implements Listener {
+
+		@EventHandler
+		public void onPlayerInteract(PlayerInteractEvent event) {
+			if (!(new TwelveTeraVoltBattery()).isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
+				return;
+			}
+			
+			event.setCancelled(true);
 		}
-		
-		event.setCancelled(true);
 	}
 }

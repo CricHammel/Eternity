@@ -9,18 +9,21 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 
-public class TeleportCapsule extends CustomItem implements Listener {
+public class TeleportCapsule extends CustomItem {
 
 	public TeleportCapsule() {
 		super(Material.SUNFLOWER, ChatColor.GOLD + "Teleport Capsule", "Click on Teleport Railgun to load");
 	}
 	
-	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent event) {
-		if (!super.isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
-			return;
-		}
+	public static class Listeners implements Listener {
 		
-		event.setCancelled(true);
+		@EventHandler
+		public void onPlayerInteract(PlayerInteractEvent event) {
+			if (!(new TeleportCapsule()).isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
+				return;
+			}
+			
+			event.setCancelled(true);
+		}
 	}
 }

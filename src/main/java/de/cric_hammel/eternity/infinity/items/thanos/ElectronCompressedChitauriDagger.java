@@ -20,7 +20,7 @@ import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.AttributeUtils;
 
-public class ElectronCompressedChitauriDagger extends CustomItem implements Listener {
+public class ElectronCompressedChitauriDagger extends CustomItem {
 
 	private static final String META_KEY = "eternity_zap";
 
@@ -37,38 +37,41 @@ public class ElectronCompressedChitauriDagger extends CustomItem implements List
 		return dagger;
 	}
 
-	@EventHandler
-	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-		if (!(event.getDamager() instanceof LivingEntity) || !(event.getEntity() instanceof LivingEntity)) {
-			return;
-		}
+	public static class Listeners implements Listener {
 
-		LivingEntity e = (LivingEntity) event.getEntity();
-		LivingEntity damager = (LivingEntity) event.getDamager();
-
-		if (!super.hasInHand(damager) || e.hasMetadata(META_KEY)) {
-			return;
-		}
-
-		e.setFreezeTicks(3*20);
-		e.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3*20, 3, false));
-		e.setMetadata(META_KEY, new FixedMetadataValue(Main.getPlugin(), true));
-		new BukkitRunnable() {
-
-			int i = 0;
-
-			@Override
-			public void run() {
-				if (i >= 3) {
-					e.removeMetadata(META_KEY, Main.getPlugin());
-					cancel();
-					return;
-				}
-
-				e.damage(15);
-				i++;
+		@EventHandler
+		public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+			if (!(event.getDamager() instanceof LivingEntity) || !(event.getEntity() instanceof LivingEntity)) {
+				return;
 			}
 
-		}.runTaskTimer(Main.getPlugin(), 0, 20);
+			LivingEntity e = (LivingEntity) event.getEntity();
+			LivingEntity damager = (LivingEntity) event.getDamager();
+
+			if (!(new ElectronCompressedChitauriDagger()).hasInHand(damager) || e.hasMetadata(META_KEY)) {
+				return;
+			}
+
+			e.setFreezeTicks(3*20);
+			e.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3*20, 3, false));
+			e.setMetadata(META_KEY, new FixedMetadataValue(Main.getPlugin(), true));
+			new BukkitRunnable() {
+
+				int i = 0;
+
+				@Override
+				public void run() {
+					if (i >= 3) {
+						e.removeMetadata(META_KEY, Main.getPlugin());
+						cancel();
+						return;
+					}
+
+					e.damage(15);
+					i++;
+				}
+
+			}.runTaskTimer(Main.getPlugin(), 0, 20);
+		}
 	}
 }

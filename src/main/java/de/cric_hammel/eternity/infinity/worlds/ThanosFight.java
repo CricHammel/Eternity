@@ -33,7 +33,7 @@ import de.cric_hammel.eternity.infinity.mobs.thanos.Thanos;
 import de.cric_hammel.eternity.infinity.parsers.StructureParser;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
-public class ThanosFight implements Listener {
+public class ThanosFight {
 
 	private static final double FIRST_DAMAGE_CAP = 2d/3d;
 	private static final int AMOUNT_SHIPS = 9;
@@ -269,45 +269,50 @@ public class ThanosFight implements Listener {
 		lobby.getPlayers().forEach((p) -> bossbar.addPlayer(p));
 	}
 
-	@EventHandler
-	public void onEntityDeath(EntityDeathEvent event) {
-		LivingEntity e = event.getEntity();
+	public static class Listeners implements Listener {
 
-		if (!e.getWorld().equals(lobby) || !running || !(e instanceof Mob)) {
-			return;
-		}
+		@EventHandler
+		public void onEntityDeath(EntityDeathEvent event) {
+			ThanosFight fight = new ThanosFight();
+			LivingEntity e = event.getEntity();
 
-		if (phase == 0) {
-			if (mobsToKill <= 1) {
-				triggerFirstHitPhase();
+			if (!e.getWorld().equals(fight.lobby) || !running || !(e instanceof Mob)) {
 				return;
 			}
 
-			mobsToKill--;
-			updateBossbar();
-		}
-	}
+			if (phase == 0) {
+				if (mobsToKill <= 1) {
+					fight.triggerFirstHitPhase();
+					return;
+				}
 
-	@EventHandler
-	public void onEntityDamage(EntityDamageEvent event) {
-		Entity e = event.getEntity();
-
-		if (!e.getWorld().equals(lobby) || !running || e != thanosMob) {
-			return;
-		}
-
-		double predictedHealth = thanosMob.getHealth() - event.getFinalDamage();
-		double maxHealth = thanosMob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-
-		if (phase == 1) {
-			if (predictedHealth/maxHealth <= FIRST_DAMAGE_CAP) {
-				event.setCancelled(true);
-				double healthCap = FIRST_DAMAGE_CAP * maxHealth;
-				thanosMob.setHealth(healthCap);
-				triggerSecondWave();
+				mobsToKill--;
+				fight.updateBossbar();
 			}
-			
-			updateBossbar();
+		}
+
+		@EventHandler
+		public void onEntityDamage(EntityDamageEvent event) {
+			ThanosFight fight = new ThanosFight();
+			Entity e = event.getEntity();
+
+			if (!e.getWorld().equals(fight.lobby) || !running || e != thanosMob) {
+				return;
+			}
+
+			double predictedHealth = thanosMob.getHealth() - event.getFinalDamage();
+			double maxHealth = thanosMob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+
+			if (phase == 1) {
+				if (predictedHealth/maxHealth <= FIRST_DAMAGE_CAP) {
+					event.setCancelled(true);
+					double healthCap = FIRST_DAMAGE_CAP * maxHealth;
+					thanosMob.setHealth(healthCap);
+					fight.triggerSecondWave();
+				}
+				
+				fight.updateBossbar();
+			}
 		}
 	}
 }

@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 
-public class KreeGuard extends Kree implements Listener {
+public class KreeGuard extends Kree {
 
 	private static KreeArmor armor = new KreeArmor();
 	
@@ -38,11 +38,18 @@ public class KreeGuard extends Kree implements Listener {
 		return golem;
 	}
 
-	@EventHandler
-	public void onEntityTarget(EntityTargetEvent event) {
+	public static class Listeners implements Listener {
 
-		if (!(event.getTarget() instanceof Player)) {
-			event.setCancelled(true);
+		@EventHandler
+		public void onEntityTarget(EntityTargetEvent event) {
+
+			if (!(new KreeGuard()).isMob(event.getEntity())) {
+				return;
+			}
+			
+			if (!(event.getTarget() instanceof Player)) {
+				event.setCancelled(true);
+			}
 		}
 	}
 }
