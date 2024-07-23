@@ -31,7 +31,7 @@ public class GetGauntletCommand implements CommandExecutor {
 			return false;
 		}
 
-		ItemStack gauntlet = new Gauntlet().getItem();
+		ItemStack gauntlet = Gauntlet.getInstance().getItem();
 		p.getInventory().addItem(gauntlet);
 		return true;
 	}

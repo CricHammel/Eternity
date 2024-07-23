@@ -30,7 +30,7 @@ public class GetStoneUploaderCommand implements CommandExecutor{
 			return false;
 		}
 
-		p.getInventory().addItem(new StoneUploader().getItem());
+		p.getInventory().addItem(StoneUploader.getInstance().getItem());
 		return true;
 	}
 }

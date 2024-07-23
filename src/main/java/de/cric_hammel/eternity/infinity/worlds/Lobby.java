@@ -36,9 +36,23 @@ import de.cric_hammel.eternity.infinity.worlds.dungeons.DungeonFactory;
 
 public class Lobby extends MultiplayerWorld {
 
+	private static Lobby instance;
+	
 	private final Map<Block, StoneType> doors = new HashMap<>();
 
-	public Lobby() {
+	public static Lobby getInstance() {
+		if (null == instance) {
+			synchronized (Lobby.class) {
+				if (null == instance) {
+					instance = new Lobby();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private Lobby() {
 		super("lobby.txt", "Lobby");
 		parser.addAction(Material.WALL_TORCH, (loc, data) -> {
 			setDoor(loc, (Directional) data, StoneType.POWER);
@@ -93,7 +107,7 @@ public class Lobby extends MultiplayerWorld {
 				}
 				
 				inv.removeItem(anvil);
-				inv.addItem(new PocketAnvil().getItem());
+				inv.addItem(PocketAnvil.getInstance().getItem());
 				return true;
 			}));
 			loc.setYaw(90f);
@@ -105,10 +119,10 @@ public class Lobby extends MultiplayerWorld {
 				return buyDungeonKey(p, StoneType.POWER, new ItemStack(Material.PHANTOM_MEMBRANE, 8), new ItemStack(Material.IRON_BLOCK, 8), new ItemStack(Material.EMERALD_BLOCK, 1));
 			}));
 			items.add(new ShopItem(ChatColor.GOLD + "Buy Interdimensional Shears", Material.SHEARS, new ArrayList<String>(), 1, (p) -> {
-				return p.getInventory().addItem(new InterdimensionalShears().getItem()).isEmpty();
+				return p.getInventory().addItem(InterdimensionalShears.getInstance().getItem()).isEmpty();
 			}));
 			items.add(new ShopItem(ChatColor.GOLD + "Buy Teleport Railgun", Material.GOLDEN_HOE, new ArrayList<String>(Arrays.asList("1 Golden Hoe", "1 12-Teravolt Battery")), 10, (p) -> {
-				ItemStack battery = new TwelveTeraVoltBattery().getItem();
+				ItemStack battery = TwelveTeraVoltBattery.getInstance().getItem();
 				PlayerInventory inv = p.getInventory();
 				
 				if (!inv.containsAtLeast(battery, 1)) {
@@ -116,12 +130,12 @@ public class Lobby extends MultiplayerWorld {
 				}
 				
 				inv.removeItem(battery);
-				ItemStack gun = new TeleportRailgun().getItem();
+				ItemStack gun = TeleportRailgun.getInstance().getItem();
 				inv.addItem(gun);
 				return true;
 			}));
 			items.add(new ShopItem(ChatColor.GOLD + "Buy 3 Teleport Capsule", Material.SUNFLOWER, new ArrayList<String>(), 1, (p) -> {
-				ItemStack capsule = new TeleportCapsule().getItem();
+				ItemStack capsule = TeleportCapsule.getInstance().getItem();
 				capsule.setAmount(3);
 				return p.getInventory().addItem(capsule).isEmpty();
 			}));
@@ -153,7 +167,7 @@ public class Lobby extends MultiplayerWorld {
 	}
 
 	private boolean upgradeKreeArmor(Player p, int tier, int piece) {
-		KreeArmor kreeArmor = new KreeArmor();
+		KreeArmor kreeArmor = KreeArmor.getInstance();
 		ItemStack[] armor = kreeArmor.getTier(tier);
 		Inventory inv = p.getInventory();
 		ItemStack pieceItem = armor[piece];
@@ -192,13 +206,13 @@ public class Lobby extends MultiplayerWorld {
 
 		// TODO: Add missing dungeon keys
 		inv.removeItem(price);
-		inv.addItem(new PowerDungeonKey().getItem());
+		inv.addItem(PowerDungeonKey.getInstance().getItem());
 		return true;
 	}
 
 	@Override
 	public void delete() {
-		new ThanosFight().stop(false);
+		ThanosFight.getInstance().stop(false);
 		super.delete();
 	}
 
@@ -207,7 +221,7 @@ public class Lobby extends MultiplayerWorld {
 		boolean inWorld = super.teleport(p);
 
 		if (super.getWorld().getPlayers().isEmpty()) {
-			new ThanosFight().stop(false);
+			ThanosFight.getInstance().stop(false);
 		}
 
 		return inWorld;
@@ -229,7 +243,7 @@ public class Lobby extends MultiplayerWorld {
 		// TODO: Add missing dungeons and keys
 		switch (type) {
 			case POWER:
-				key = new PowerDungeonKey();
+				key = PowerDungeonKey.getInstance();
 				break;
 			case SPACE:
 				key = null;

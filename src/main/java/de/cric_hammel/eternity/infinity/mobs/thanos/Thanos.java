@@ -8,7 +8,21 @@ import org.bukkit.entity.Mob;
 
 public class Thanos extends ThanosFollower {
 
-	public Thanos() {
+	private static Thanos instance;
+
+	public static Thanos getInstance() {
+		if (null == instance) {
+			synchronized (Thanos.class) {
+				if (null == instance) {
+					instance = new Thanos();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private Thanos() {
 		super(EntityType.WARDEN, ChatColor.DARK_PURPLE + "Thanos", null);
 	}
 

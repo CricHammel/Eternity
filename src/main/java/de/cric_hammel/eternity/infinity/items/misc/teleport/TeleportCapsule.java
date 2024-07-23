@@ -11,7 +11,21 @@ import de.cric_hammel.eternity.infinity.util.ActionUtils;
 
 public class TeleportCapsule extends CustomItem {
 
-	public TeleportCapsule() {
+	private static TeleportCapsule instance;
+
+	public static TeleportCapsule getInstance() {
+		if (null == instance) {
+			synchronized (TeleportCapsule.class) {
+				if (null == instance) {
+					instance = new TeleportCapsule();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private TeleportCapsule() {
 		super(Material.SUNFLOWER, ChatColor.GOLD + "Teleport Capsule", "Click on Teleport Railgun to load");
 	}
 	

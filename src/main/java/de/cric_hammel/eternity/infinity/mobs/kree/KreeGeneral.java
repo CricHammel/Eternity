@@ -21,9 +21,23 @@ import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 
 public class KreeGeneral extends Kree {
 
-	private static KreeArmor armor = new KreeArmor();
+	private static KreeGeneral instance;
 	
-	public KreeGeneral() {
+	private static KreeArmor armor = KreeArmor.getInstance();
+
+	public static KreeGeneral getInstance() {
+		if (null == instance) {
+			synchronized (KreeGeneral.class) {
+				if (null == instance) {
+					instance = new KreeGeneral();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private KreeGeneral() {
 		super(EntityType.PIGLIN_BRUTE, "General", null);
 	}
 

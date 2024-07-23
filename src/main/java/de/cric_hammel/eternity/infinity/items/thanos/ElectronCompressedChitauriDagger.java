@@ -22,9 +22,23 @@ import de.cric_hammel.eternity.infinity.util.AttributeUtils;
 
 public class ElectronCompressedChitauriDagger extends CustomItem {
 
+	private static ElectronCompressedChitauriDagger instance;
+	
 	private static final String META_KEY = "eternity_zap";
 
-	public ElectronCompressedChitauriDagger() {
+	public static ElectronCompressedChitauriDagger getInstance() {
+		if (null == instance) {
+			synchronized (ElectronCompressedChitauriDagger.class) {
+				if (null == instance) {
+					instance = new ElectronCompressedChitauriDagger();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private ElectronCompressedChitauriDagger() {
 		super(Material.END_ROD, ChatColor.BLUE + "Electron-Compressed Chitauri Dagger", "Holds an unlimited charge");
 	}
 

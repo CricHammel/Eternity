@@ -33,11 +33,11 @@ public class SpawnKreeCommand implements CommandExecutor {
 		}
 
 		if (args[0].equals("0")) {
-			new KreeSoldier().spawn(p.getLocation());
+			KreeSoldier.getInstance().spawn(p.getLocation());
 		} else if (args[0].equals("1")) {
-			new KreeGeneral().spawn(p.getLocation());
+			KreeGeneral.getInstance().spawn(p.getLocation());
 		} else if (args[0].equals("2")) {
-			new KreeGuard().spawn(p.getLocation());
+			KreeGuard.getInstance().spawn(p.getLocation());
 		}
 
 		return true;

@@ -28,12 +28,26 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class TeleportRailgun extends CustomItem {
 	
+	private static TeleportRailgun instance;
+	
 	private static final String COOLDOWN_KEY = "eternity_railgun_cooldown";
 	private static final String CHARGES_PREFIX = "Capsules: ";
 	private static final int TELEPORT_BLOCKS = 15;
 	private static final double TELEPORT_STEP = 0.2;
 
-	public TeleportRailgun() {
+	public static TeleportRailgun getInstance() {
+		if (null == instance) {
+			synchronized (TeleportRailgun.class) {
+				if (null == instance) {
+					instance = new TeleportRailgun();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private TeleportRailgun() {
 		super(Material.GOLDEN_HOE, ChatColor.GOLD + "Teleport Railgun", "Accelerates Teleport Capsules");
 	}
 	
@@ -122,7 +136,7 @@ public class TeleportRailgun extends CustomItem {
 				return;
 			}
 			
-			if (!gun.isItem(current) || !(new TeleportCapsule().isItem(cursor))) {
+			if (!gun.isItem(current) || !(TeleportCapsule.getInstance().isItem(cursor))) {
 				return;
 			}
 			

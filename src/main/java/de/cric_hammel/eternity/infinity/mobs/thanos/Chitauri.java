@@ -13,7 +13,21 @@ import de.cric_hammel.eternity.infinity.items.thanos.ElectronCompressedChitauriD
 
 public class Chitauri extends ThanosFollower {
 
-	public Chitauri() {
+	private static Chitauri instance;
+
+	public static Chitauri getInstance() {
+		if (null == instance) {
+			synchronized (Chitauri.class) {
+				if (null == instance) {
+					instance = new Chitauri();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private Chitauri() {
 		super(EntityType.HUSK, ChatColor.GOLD + "Chitauri-Soldier", null);
 	}
 
@@ -21,7 +35,7 @@ public class Chitauri extends ThanosFollower {
 	public Mob spawn(Location loc) {
 		Mob m = super.spawn(loc);
 		m.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 10*20, 0, false));
-		super.setMainHand(m, new ElectronCompressedChitauriDagger().getItem(), 0.00784f);
+		super.setMainHand(m, ElectronCompressedChitauriDagger.getInstance().getItem(), 0.00784f);
 		super.setArmor(m, new ItemStack[]{new ItemStack(Material.NETHERITE_BOOTS), new ItemStack(Material.NETHERITE_LEGGINGS), new ItemStack(Material.NETHERITE_CHESTPLATE), new ItemStack(Material.NETHERITE_HELMET)}, 0);
 		return m;
 	}

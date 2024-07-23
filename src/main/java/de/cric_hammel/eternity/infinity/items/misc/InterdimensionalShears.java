@@ -10,14 +10,28 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
-import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
+import de.cric_hammel.eternity.infinity.worlds.Lobby;
 
 public class InterdimensionalShears extends CustomItem {
 
-	public InterdimensionalShears() {
+	private static InterdimensionalShears instance;
+
+	public static InterdimensionalShears getInstance() {
+		if (null == instance) {
+			synchronized (InterdimensionalShears.class) {
+				if (null == instance) {
+					instance = new InterdimensionalShears();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private InterdimensionalShears() {
 		super(Material.SHEARS, ChatColor.BLUE + "Interdimensional Shears", "Cut a wormhole into spacetime");
 	}
 
@@ -44,7 +58,7 @@ public class InterdimensionalShears extends CustomItem {
 				SoundUtils.play(p, Sound.ENTITY_SHULKER_TELEPORT, 1f, 0.5f);
 			}
 
-			Main.getLobby().teleport(p);
+			Lobby.getInstance().teleport(p);
 		}
 	}
 }

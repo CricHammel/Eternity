@@ -11,7 +11,21 @@ import net.md_5.bungee.api.ChatColor;
 
 public class TwelveTeraVoltBattery extends CustomItem {
 
-	public TwelveTeraVoltBattery() {
+	private static TwelveTeraVoltBattery instance;
+
+	public static TwelveTeraVoltBattery getInstance() {
+		if (null == instance) {
+			synchronized (TwelveTeraVoltBattery.class) {
+				if (null == instance) {
+					instance = new TwelveTeraVoltBattery();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private TwelveTeraVoltBattery() {
 		super(Material.SEA_PICKLE, ChatColor.AQUA + "12-Teravolt Battery", "Powers flashlights and/or teleporters");
 	}
 	

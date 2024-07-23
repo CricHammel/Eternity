@@ -37,9 +37,9 @@ public class DungeonFactory {
 
 		Dungeon dungeon = new Dungeon(p, StoneType.POWER, new DungeonChestLoot("power_chest.yml"), Material.CRACKED_STONE_BRICKS, "power_dungeon.txt");
 		WorldParser parser = dungeon.getParser();
-		parser.addAction(Material.MAGENTA_GLAZED_TERRACOTTA, (loc, data) -> new KreeSoldier().spawn(loc));
-		parser.addAction(Material.PINK_GLAZED_TERRACOTTA, (loc, data) -> new KreeGeneral().spawn(loc));
-		parser.addAction(Material.LIGHT_BLUE_GLAZED_TERRACOTTA, (loc, data) -> new KreeGuard().spawn(loc));
+		parser.addAction(Material.MAGENTA_GLAZED_TERRACOTTA, (loc, data) -> KreeSoldier.getInstance().spawn(loc));
+		parser.addAction(Material.PINK_GLAZED_TERRACOTTA, (loc, data) -> KreeGeneral.getInstance().spawn(loc));
+		parser.addAction(Material.LIGHT_BLUE_GLAZED_TERRACOTTA, (loc, data) -> KreeGuard.getInstance().spawn(loc));
 		dungeons.put(p, dungeon);
 		dungeon.create();
 		return dungeon;

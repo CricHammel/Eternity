@@ -18,7 +18,21 @@ import de.cric_hammel.eternity.infinity.util.AttributeUtils;
 
 public class KreeArmor extends CustomTieredArmor {
 
-	public KreeArmor() {
+	private static KreeArmor instance;
+
+	public static KreeArmor getInstance() {
+		if (null == instance) {
+			synchronized (KreeArmor.class) {
+				if (null == instance) {
+					instance = new KreeArmor();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private KreeArmor() {
 		super(CustomArmor.ArmorType.CHAINMAIL, ChatColor.RED + "Kree", "The Armor of the mighty Kree");
 	}
 

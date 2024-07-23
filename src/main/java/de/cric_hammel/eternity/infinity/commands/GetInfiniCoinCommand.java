@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.misc.InfiniCoin;
+import de.cric_hammel.eternity.infinity.worlds.Lobby;
 
 public class GetInfiniCoinCommand implements CommandExecutor {
 
@@ -31,9 +32,9 @@ public class GetInfiniCoinCommand implements CommandExecutor {
 			return false;
 		}
 
-		ItemStack coin = new InfiniCoin().getItem();
+		ItemStack coin = InfiniCoin.getInstance().getItem();
 		p.getInventory().addItem(coin);
-		Main.getLobby().teleport(p);
+		Lobby.getInstance().teleport(p);
 		return true;
 	}
 }

@@ -25,10 +25,24 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class ChitauriShip extends ThanosFollower {
 
+	private static ChitauriShip instance;
+	
 	private static final String META_KEY_PASSENGERS = "eternity_passengers";
 	private static final String META_KEY_TASKS = "eternity_tasks";
 
-	public ChitauriShip() {
+	public static ChitauriShip getInstance() {
+		if (null == instance) {
+			synchronized (ChitauriShip.class) {
+				if (null == instance) {
+					instance = new ChitauriShip();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private ChitauriShip() {
 		super(EntityType.GHAST, ChatColor.GOLD + "Chitauri-Ship", null);
 	}
 
@@ -59,7 +73,7 @@ public class ChitauriShip extends ThanosFollower {
 
 		scheduledTasks.add(new BukkitRunnable() {
 			int count = 0;
-			Chitauri c = new Chitauri();
+			Chitauri c = Chitauri.getInstance();
 
 			@Override
 			public void run() {
@@ -106,7 +120,7 @@ public class ChitauriShip extends ThanosFollower {
 				return;
 			}
 
-			Chitauri c = new Chitauri();
+			Chitauri c = Chitauri.getInstance();
 			@SuppressWarnings("unchecked")
 			List<Mob> passengers = (List<Mob>) e.getMetadata(META_KEY_PASSENGERS).get(0).value();
 			passengers.forEach((m) -> c.disable(m));

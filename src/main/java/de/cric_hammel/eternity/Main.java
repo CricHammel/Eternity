@@ -53,7 +53,6 @@ import de.cric_hammel.eternity.infinity.worlds.dungeons.DungeonFactory;
 public class Main extends JavaPlugin {
 
 	private static Main plugin;
-	private static Lobby lobby;
 	private static World mainWorld;
 	public static Map<String, String> defaultMessages = new HashMap<>();
 	public static final String LORE_ID = ChatColor.MAGIC + "eternity";
@@ -61,7 +60,6 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
-		lobby = new Lobby();
 		mainWorld = Bukkit.getWorld(getLevelname());
 
 		if (mainWorld == null) {
@@ -91,7 +89,7 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new TeleportRailgun.Listeners(), plugin);
 		pluginManager.registerEvents(new TeleportCapsule.Listeners(), plugin);
 		pluginManager.registerEvents(new TwelveTeraVoltBattery.Listeners(), plugin);
-		pluginManager.registerEvents(new Gauntlet(), plugin);
+		pluginManager.registerEvents(new Gauntlet.Listeners(), plugin);
 		pluginManager.registerEvents(new InfinityStoneListener(), plugin);
 		pluginManager.registerEvents(new PowerStone(), plugin);
 		pluginManager.registerEvents(new SpaceStone(), plugin);
@@ -99,7 +97,7 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new SoulStone(), plugin);
 		pluginManager.registerEvents(new MindStone(), plugin);
 		pluginManager.registerEvents(new TimeStone(), plugin);
-		pluginManager.registerEvents(new StoneUploader(), plugin);
+		pluginManager.registerEvents(new StoneUploader.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeArmor.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeSoldier.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeGeneral.Listeners(), plugin);
@@ -107,14 +105,14 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new ShopNpc.Listeners(), plugin);
 		pluginManager.registerEvents(new ChitauriShip.Listeners(), plugin);
 
-		pluginManager.registerEvents(lobby, plugin);
+		pluginManager.registerEvents(Lobby.getInstance(), plugin);
 		pluginManager.registerEvents(new Dungeon.Listeners(), plugin);
 
 		pluginManager.registerEvents(new ThanosFight.Listeners(), plugin);
 		pluginManager.registerEvents(new ElectronCompressedChitauriDagger.Listeners(), plugin);
 
 		// Add recipes
-		ShapedRecipe shears = new ShapedRecipe(new NamespacedKey(plugin, "eternity_shears"), new InterdimensionalShears().getItem());
+		ShapedRecipe shears = new ShapedRecipe(new NamespacedKey(plugin, "eternity_shears"), InterdimensionalShears.getInstance().getItem());
 		shears.shape("CEP", "OST", "NBN");
 		shears.setIngredient('C', Material.CHORUS_FRUIT);
 		shears.setIngredient('E', Material.END_CRYSTAL);
@@ -131,15 +129,11 @@ public class Main extends JavaPlugin {
 	public void onDisable() {
 		// Close all dungeons
 		DungeonFactory.closeAll();
-		lobby.delete();
+		Lobby.getInstance().delete();
 	}
 
 	public static Main getPlugin() {
 		return plugin;
-	}
-
-	public static Lobby getLobby() {
-		return lobby;
 	}
 
 	public static String getDataPath() {

@@ -18,9 +18,23 @@ import de.cric_hammel.eternity.infinity.mobs.CustomMob;
 
 public class KreeGuard extends Kree {
 
-	private static KreeArmor armor = new KreeArmor();
+	private static KreeGuard instance;
 	
-	public KreeGuard() {
+	private static KreeArmor armor = KreeArmor.getInstance();
+	
+	public static KreeGuard getInstance() {
+		if (null == instance) {
+			synchronized (KreeGuard.class) {
+				if (null == instance) {
+					instance = new KreeGuard();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private KreeGuard() {
 		super(EntityType.IRON_GOLEM, "Guard", null);
 	}
 

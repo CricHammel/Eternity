@@ -27,10 +27,24 @@ import de.cric_hammel.eternity.infinity.worlds.dungeons.DungeonFactory;
 
 public class KreeSoldier extends Kree {
 
+	private static KreeSoldier instance;
+	
 	private static final String METADATA_KEY_TARGET = "eternity_kree_target";
-	private static KreeArmor armor = new KreeArmor();
+	private static KreeArmor armor = KreeArmor.getInstance();
 
-	public KreeSoldier() {
+	public static KreeSoldier getInstance() {
+		if (null == instance) {
+			synchronized (KreeSoldier.class) {
+				if (null == instance) {
+					instance = new KreeSoldier();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private KreeSoldier() {
 		super(EntityType.PIGLIN, "Soldier", null);
 	}
 

@@ -35,22 +35,41 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class ThanosFight {
 
+	private static ThanosFight instance;
+	
 	private static final double FIRST_DAMAGE_CAP = 2d/3d;
 	private static final int AMOUNT_SHIPS = 9;
 	private static final int PASSENGERS_PER_SHIP = 18;
 	private static final String THANOS_PREFIX = ChatColor.DARK_PURPLE + "" +  ChatColor.BOLD + "Thanos";
-	private static boolean running = false;
-	private static int phase = 0;
-	private static int mobsToKill = 0;
-	private static Thanos thanos = new Thanos();
-	private static Mob thanosMob;
-	private static Set<BukkitTask> scheduledTasks = new HashSet<BukkitTask>();
-	private static Set<StructureParser> parsers = new HashSet<StructureParser>();
-	private static BossBar bossbar;
+	
+	private boolean running = false;
+	private int phase = 0;
+	private int mobsToKill = 0;
+	private Thanos thanos = Thanos.getInstance();
+	private Mob thanosMob;
+	private Set<BukkitTask> scheduledTasks = new HashSet<BukkitTask>();
+	private Set<StructureParser> parsers = new HashSet<StructureParser>();
+	private BossBar bossbar;
 
-	private World lobby = Main.getLobby().getWorld();
+	private World lobby = Lobby.getInstance().getWorld();
 	private final Location origin = new Location(lobby, 255, 105, 223);
 
+	public static ThanosFight getInstance() {
+		if (null == instance) {
+			synchronized (ThanosFight.class) {
+				if (null == instance) {
+					instance = new ThanosFight();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private ThanosFight() {
+		
+	}
+	
 	public void start() {
 		if (running) {
 			return;
@@ -69,7 +88,7 @@ public class ThanosFight {
 
 		BukkitRunnable task2 = new BukkitRunnable() {
 			Location spawn = origin.clone().add(-29, 0, 0);
-			ChitauriShip ship = new ChitauriShip();
+			ChitauriShip ship = ChitauriShip.getInstance();
 			int count = 0;
 
 			@Override
@@ -230,7 +249,7 @@ public class ThanosFight {
 		parsers.forEach(parser -> parser.unparse());
 		parsers.clear();
 		thanos.remove(thanosMob);
-		ChitauriShip ship = new ChitauriShip();
+		ChitauriShip ship = ChitauriShip.getInstance();
 		lobby.getEntities().forEach(e -> {
 			if (ship.isMob(e)) {
 				ship.remove((Mob) e);
@@ -273,41 +292,41 @@ public class ThanosFight {
 
 		@EventHandler
 		public void onEntityDeath(EntityDeathEvent event) {
-			ThanosFight fight = new ThanosFight();
+			ThanosFight fight = ThanosFight.getInstance();
 			LivingEntity e = event.getEntity();
 
-			if (!e.getWorld().equals(fight.lobby) || !running || !(e instanceof Mob)) {
+			if (!e.getWorld().equals(fight.lobby) || !fight.running || !(e instanceof Mob)) {
 				return;
 			}
 
-			if (phase == 0) {
-				if (mobsToKill <= 1) {
+			if (fight.phase == 0) {
+				if (fight.mobsToKill <= 1) {
 					fight.triggerFirstHitPhase();
 					return;
 				}
 
-				mobsToKill--;
+				fight.mobsToKill--;
 				fight.updateBossbar();
 			}
 		}
 
 		@EventHandler
 		public void onEntityDamage(EntityDamageEvent event) {
-			ThanosFight fight = new ThanosFight();
+			ThanosFight fight = ThanosFight.getInstance();
 			Entity e = event.getEntity();
 
-			if (!e.getWorld().equals(fight.lobby) || !running || e != thanosMob) {
+			if (!e.getWorld().equals(fight.lobby) || !fight.running || e != fight.thanosMob) {
 				return;
 			}
 
-			double predictedHealth = thanosMob.getHealth() - event.getFinalDamage();
-			double maxHealth = thanosMob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+			double predictedHealth = fight.thanosMob.getHealth() - event.getFinalDamage();
+			double maxHealth = fight.thanosMob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 
-			if (phase == 1) {
+			if (fight.phase == 1) {
 				if (predictedHealth/maxHealth <= FIRST_DAMAGE_CAP) {
 					event.setCancelled(true);
 					double healthCap = FIRST_DAMAGE_CAP * maxHealth;
-					thanosMob.setHealth(healthCap);
+					fight.thanosMob.setHealth(healthCap);
 					fight.triggerSecondWave();
 				}
 				

@@ -17,7 +17,21 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class PocketAnvil extends CustomItem {
 
-	public PocketAnvil() {
+	private static PocketAnvil instance;
+
+	public static PocketAnvil getInstance() {
+		if (null == instance) {
+			synchronized (PocketAnvil.class) {
+				if (null == instance) {
+					instance = new PocketAnvil();
+				}
+			}
+		}
+		
+		return instance;
+	}
+	
+	private PocketAnvil() {
 		super(Material.ANVIL, ChatColor.RED + "Pocket Anvil", "Lets you open an anvil out of your pocket");
 	}
 	

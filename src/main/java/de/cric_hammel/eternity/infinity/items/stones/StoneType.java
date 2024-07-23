@@ -62,7 +62,7 @@ public enum StoneType {
 
 	public boolean canGetStone(Player p) {
 
-		if (hasAnyInInv(p) || StoneUploader.getStoneContainer(p)[StoneUploader.Data.fromType(this).getId()] || new Gauntlet().hasInInv(p)) {
+		if (hasAnyInInv(p) || StoneUploader.getStoneContainer(p)[StoneUploader.Data.fromType(this).getId()] || Gauntlet.getInstance().hasInInv(p)) {
 			return false;
 		}
 

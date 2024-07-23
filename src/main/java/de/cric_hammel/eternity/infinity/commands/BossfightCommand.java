@@ -30,7 +30,7 @@ public class BossfightCommand implements CommandExecutor {
 			return false;
 		}
 
-		ThanosFight f = new ThanosFight();
+		ThanosFight f = ThanosFight.getInstance();
 
 		if (args[0].equals("start")) {
 			f.start();

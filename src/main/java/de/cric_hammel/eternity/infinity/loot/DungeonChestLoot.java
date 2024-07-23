@@ -83,15 +83,15 @@ public class DungeonChestLoot implements CustomLootTable {
 					book.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 					return book;
 				} else if (itemString.equals("COIN")) {
-	            	ItemStack coin = new InfiniCoin().getItem();
+	            	ItemStack coin = InfiniCoin.getInstance().getItem();
 	            	coin.setAmount(count);
 	            	return coin;
 	            } else if (itemString.equals("CAPSULE")) {
-	            	ItemStack capsule = new TeleportCapsule().getItem();
+	            	ItemStack capsule = TeleportCapsule.getInstance().getItem();
 	            	capsule.setAmount(count);
 	            	return capsule;
 	            } else if (itemString.equals("BATTERY")) {
-	            	ItemStack battery = new TwelveTeraVoltBattery().getItem();
+	            	ItemStack battery = TwelveTeraVoltBattery.getInstance().getItem();
 	            	battery.setAmount(count);
 	            	return battery;
 	            }

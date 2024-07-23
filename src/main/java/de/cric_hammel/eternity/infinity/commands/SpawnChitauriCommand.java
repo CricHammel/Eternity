@@ -30,7 +30,7 @@ public class SpawnChitauriCommand implements CommandExecutor {
 			return false;
 		}
 
-		new ChitauriShip().spawn(p.getLocation());
+		ChitauriShip.getInstance().spawn(p.getLocation());
 
 		return true;
 	}

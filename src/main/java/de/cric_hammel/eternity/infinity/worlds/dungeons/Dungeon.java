@@ -345,7 +345,7 @@ public class Dungeon implements Listener {
 			Player p = e.getKiller();
 			Dungeon dungeon = DungeonFactory.getCurrentDungeon(p);
 
-			if (p == null || dungeon == null || dungeon.type != StoneType.POWER || !(new KreeGuard().isMob(e))) {
+			if (p == null || dungeon == null || dungeon.type != StoneType.POWER || !KreeGuard.getInstance().isMob(e)) {
 				return;
 			}
 
@@ -357,7 +357,7 @@ public class Dungeon implements Listener {
 				if (StoneType.POWER.canGetStone(p)) {
 					w.dropItem(loc, StoneType.POWER.getItem());
 				} else {
-					w.dropItem(loc, new DungeonKeyCore().getItem());
+					w.dropItem(loc, DungeonKeyCore.getInstance().getItem());
 				}
 
 				p.removeMetadata(META_KILL_KEY, Main.getPlugin());

@@ -100,7 +100,7 @@ public class ShopNpc {
 
 		public boolean buy(Player p) {
 			PlayerInventory inv = p.getInventory();
-			ItemStack coin = new InfiniCoin().getItem();
+			ItemStack coin = InfiniCoin.getInstance().getItem();
 
 			if (!inv.containsAtLeast(coin, price) || !action.execute(p)) {
 				return false;
