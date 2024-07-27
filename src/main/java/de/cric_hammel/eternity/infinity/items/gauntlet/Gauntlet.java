@@ -21,7 +21,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -68,9 +68,9 @@ public class Gauntlet extends CustomItem {
 	@Override
 	public ItemStack getItem() {
 		ItemStack gauntlet = super.getItem();
-		AttributeUtils.add(gauntlet, Attribute.GENERIC_MAX_HEALTH, 2 * 20, Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);
-		AttributeUtils.add(gauntlet, Attribute.GENERIC_ATTACK_DAMAGE, 10, Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);
-		AttributeUtils.add(gauntlet, Attribute.GENERIC_ARMOR_TOUGHNESS, 10, Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);
+		AttributeUtils.add(gauntlet, Attribute.GENERIC_MAX_HEALTH, 2 * 20, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
+		AttributeUtils.add(gauntlet, Attribute.GENERIC_ATTACK_DAMAGE, 10, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
+		AttributeUtils.add(gauntlet, Attribute.GENERIC_ARMOR_TOUGHNESS, 10, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
 		return gauntlet;
 	}
 	

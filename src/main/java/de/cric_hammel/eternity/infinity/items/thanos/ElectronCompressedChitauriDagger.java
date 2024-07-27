@@ -9,7 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
@@ -45,8 +45,8 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 	@Override
 	public ItemStack getItem() {
 		ItemStack dagger = super.getItem();
-		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_DAMAGE, 15, Operation.ADD_NUMBER, EquipmentSlot.HAND);
-		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_SPEED, 2.5, Operation.ADD_NUMBER, EquipmentSlot.HAND);
+		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_DAMAGE, 15, Operation.ADD_NUMBER, EquipmentSlotGroup.HAND);
+		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_SPEED, 2.5, Operation.ADD_NUMBER, EquipmentSlotGroup.HAND);
 		dagger.addUnsafeEnchantment(Enchantment.SHARPNESS, 5);
 		return dagger;
 	}
