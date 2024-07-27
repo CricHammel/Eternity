@@ -47,7 +47,7 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 		ItemStack dagger = super.getItem();
 		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_DAMAGE, 15, Operation.ADD_NUMBER, EquipmentSlot.HAND);
 		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_SPEED, 2.5, Operation.ADD_NUMBER, EquipmentSlot.HAND);
-		dagger.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 5);
+		dagger.addUnsafeEnchantment(Enchantment.SHARPNESS, 5);
 		return dagger;
 	}
 
@@ -67,7 +67,7 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 			}
 
 			e.setFreezeTicks(3*20);
-			e.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3*20, 3, false));
+			e.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 3*20, 3, false));
 			e.setMetadata(META_KEY, new FixedMetadataValue(Main.getPlugin(), true));
 			new BukkitRunnable() {
 

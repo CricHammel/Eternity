@@ -54,7 +54,7 @@ public class KreeSoldier extends Kree {
 		ItemStack[] armorStack = armor.getTier(1);
 		CustomMob.setArmor(mob, armorStack, 0.0125f);
 		ItemStack sword = new ItemStack(Material.IRON_SWORD);
-		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
+		sword.addEnchantment(Enchantment.SHARPNESS, 5);
 		CustomMob.setMainHand(mob, sword, 0);
 		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(60);
 		mob.setHealth(30);

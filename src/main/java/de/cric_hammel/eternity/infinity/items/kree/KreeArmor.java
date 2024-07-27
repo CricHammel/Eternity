@@ -72,7 +72,7 @@ public class KreeArmor extends CustomTieredArmor {
 				return;
 			}
 
-			le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3 * 20, 2));
+			le.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 3 * 20, 2));
 		}
 	}
 }

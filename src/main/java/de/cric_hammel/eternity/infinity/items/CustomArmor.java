@@ -34,7 +34,7 @@ public abstract class CustomArmor {
 		loreList.add(Main.LORE_ID);
 		itemMeta.setLore(loreList);
 		item.setItemMeta(itemMeta);
-		item.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
+		item.addUnsafeEnchantment(Enchantment.INFINITY, 1);
 		return item;
 	}
 

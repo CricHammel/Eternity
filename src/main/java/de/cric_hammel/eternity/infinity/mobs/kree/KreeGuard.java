@@ -44,7 +44,7 @@ public class KreeGuard extends Kree {
 		ItemStack[] armorStack = armor.getTier(3);
 		CustomMob.setArmor(golem, armorStack, 0.005f);
 		ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
-		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
+		sword.addEnchantment(Enchantment.SHARPNESS, 5);
 		sword.addEnchantment(Enchantment.KNOCKBACK, 2);
 		CustomMob.setMainHand(golem, sword, 0);
 		golem.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(240);

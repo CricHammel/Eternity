@@ -108,7 +108,7 @@ public class Gauntlet extends CustomItem {
 				if (remove) {
 					e.remove();
 					remove = false;
-					p.getWorld().spawnParticle(Particle.SMOKE_NORMAL, e.getLocation(), 50, 0.25, 0.5, 0.25, 0);
+					p.getWorld().spawnParticle(Particle.SMOKE, e.getLocation(), 50, 0.25, 0.5, 0.25, 0);
 				} else {
 					remove = true;
 				}

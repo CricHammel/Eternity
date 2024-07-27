@@ -41,7 +41,7 @@ public class PowerStone implements Listener {
 
 		World w = p.getWorld();
 		SoundUtils.playToAll(p, Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 1f);
-		w.spawnParticle(Particle.SPELL_WITCH, e.getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
+		w.spawnParticle(Particle.WITCH, e.getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
 		StoneType.POWER.applyCooldownRightclick(p);
 	}
 
@@ -57,7 +57,7 @@ public class PowerStone implements Listener {
 				b.breakNaturally();
 				World w = p.getWorld();
 				SoundUtils.playToAll(event.getClickedBlock().getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 1f);
-				w.spawnParticle(Particle.SPELL_WITCH, event.getClickedBlock().getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
+				w.spawnParticle(Particle.WITCH, event.getClickedBlock().getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
 				StoneType.POWER.applyCooldownRightclick(p);
 			} else if (ActionUtils.isLeftclick(a) && !StoneType.POWER.hasCooldownLeftclick(p)) {
 
@@ -76,7 +76,7 @@ public class PowerStone implements Listener {
 									double y = r * Math.cos(phi) + 1.5;
 									double z = r * Math.sin(theta) * Math.sin(phi);
 									l.add(x, y, z);
-									p.getWorld().spawnParticle(Particle.SPELL_WITCH, l, 1, 0F, 0F, 0F, 0);
+									p.getWorld().spawnParticle(Particle.WITCH, l, 1, 0F, 0F, 0F, 0);
 									l.subtract(x, y, z);
 								}
 							}

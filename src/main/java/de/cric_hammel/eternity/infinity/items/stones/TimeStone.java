@@ -53,7 +53,7 @@ public class TimeStone implements Listener {
 			s.resurrect();
 			list.remove(s);
 			SoundUtils.playToAll(s.getLocation(), Sound.ENTITY_WARDEN_SONIC_CHARGE, 1f, 1.5f);
-			p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, s.getLocation(), 50, 0.25, 0.5, 0.25);
+			p.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, s.getLocation(), 50, 0.25, 0.5, 0.25);
 			StoneType.TIME.applyCooldownLeftclick(p);
 		}
 	}
@@ -70,10 +70,10 @@ public class TimeStone implements Listener {
 			}
 
 			SoundUtils.playToAll(p, Sound.ENTITY_PUFFER_FISH_BLOW_OUT, 1f, 0f);
-			p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, p.getLocation(), 50, 0.25, 0.5, 0.25);
+			p.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, p.getLocation(), 50, 0.25, 0.5, 0.25);
 			p.teleport(locations.getLast());
 			SoundUtils.playToAll(p, Sound.ENTITY_PUFFER_FISH_BLOW_UP, 1f, 0f);
-			p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, p.getLocation(), 50, 0.25, 0.5, 0.25);
+			p.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, p.getLocation(), 50, 0.25, 0.5, 0.25);
 			StoneType.TIME.applyCooldownRightclick(p);
 		}
 	}

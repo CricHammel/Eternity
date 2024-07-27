@@ -52,7 +52,7 @@ public class RealityStone implements Listener {
 				}
 
 				SoundUtils.playToAll(p, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1f, 1f);
-				w.spawnParticle(Particle.VILLAGER_ANGRY, p.getLocation().add(0, 3.5, 0), 20, 0.5, 0, 0.5, 1);
+				w.spawnParticle(Particle.ANGRY_VILLAGER, p.getLocation().add(0, 3.5, 0), 20, 0.5, 0, 0.5, 1);
 			}
 
 		} else {

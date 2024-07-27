@@ -118,7 +118,7 @@ public class ShopNpc {
 			meta.setDisplayName(name);
 			meta.setLore(lore);
 			item.setItemMeta(meta);
-			item.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
+			item.addUnsafeEnchantment(Enchantment.INFINITY, 1);
 			return item;
 		}
 	}

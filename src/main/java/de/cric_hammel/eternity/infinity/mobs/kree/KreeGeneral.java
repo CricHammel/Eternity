@@ -47,7 +47,7 @@ public class KreeGeneral extends Kree {
 		ItemStack[] armorStack = armor.getTier(2);
 		CustomMob.setArmor(mob, armorStack, 0.005f);
 		ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
-		sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
+		sword.addEnchantment(Enchantment.SHARPNESS, 5);
 		sword.addEnchantment(Enchantment.KNOCKBACK, 1);
 		CustomMob.setMainHand(mob, sword, 0);
 		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(120);
@@ -70,7 +70,7 @@ public class KreeGeneral extends Kree {
 			for (Entity e : damager.getNearbyEntities(5, 5, 5)) {
 
 				if (kree.isKree(e)) {
-					((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 1));
+					((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 5 * 20, 1));
 				}
 			}
 		}

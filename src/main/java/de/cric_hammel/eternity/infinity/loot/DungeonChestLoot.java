@@ -80,7 +80,7 @@ public class DungeonChestLoot implements CustomLootTable {
 
 	            if (itemString.equals("ENCHANTED_BOOK_PROT")) {
 					ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, count);
-					book.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+					book.addUnsafeEnchantment(Enchantment.PROTECTION, 5);
 					return book;
 				} else if (itemString.equals("COIN")) {
 	            	ItemStack coin = InfiniCoin.getInstance().getItem();

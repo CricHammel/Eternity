@@ -327,7 +327,7 @@ public class Dungeon implements Listener {
 			spawn.setZ(to.getBlockZ() + 0.5);
 			AreaEffectCloud cloud = (AreaEffectCloud) to.getWorld().spawnEntity(spawn, EntityType.AREA_EFFECT_CLOUD);
 			cloud.setRadius(1.5f);
-			cloud.setBasePotionType(PotionType.INSTANT_DAMAGE);
+			cloud.setBasePotionType(PotionType.HARMING);
 			cloud.setColor(Color.RED);
 			cloud.setDuration(3*20);
 			cloud.setRadiusPerTick(0);
