@@ -109,7 +109,7 @@ public class TeleportRailgun extends CustomItem {
 				p.setFallDistance(0);
 				p.getLocation().getDirection().zero();
 				p.playEffect(EntityEffect.TELEPORT_ENDER);
-				SoundUtils.playToAll(p, Sound.ENTITY_ENDERMAN_TELEPORT, 10, 1);
+				SoundUtils.playToAll(p, Sound.ENTITY_ENDERMAN_TELEPORT, 5, 1);
 				armorStand.remove();
 				break;
 			}
