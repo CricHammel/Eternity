@@ -23,7 +23,7 @@ import de.cric_hammel.eternity.infinity.items.misc.InfiniCoin;
 import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportCapsule;
 import de.cric_hammel.eternity.infinity.items.misc.teleport.TwelveTeraVoltBattery;
 
-public class DungeonChestLoot implements CustomLootTable {
+public class DungeonChestLoot implements CustomChestLootTable {
 
 	private File lootFile;
 

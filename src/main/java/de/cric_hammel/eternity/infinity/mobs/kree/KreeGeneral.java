@@ -38,7 +38,7 @@ public class KreeGeneral extends Kree {
 	}
 	
 	private KreeGeneral() {
-		super(EntityType.PIGLIN_BRUTE, "General", null);
+		super(EntityType.PIGLIN_BRUTE, "General");
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class Chitauri extends ThanosFollower {
 	}
 	
 	private Chitauri() {
-		super(EntityType.HUSK, ChatColor.GOLD + "Chitauri-Soldier", null);
+		super(EntityType.HUSK, ChatColor.GOLD + "Chitauri-Soldier");
 	}
 
 	@Override

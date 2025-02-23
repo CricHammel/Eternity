@@ -6,18 +6,15 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.loot.LootTable;
 
 public abstract class CustomMob {
 
 	private final EntityType type;
 	private final String name;
-	private final LootTable lootTable;
 
-	public CustomMob(EntityType type, String name, LootTable lootTable) {
+	public CustomMob(EntityType type, String name) {
 		this.type = type;
 		this.name = name;
-		this.lootTable = lootTable;
 	}
 
 	public Mob spawn(Location loc) {
@@ -25,13 +22,7 @@ public abstract class CustomMob {
 		m.setCustomName(name);
 		m.setPersistent(true);
 		m.setRemoveWhenFarAway(false);
-		m.setLootTable(lootTable);
-//		if (lootTable == null) {
-//			m.setLootTable(LootTables.EMPTY.getLootTable());
-//		} else {
-//			m.setLootTable(lootTable);
-//		}
-
+		m.setLootTable(null);
 		return m;
 	}
 

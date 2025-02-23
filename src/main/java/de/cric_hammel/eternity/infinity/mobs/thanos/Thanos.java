@@ -23,7 +23,7 @@ public class Thanos extends ThanosFollower {
 	}
 	
 	private Thanos() {
-		super(EntityType.WARDEN, ChatColor.DARK_PURPLE + "Thanos", null);
+		super(EntityType.WARDEN, ChatColor.DARK_PURPLE + "Thanos");
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class KreeSoldier extends Kree {
 	}
 	
 	private KreeSoldier() {
-		super(EntityType.PIGLIN, "Soldier", null);
+		super(EntityType.PIGLIN, "Soldier");
 	}
 
 	@Override

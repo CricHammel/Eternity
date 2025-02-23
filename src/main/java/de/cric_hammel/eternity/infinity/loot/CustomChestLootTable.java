@@ -4,6 +4,6 @@ import java.util.Random;
 
 import org.bukkit.inventory.Inventory;
 
-public interface CustomLootTable {
+public interface CustomChestLootTable {
 	public void generateLoot(Inventory inventory, Random random);
 }

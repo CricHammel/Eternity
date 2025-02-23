@@ -35,7 +35,7 @@ public class KreeGuard extends Kree {
 	}
 	
 	private KreeGuard() {
-		super(EntityType.IRON_GOLEM, "Guard", null);
+		super(EntityType.IRON_GOLEM, "Guard");
 	}
 
 	@Override

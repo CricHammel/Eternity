@@ -3,12 +3,11 @@ package de.cric_hammel.eternity.infinity.mobs;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
-import org.bukkit.loot.LootTable;
 
 public abstract class DungeonMob extends CustomMob {
 
-	public DungeonMob(EntityType type, String name, LootTable lootTable) {
-		super(type, name, lootTable);
+	public DungeonMob(EntityType type, String name) {
+		super(type, name);
 	}
 
 	@Override

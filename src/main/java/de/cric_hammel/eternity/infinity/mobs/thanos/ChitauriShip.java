@@ -43,7 +43,7 @@ public class ChitauriShip extends ThanosFollower {
 	}
 	
 	private ChitauriShip() {
-		super(EntityType.GHAST, ChatColor.GOLD + "Chitauri-Ship", null);
+		super(EntityType.GHAST, ChatColor.GOLD + "Chitauri-Ship");
 	}
 
 	public Mob spawnWithPassengers(Location loc, int amount) {
