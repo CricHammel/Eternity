@@ -38,6 +38,10 @@ public class DialogueNpc {
 		e.setRemoveWhenFarAway(false);
 		e.setMetadata(META_KEY_NPC, new FixedMetadataValue(Main.getPlugin(), this));
 	}
+	
+	public static boolean isNpc(LivingEntity e) {
+		return e.hasMetadata(META_KEY_NPC);
+	}
 
 	public static class Dialogue {
 

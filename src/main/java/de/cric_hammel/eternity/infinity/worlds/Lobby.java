@@ -147,7 +147,7 @@ public class Lobby extends MultiplayerWorld {
 			dialogue.add("I");
 			dialogue.add("am");
 			dialogue.add("warrior!");
-			loc.setYaw(135f);
+			loc.setYaw(180f);
 			new DialogueNpc(EntityType.PIGLIN_BRUTE, ChatColor.RED + "Kree Warrior", loc, dialogue);
 		});
 		parser.addAction(Material.BLUE_GLAZED_TERRACOTTA, (loc, data) -> {
@@ -155,7 +155,7 @@ public class Lobby extends MultiplayerWorld {
 			dialogue.add("I");
 			dialogue.add("am");
 			dialogue.add("wise!");
-			loc.setYaw(180f);
+			loc.setYaw(90f);
 			new DialogueNpc(EntityType.ZOMBIFIED_PIGLIN, ChatColor.RED + "Kree Wise", loc, dialogue);
 		});
 		super.create();

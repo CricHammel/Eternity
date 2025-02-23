@@ -44,8 +44,10 @@ import org.bukkit.util.Vector;
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.keys.DungeonKeyCore;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
-import de.cric_hammel.eternity.infinity.loot.CustomLootTable;
+import de.cric_hammel.eternity.infinity.loot.CustomChestLootTable;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
+import de.cric_hammel.eternity.infinity.mobs.npc.DialogueNpc;
+import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser.BlockAction;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
@@ -58,7 +60,7 @@ public class Dungeon implements Listener {
 
 	private Material mineable;
 	private WorldParser parser;
-	private CustomLootTable loot;
+	private CustomChestLootTable loot;
 	private Player p;
 	private StoneType type;
 	private World world;
@@ -66,7 +68,7 @@ public class Dungeon implements Listener {
 	
 	private static final int MOB_DETECT_DISTANCE = 16;
 
-	protected Dungeon(Player p, StoneType type, CustomLootTable loot, Material mineable, String fileName) {
+	protected Dungeon(Player p, StoneType type, CustomChestLootTable loot, Material mineable, String fileName) {
 		this.p = p;
 		this.type = type;
 		this.loot = loot;
@@ -265,7 +267,7 @@ public class Dungeon implements Listener {
 			Player p = event.getPlayer();
 			Dungeon dungeon = DungeonFactory.getCurrentDungeon(p);
 
-			if (dungeon == null || dungeon.type != StoneType.POWER) {
+			if (dungeon == null) {
 				return;
 			}
 
@@ -281,7 +283,7 @@ public class Dungeon implements Listener {
 			
 			world.getLivingEntities().forEach((e) -> {
 				
-				if (e instanceof Player || e.hasAI()) {
+				if (e instanceof Player || e.hasAI() || ShopNpc.isNpc(e) || DialogueNpc.isNpc(e)) {
 					return;
 				}
 				

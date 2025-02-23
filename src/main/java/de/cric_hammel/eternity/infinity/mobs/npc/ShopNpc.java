@@ -80,6 +80,10 @@ public class ShopNpc {
 		p.openInventory(inv);
 		p.setMetadata(META_KEY_PLAYER, new FixedMetadataValue(Main.getPlugin(), this));
 	}
+	
+	public static boolean isNpc(LivingEntity e) {
+		return e.hasMetadata(META_KEY_NPC);
+	}
 
 	public static class ShopItem {
 

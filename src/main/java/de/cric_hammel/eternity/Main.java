@@ -43,6 +43,7 @@ import de.cric_hammel.eternity.infinity.items.thanos.ElectronCompressedChitauriD
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGeneral;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeSoldier;
+import de.cric_hammel.eternity.infinity.mobs.npc.DialogueNpc;
 import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc;
 import de.cric_hammel.eternity.infinity.mobs.thanos.ChitauriShip;
 import de.cric_hammel.eternity.infinity.worlds.Lobby;
@@ -98,11 +99,13 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new MindStone(), plugin);
 		pluginManager.registerEvents(new TimeStone(), plugin);
 		pluginManager.registerEvents(new StoneUploader.Listeners(), plugin);
+		
 		pluginManager.registerEvents(new KreeArmor.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeSoldier.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeGeneral.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeGuard.Listeners(), plugin);
 		pluginManager.registerEvents(new ShopNpc.Listeners(), plugin);
+		pluginManager.registerEvents(new DialogueNpc.Listeners(), plugin);
 		pluginManager.registerEvents(new ChitauriShip.Listeners(), plugin);
 
 		pluginManager.registerEvents(Lobby.getInstance(), plugin);
