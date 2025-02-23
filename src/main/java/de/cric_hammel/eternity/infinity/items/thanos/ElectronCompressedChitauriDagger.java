@@ -62,7 +62,7 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 			LivingEntity e = (LivingEntity) event.getEntity();
 			LivingEntity damager = (LivingEntity) event.getDamager();
 
-			if (!(new ElectronCompressedChitauriDagger()).hasInHand(damager) || e.hasMetadata(META_KEY)) {
+			if (!ElectronCompressedChitauriDagger.getInstance().hasInHand(damager) || e.hasMetadata(META_KEY)) {
 				return;
 			}
 
