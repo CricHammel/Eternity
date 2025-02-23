@@ -26,6 +26,7 @@ import de.cric_hammel.eternity.infinity.commands.SpawnChitauriCommand;
 import de.cric_hammel.eternity.infinity.commands.SpawnKreeCommand;
 import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
+import de.cric_hammel.eternity.infinity.items.kree.XylopMeat;
 import de.cric_hammel.eternity.infinity.items.misc.InterdimensionalShears;
 import de.cric_hammel.eternity.infinity.items.misc.PocketAnvil;
 import de.cric_hammel.eternity.infinity.items.misc.teleport.TeleportCapsule;
@@ -43,6 +44,7 @@ import de.cric_hammel.eternity.infinity.items.thanos.ElectronCompressedChitauriD
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGeneral;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeSoldier;
+import de.cric_hammel.eternity.infinity.mobs.kree.Xylop;
 import de.cric_hammel.eternity.infinity.mobs.npc.DialogueNpc;
 import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc;
 import de.cric_hammel.eternity.infinity.mobs.thanos.ChitauriShip;
@@ -104,6 +106,8 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new KreeSoldier.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeGeneral.Listeners(), plugin);
 		pluginManager.registerEvents(new KreeGuard.Listeners(), plugin);
+		pluginManager.registerEvents(new Xylop.Listeners(), plugin);
+		pluginManager.registerEvents(new XylopMeat.Listeners(), plugin);
 		pluginManager.registerEvents(new ShopNpc.Listeners(), plugin);
 		pluginManager.registerEvents(new DialogueNpc.Listeners(), plugin);
 		pluginManager.registerEvents(new ChitauriShip.Listeners(), plugin);

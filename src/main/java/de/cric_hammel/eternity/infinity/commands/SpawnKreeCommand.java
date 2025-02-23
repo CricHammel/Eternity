@@ -9,6 +9,7 @@ import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGeneral;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeGuard;
 import de.cric_hammel.eternity.infinity.mobs.kree.KreeSoldier;
+import de.cric_hammel.eternity.infinity.mobs.kree.Xylop;
 
 public class SpawnKreeCommand implements CommandExecutor {
 
@@ -28,7 +29,7 @@ public class SpawnKreeCommand implements CommandExecutor {
 		}
 
 		if (args.length != 1) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/spawnkree [0|1|2]");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/spawnkree [0|1|2|3]");
 			return false;
 		}
 
@@ -38,6 +39,8 @@ public class SpawnKreeCommand implements CommandExecutor {
 			KreeGeneral.getInstance().spawn(p.getLocation());
 		} else if (args[0].equals("2")) {
 			KreeGuard.getInstance().spawn(p.getLocation());
+		} else if (args[0].equals("3")) {
+			Xylop.getInstance().spawn(p.getLocation());
 		}
 
 		return true;
