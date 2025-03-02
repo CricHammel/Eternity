@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -139,6 +140,17 @@ public abstract class MultiplayerWorld implements Listener {
 
 		if (isInWorld(p)) {
 			teleport(p);
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		Player p = event.getPlayer();
+		
+		if (isInWorld(p)) {
+			Location spawn = world.getSpawnLocation();
+			spawn.setYaw(-90);
+			event.setRespawnLocation(spawn);
 		}
 	}
 }

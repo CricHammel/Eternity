@@ -15,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -107,6 +108,15 @@ public class TimeStone implements Listener {
 	public void onInventoryEvent(InventoryClickEvent event) {
 		Player p = (Player) event.getWhoClicked();
 
+		if (StoneType.TIME.hasStoneInInv(p)) {
+			startTimer(p);
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerChangeItem(PlayerItemHeldEvent event) {
+		Player p = event.getPlayer();
+		
 		if (StoneType.TIME.hasStoneInInv(p)) {
 			startTimer(p);
 		}

@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -119,7 +121,10 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new ElectronCompressedChitauriDagger.Listeners(), plugin);
 
 		// Add recipes
-		ShapedRecipe shears = new ShapedRecipe(new NamespacedKey(plugin, "eternity_shears"), InterdimensionalShears.getInstance().getItem());
+		Set<NamespacedKey> recipes = new HashSet<>();
+		
+		NamespacedKey shearsKey = new NamespacedKey(plugin, "eternity_shears");
+		ShapedRecipe shears = new ShapedRecipe(shearsKey, InterdimensionalShears.getInstance().getItem());
 		shears.shape("CEP", "OST", "NBN");
 		shears.setIngredient('C', Material.CHORUS_FRUIT);
 		shears.setIngredient('E', Material.END_CRYSTAL);
@@ -130,6 +135,11 @@ public class Main extends JavaPlugin {
 		shears.setIngredient('B', Material.BEACON);
 		shears.setIngredient('N', Material.NETHERITE_INGOT);
 		Bukkit.addRecipe(shears);
+		recipes.add(shearsKey);
+		
+		Bukkit.getOnlinePlayers().forEach((p) -> {
+			p.discoverRecipes(recipes);
+		});
 	}
 
 	@Override

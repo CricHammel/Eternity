@@ -110,7 +110,7 @@ public class Lobby extends MultiplayerWorld {
 				inv.addItem(PocketAnvil.getInstance().getItem());
 				return true;
 			}));
-			loc.setYaw(90f);
+			loc.setYaw(180f);
 			new ShopNpc(EntityType.PIGLIN, ChatColor.RED + "Kree Blacksmith", loc, items);
 		});
 		parser.addAction(Material.PINK_GLAZED_TERRACOTTA, (loc, data) -> {
