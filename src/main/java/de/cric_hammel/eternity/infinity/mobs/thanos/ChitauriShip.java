@@ -116,7 +116,7 @@ public class ChitauriShip extends ThanosFollower {
 		public void onEntityDeath(EntityDeathEvent event) {
 			LivingEntity e = event.getEntity();
 
-			if (!(new ChitauriShip().isMob(e)) || !e.hasMetadata(META_KEY_PASSENGERS)) {
+			if (!ChitauriShip.getInstance().isMob(e) || !e.hasMetadata(META_KEY_PASSENGERS)) {
 				return;
 			}
 

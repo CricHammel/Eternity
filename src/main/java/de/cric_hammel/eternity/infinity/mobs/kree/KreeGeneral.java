@@ -60,7 +60,7 @@ public class KreeGeneral extends Kree {
 
 		@EventHandler
 		public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-			KreeGeneral kree = new KreeGeneral();
+			KreeGeneral kree = KreeGeneral.getInstance();
 			Entity damager = event.getDamager();
 
 			if (!kree.isMob(damager)) {

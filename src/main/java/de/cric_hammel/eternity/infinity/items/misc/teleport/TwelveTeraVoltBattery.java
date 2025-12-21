@@ -33,7 +33,7 @@ public class TwelveTeraVoltBattery extends CustomItem {
 
 		@EventHandler
 		public void onPlayerInteract(PlayerInteractEvent event) {
-			if (!(new TwelveTeraVoltBattery()).isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
+			if (!TwelveTeraVoltBattery.getInstance().isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
 				return;
 			}
 			

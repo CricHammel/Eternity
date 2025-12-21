@@ -68,7 +68,7 @@ public class KreeArmor extends CustomTieredArmor {
 			LivingEntity ld = (LivingEntity) d;
 			LivingEntity le = (LivingEntity) e;
 
-			if (!(new KreeArmor()).isWearingTier(ld, 3)) {
+			if (!(KreeArmor.getInstance()).isWearingTier(ld, 3)) {
 				return;
 			}
 

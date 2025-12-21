@@ -67,7 +67,7 @@ public class KreeSoldier extends Kree {
 		@EventHandler
 		public void onEntityPickupItem(EntityPickupItemEvent event) {
 
-			if ((new KreeSoldier()).isMob(event.getEntity())) {
+			if (KreeSoldier.getInstance().isMob(event.getEntity())) {
 				event.setCancelled(true);
 			}
 		}
@@ -77,7 +77,7 @@ public class KreeSoldier extends Kree {
 			Entity e = event.getEntity();
 			Entity target = event.getTarget();
 
-			if (!(new KreeSoldier()).isMob(e) || !(target instanceof Player)) {
+			if (!KreeSoldier.getInstance().isMob(e) || !(target instanceof Player)) {
 				return;
 			}
 
@@ -90,7 +90,7 @@ public class KreeSoldier extends Kree {
 
 		@EventHandler
 		public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-			KreeSoldier kree = new KreeSoldier();
+			KreeSoldier kree = KreeSoldier.getInstance();
 			Entity damager = event.getDamager();
 			Entity entity = event.getEntity();
 

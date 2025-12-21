@@ -41,7 +41,7 @@ public class InterdimensionalShears extends CustomItem {
 		public void onInteract(PlayerInteractEvent event) {
 			Player p = event.getPlayer();
 
-			if (!(new InterdimensionalShears()).hasInHand(p) || !ActionUtils.isRightclick(event.getAction())) {
+			if (!InterdimensionalShears.getInstance().hasInHand(p) || !ActionUtils.isRightclick(event.getAction())) {
 				return;
 			}
 

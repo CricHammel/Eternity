@@ -57,7 +57,7 @@ public class KreeGuard extends Kree {
 		@EventHandler
 		public void onEntityTarget(EntityTargetEvent event) {
 
-			if (!(new KreeGuard()).isMob(event.getEntity())) {
+			if (!KreeGuard.getInstance().isMob(event.getEntity())) {
 				return;
 			}
 			

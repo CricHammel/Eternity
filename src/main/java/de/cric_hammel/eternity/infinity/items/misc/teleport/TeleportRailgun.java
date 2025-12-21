@@ -120,7 +120,7 @@ public class TeleportRailgun extends CustomItem {
 		
 		@EventHandler
 		public void onInventoryClick(InventoryClickEvent event) {
-			TeleportRailgun gun = new TeleportRailgun();
+			TeleportRailgun gun = TeleportRailgun.getInstance();
 			HumanEntity h = event.getWhoClicked();
 			
 			if (!(h instanceof Player) || event.getClick() == ClickType.CREATIVE) {
@@ -149,7 +149,7 @@ public class TeleportRailgun extends CustomItem {
 	
 		@EventHandler
 		public void onInteract(PlayerInteractEvent event) {
-			TeleportRailgun gun = new TeleportRailgun();
+			TeleportRailgun gun = TeleportRailgun.getInstance();
 			ItemStack item = event.getItem();
 			Player p = event.getPlayer();
 			

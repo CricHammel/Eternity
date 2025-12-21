@@ -33,7 +33,7 @@ public class TeleportCapsule extends CustomItem {
 		
 		@EventHandler
 		public void onPlayerInteract(PlayerInteractEvent event) {
-			if (!(new TeleportCapsule()).isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
+			if (!TeleportCapsule.getInstance().isItem(event.getItem()) || !ActionUtils.isRightclick(event.getAction())) {
 				return;
 			}
 			

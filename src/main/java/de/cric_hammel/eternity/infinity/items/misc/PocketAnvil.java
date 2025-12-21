@@ -41,7 +41,7 @@ public class PocketAnvil extends CustomItem {
 		public void onInteract(PlayerInteractEvent event) {
 			Player p = event.getPlayer();
 			
-			if (!(new PocketAnvil()).hasInHand(p)) {
+			if (!PocketAnvil.getInstance().hasInHand(p)) {
 				return;
 			} else if (!ActionUtils.isRightclick(event.getAction())) {
 				event.setCancelled(true);
