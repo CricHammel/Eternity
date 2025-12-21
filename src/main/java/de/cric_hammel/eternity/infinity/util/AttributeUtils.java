@@ -14,7 +14,7 @@ public class AttributeUtils {
 
 	public static void add(ItemStack item, Attribute a, double value, Operation o, EquipmentSlotGroup e) {
 		ItemMeta meta = item.getItemMeta();
-		meta.addAttributeModifier(a, new AttributeModifier(new NamespacedKey(Main.getPlugin(), a.toString()), value, o, e));
+		meta.addAttributeModifier(a, new AttributeModifier(new NamespacedKey(Main.getPlugin(), a.toString().toLowerCase().replaceAll("[^a-z0-9._\\-/]", "")), value, o, e));
 		item.setItemMeta(meta);
 	}
 
