@@ -26,6 +26,7 @@ import de.cric_hammel.eternity.infinity.commands.GetStoneUploaderCommand;
 import de.cric_hammel.eternity.infinity.commands.GetStonesCommand;
 import de.cric_hammel.eternity.infinity.commands.SpawnChitauriCommand;
 import de.cric_hammel.eternity.infinity.commands.SpawnKreeCommand;
+import de.cric_hammel.eternity.infinity.commands.SpawnOutriderCommand;
 import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
 import de.cric_hammel.eternity.infinity.items.kree.XylopMeat;
@@ -50,6 +51,7 @@ import de.cric_hammel.eternity.infinity.mobs.kree.Xylop;
 import de.cric_hammel.eternity.infinity.mobs.npc.DialogueNpc;
 import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc;
 import de.cric_hammel.eternity.infinity.mobs.thanos.ChitauriShip;
+import de.cric_hammel.eternity.infinity.mobs.thanos.Outrider;
 import de.cric_hammel.eternity.infinity.worlds.Lobby;
 import de.cric_hammel.eternity.infinity.worlds.ThanosFight;
 import de.cric_hammel.eternity.infinity.worlds.dungeons.Dungeon;
@@ -86,6 +88,7 @@ public class Main extends JavaPlugin {
 		getCommand("getinfinicoin").setExecutor(new GetInfiniCoinCommand());
 		getCommand("spawnchitauri").setExecutor(new SpawnChitauriCommand());
 		getCommand("bossfight").setExecutor(new BossfightCommand());
+		getCommand("spawnoutrider").setExecutor(new SpawnOutriderCommand());
 
 		// Register events
 		PluginManager pluginManager = Bukkit.getPluginManager();
@@ -113,6 +116,7 @@ public class Main extends JavaPlugin {
 		pluginManager.registerEvents(new ShopNpc.Listeners(), plugin);
 		pluginManager.registerEvents(new DialogueNpc.Listeners(), plugin);
 		pluginManager.registerEvents(new ChitauriShip.Listeners(), plugin);
+		pluginManager.registerEvents(new Outrider.Listeners(), plugin);
 
 		pluginManager.registerEvents(Lobby.getInstance(), plugin);
 		pluginManager.registerEvents(new Dungeon.Listeners(), plugin);

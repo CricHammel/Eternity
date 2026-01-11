@@ -20,3 +20,5 @@ commands:
       description: Spawns the mighty chitauri
    bossfight:
       description: Lets you start or stop the thanos bossfight
+   spawnoutrider:
+      description: Spawn an Outrider
