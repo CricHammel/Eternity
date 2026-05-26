@@ -56,7 +56,7 @@ public class KreeSoldier extends Kree {
 		ItemStack sword = new ItemStack(Material.IRON_SWORD);
 		sword.addEnchantment(Enchantment.SHARPNESS, 5);
 		CustomMob.setMainHand(mob, sword, 0);
-		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(60);
+		mob.getAttribute(Attribute.MAX_HEALTH).setBaseValue(60);
 		mob.setHealth(30);
 		mob.setImmuneToZombification(true);
 		return mob;

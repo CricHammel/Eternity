@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,6 +17,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.items.keys.PowerDungeonKey;
@@ -74,31 +76,31 @@ public class Lobby extends MultiplayerWorld {
 		});
 		parser.addAction(Material.MAGENTA_GLAZED_TERRACOTTA, (loc, data) -> {
 			ArrayList<ShopItem> items = new ArrayList<>();
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Helmet", Material.CHAINMAIL_HELMET, new ArrayList<>(Arrays.asList("5 Tier 1 to Tier 2")), 1, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Helmet", NamedTextColor.RED), Material.CHAINMAIL_HELMET, new ArrayList<>(List.of(Component.text("5 Tier 1 to Tier 2"))), 1, (p) -> {
 				return upgradeKreeArmor(p, 1, 3);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Chestplate", Material.CHAINMAIL_CHESTPLATE, new ArrayList<>(Arrays.asList("5 Tier 1 to Tier 2")), 1, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Chestplate", NamedTextColor.RED), Material.CHAINMAIL_CHESTPLATE, new ArrayList<>(List.of(Component.text("5 Tier 1 to Tier 2"))), 1, (p) -> {
 				return upgradeKreeArmor(p, 1, 2);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Leggings", Material.CHAINMAIL_LEGGINGS, new ArrayList<>(Arrays.asList("5 Tier 1 to Tier 2")), 1, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Leggings", NamedTextColor.RED), Material.CHAINMAIL_LEGGINGS, new ArrayList<>(List.of(Component.text("5 Tier 1 to Tier 2"))), 1, (p) -> {
 				return upgradeKreeArmor(p, 1, 1);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Boots", Material.CHAINMAIL_BOOTS, new ArrayList<>(Arrays.asList("5 Tier 1 to Tier 2")), 1, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Boots", NamedTextColor.RED), Material.CHAINMAIL_BOOTS, new ArrayList<>(List.of(Component.text("5 Tier 1 to Tier 2"))), 1, (p) -> {
 				return upgradeKreeArmor(p, 1, 0);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Helmet", Material.CHAINMAIL_HELMET, new ArrayList<>(Arrays.asList("5 Tier 2 to Tier 3")), 6, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Helmet", NamedTextColor.RED), Material.CHAINMAIL_HELMET, new ArrayList<>(List.of(Component.text("5 Tier 2 to Tier 3"))), 6, (p) -> {
 				return upgradeKreeArmor(p, 2, 3);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Chestplate", Material.CHAINMAIL_CHESTPLATE, new ArrayList<>(Arrays.asList("5 Tier 2 to Tier 3")), 6, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Chestplate", NamedTextColor.RED), Material.CHAINMAIL_CHESTPLATE, new ArrayList<>(List.of(Component.text("5 Tier 2 to Tier 3"))), 6, (p) -> {
 				return upgradeKreeArmor(p, 2, 2);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Leggings", Material.CHAINMAIL_LEGGINGS, new ArrayList<>(Arrays.asList("5 Tier 2 to Tier 3")), 6, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Leggings", NamedTextColor.RED), Material.CHAINMAIL_LEGGINGS, new ArrayList<>(List.of(Component.text("5 Tier 2 to Tier 3"))), 6, (p) -> {
 				return upgradeKreeArmor(p, 2, 1);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Upgrade Kree Boots", Material.CHAINMAIL_BOOTS, new ArrayList<>(Arrays.asList("5 Tier 2 to Tier 3")), 6, (p) -> {
+			items.add(new ShopItem(Component.text("Upgrade Kree Boots", NamedTextColor.RED), Material.CHAINMAIL_BOOTS, new ArrayList<>(List.of(Component.text("5 Tier 2 to Tier 3"))), 6, (p) -> {
 				return upgradeKreeArmor(p, 2, 0);
 			}));
-			items.add(new ShopItem(ChatColor.RED + "Buy Pocket Anvil", Material.ANVIL, new ArrayList<String>(Arrays.asList("1 Anvil")), 1, (p) -> {
+			items.add(new ShopItem(Component.text("Buy Pocket Anvil", NamedTextColor.RED), Material.ANVIL, new ArrayList<>(List.of(Component.text("1 Anvil"))), 1, (p) -> {
 				Inventory inv = p.getInventory();
 				ItemStack anvil = new ItemStack(Material.ANVIL);
 				
@@ -111,17 +113,17 @@ public class Lobby extends MultiplayerWorld {
 				return true;
 			}));
 			loc.setYaw(180f);
-			new ShopNpc(EntityType.PIGLIN, ChatColor.RED + "Kree Blacksmith", loc, items);
+			new ShopNpc(EntityType.PIGLIN, Component.text("Kree Blacksmith", NamedTextColor.RED), loc, items);
 		});
 		parser.addAction(Material.PINK_GLAZED_TERRACOTTA, (loc, data) -> {
 			ArrayList<ShopItem> items = new ArrayList<>();
-			items.add(new ShopItem(ChatColor.GOLD + "Buy Dungeon Key", Material.NAME_TAG, new ArrayList<String>(Arrays.asList("8 Phantom Membrane", "8 Iron Blocks", "1 Emerald Block")), 0, (p) -> {
+			items.add(new ShopItem(Component.text("Buy Dungeon Key", NamedTextColor.GOLD), Material.NAME_TAG, new ArrayList<>(List.of(Component.text("8 Phantom Membrane"), Component.text("8 Iron Blocks"), Component.text("1 Emerald Block"))), 0, (p) -> {
 				return buyDungeonKey(p, StoneType.POWER, new ItemStack(Material.PHANTOM_MEMBRANE, 8), new ItemStack(Material.IRON_BLOCK, 8), new ItemStack(Material.EMERALD_BLOCK, 1));
 			}));
-			items.add(new ShopItem(ChatColor.GOLD + "Buy Interdimensional Shears", Material.SHEARS, new ArrayList<String>(), 1, (p) -> {
+			items.add(new ShopItem(Component.text("Buy Interdimensional Shears", NamedTextColor.GOLD), Material.SHEARS, new ArrayList<>(), 1, (p) -> {
 				return p.getInventory().addItem(InterdimensionalShears.getInstance().getItem()).isEmpty();
 			}));
-			items.add(new ShopItem(ChatColor.GOLD + "Buy Teleport Railgun", Material.GOLDEN_HOE, new ArrayList<String>(Arrays.asList("1 Golden Hoe", "1 12-Teravolt Battery")), 10, (p) -> {
+			items.add(new ShopItem(Component.text("Buy Teleport Railgun", NamedTextColor.GOLD), Material.GOLDEN_HOE, new ArrayList<>(List.of(Component.text("1 Golden Hoe"), Component.text("1 12-Teravolt Battery"))), 10, (p) -> {
 				ItemStack battery = TwelveTeraVoltBattery.getInstance().getItem();
 				PlayerInventory inv = p.getInventory();
 				
@@ -134,29 +136,29 @@ public class Lobby extends MultiplayerWorld {
 				inv.addItem(gun);
 				return true;
 			}));
-			items.add(new ShopItem(ChatColor.GOLD + "Buy 3 Teleport Capsule", Material.SUNFLOWER, new ArrayList<String>(), 1, (p) -> {
+			items.add(new ShopItem(Component.text("Buy 3 Teleport Capsule", NamedTextColor.GOLD), Material.SUNFLOWER, new ArrayList<>(), 1, (p) -> {
 				ItemStack capsule = TeleportCapsule.getInstance().getItem();
 				capsule.setAmount(3);
 				return p.getInventory().addItem(capsule).isEmpty();
 			}));
 			loc.setYaw(180f);
-			new ShopNpc(EntityType.PIGLIN, ChatColor.RED + "Kree Merchant", loc, items);
+			new ShopNpc(EntityType.PIGLIN, Component.text("Kree Merchant", NamedTextColor.RED), loc, items);
 		});
 		parser.addAction(Material.PURPLE_GLAZED_TERRACOTTA, (loc, data) -> {
-			DialogueNpc.Dialogue dialogue = new Dialogue(ChatColor.RED, 3);
+			DialogueNpc.Dialogue dialogue = new Dialogue(NamedTextColor.RED, 3);
 			dialogue.add("I");
 			dialogue.add("am");
 			dialogue.add("warrior!");
 			loc.setYaw(180f);
-			new DialogueNpc(EntityType.PIGLIN_BRUTE, ChatColor.RED + "Kree Warrior", loc, dialogue);
+			new DialogueNpc(EntityType.PIGLIN_BRUTE, Component.text("Kree Warrior", NamedTextColor.RED), loc, dialogue);
 		});
 		parser.addAction(Material.BLUE_GLAZED_TERRACOTTA, (loc, data) -> {
-			DialogueNpc.Dialogue dialogue = new Dialogue(ChatColor.RED, 3);
+			DialogueNpc.Dialogue dialogue = new Dialogue(NamedTextColor.RED, 3);
 			dialogue.add("I");
 			dialogue.add("am");
 			dialogue.add("wise!");
 			loc.setYaw(90f);
-			new DialogueNpc(EntityType.ZOMBIFIED_PIGLIN, ChatColor.RED + "Kree Wise", loc, dialogue);
+			new DialogueNpc(EntityType.ZOMBIFIED_PIGLIN, Component.text("Kree Wise", NamedTextColor.RED), loc, dialogue);
 		});
 		super.create();
 	}
@@ -177,7 +179,7 @@ public class Lobby extends MultiplayerWorld {
 		for (int i = 0; i < inv.getSize(); i++) {
 			ItemStack item = inv.getItem(i);
 
-			if (item != null && item.getType() == pieceItem.getType() && item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().getLore().equals(pieceItem.getItemMeta().getLore())) {
+			if (item != null && item.getType() == pieceItem.getType() && item.hasItemMeta() && item.getItemMeta().hasLore() && item.getItemMeta().lore().equals(pieceItem.getItemMeta().lore())) {
 				count++;
 				slots.add(i);
 			}

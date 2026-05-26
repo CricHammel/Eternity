@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -20,6 +19,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
@@ -47,7 +49,7 @@ public class StoneUploader extends CustomItem implements Listener {
 	}
 	
 	private StoneUploader() {
-		super(Material.BEACON, ChatColor.GOLD + "Uploader", "Lets you upload the Infinity Stones!");
+		super(Material.BEACON, Component.text("Uploader", NamedTextColor.GOLD), Component.text("Lets you upload the Infinity Stones!"));
 	}
 
 	public static boolean[] getStoneContainer(Player p) {
@@ -153,7 +155,7 @@ public class StoneUploader extends CustomItem implements Listener {
 				} else {
 					ItemStack pane = new ItemStack(data.pane);
 					ItemMeta paneMeta = pane.getItemMeta();
-					paneMeta.setDisplayName(" ");
+					paneMeta.displayName(Component.text(" "));
 					pane.setItemMeta(paneMeta);
 					inv.setItem(data.slot, pane);
 				}
@@ -164,7 +166,7 @@ public class StoneUploader extends CustomItem implements Listener {
 				if (inv.getItem(i) == null) {
 					ItemStack pane = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 					ItemMeta paneMeta = pane.getItemMeta();
-					paneMeta.setDisplayName(" ");
+					paneMeta.displayName(Component.text(" "));
 					pane.setItemMeta(paneMeta);
 					inv.setItem(i, pane);
 				}

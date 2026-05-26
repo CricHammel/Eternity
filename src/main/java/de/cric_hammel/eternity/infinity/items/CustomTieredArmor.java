@@ -1,10 +1,14 @@
 package de.cric_hammel.eternity.infinity.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 
 public abstract class CustomTieredArmor extends CustomArmor {
 
@@ -12,7 +16,7 @@ public abstract class CustomTieredArmor extends CustomArmor {
 	private final ItemStack[] tierTwo;
 	private final ItemStack[] tierThree;
 
-	public CustomTieredArmor(ArmorType type, String name, String lore) {
+	public CustomTieredArmor(ArmorType type, Component name, Component lore) {
 		super(type, name, lore);
 		tierOne = super.getArmor();
 		setTier(tierOne, 1);
@@ -31,9 +35,9 @@ public abstract class CustomTieredArmor extends CustomArmor {
 
 			for (ItemStack item : armor) {
 				ItemMeta meta = item.getItemMeta();
-				List<String> lore = meta.getLore();
-				lore.add("Tier " + tier);
-				meta.setLore(lore);
+				List<Component> lore = new ArrayList<>(meta.lore());
+				lore.add(Component.text("Tier " + tier));
+				meta.lore(lore);
 				item.setItemMeta(meta);
 			}
 
@@ -57,9 +61,10 @@ public abstract class CustomTieredArmor extends CustomArmor {
 		ItemStack[] entityArmor = e.getEquipment().getArmorContents();
 
 		for (ItemStack item : entityArmor) {
-			List<String> loreList = item.getItemMeta().getLore();
+			List<Component> loreList = item.getItemMeta().lore();
 
-			if (!loreList.get(2).contains(Integer.toString(tier))) {
+			if (!(loreList.get(2) instanceof TextComponent tc)
+					|| !tc.content().contains(Integer.toString(tier))) {
 				return false;
 			}
 		}

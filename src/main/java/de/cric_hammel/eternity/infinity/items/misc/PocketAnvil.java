@@ -1,8 +1,10 @@
 package de.cric_hammel.eternity.infinity.items.misc;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +34,7 @@ public class PocketAnvil extends CustomItem {
 	}
 	
 	private PocketAnvil() {
-		super(Material.ANVIL, ChatColor.RED + "Pocket Anvil", "Lets you open an anvil out of your pocket");
+		super(Material.ANVIL, Component.text("Pocket Anvil", NamedTextColor.RED), Component.text("Lets you open an anvil out of your pocket"));
 	}
 	
 	public static class Listeners implements Listener {

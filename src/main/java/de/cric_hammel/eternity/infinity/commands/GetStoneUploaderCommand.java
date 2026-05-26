@@ -26,7 +26,7 @@ public class GetStoneUploaderCommand implements CommandExecutor{
 		}
 
 		if (args.length != 0) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getgauntlet");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs").append(net.kyori.adventure.text.Component.text("/getgauntlet")));
 			return false;
 		}
 

@@ -47,7 +47,7 @@ public class KreeGuard extends Kree {
 		sword.addEnchantment(Enchantment.SHARPNESS, 5);
 		sword.addEnchantment(Enchantment.KNOCKBACK, 2);
 		CustomMob.setMainHand(golem, sword, 0);
-		golem.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(240);
+		golem.getAttribute(Attribute.MAX_HEALTH).setBaseValue(240);
 		golem.setHealth(120);
 		return golem;
 	}

@@ -28,7 +28,7 @@ public class GetInfiniCoinCommand implements CommandExecutor {
 		}
 
 		if (args.length != 0) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getinfinicoin");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs").append(net.kyori.adventure.text.Component.text("/getinfinicoin")));
 			return false;
 		}
 

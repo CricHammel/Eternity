@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -26,6 +25,10 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.mobs.thanos.ChitauriShip;
 import de.cric_hammel.eternity.infinity.mobs.thanos.Fangs;
@@ -40,7 +43,7 @@ public class ThanosFight {
 	private static final double FIRST_DAMAGE_CAP = 2d/3d;
 	private static final int AMOUNT_SHIPS = 9;
 	private static final int PASSENGERS_PER_SHIP = 18;
-	private static final String THANOS_PREFIX = ChatColor.DARK_PURPLE + "" +  ChatColor.BOLD + "Thanos";
+	private static final Component THANOS_PREFIX = Component.text("Thanos", NamedTextColor.DARK_PURPLE, TextDecoration.BOLD);
 	
 	private boolean running = false;
 	private int phase = 0;
@@ -107,7 +110,7 @@ public class ThanosFight {
 
 		BukkitRunnable task1 = new BukkitRunnable() {
 			int i = 0;
-			List<String> dialogue = createFirstDialogue();
+			List<Component> dialogue = createFirstDialogue();
 
 			@Override
 			public void run() {
@@ -262,29 +265,29 @@ public class ThanosFight {
 		}
 	}
 
-	private List<String> createFirstDialogue() {
-		List<String> d = new ArrayList<>();
+	private List<Component> createFirstDialogue() {
+		List<Component> d = new ArrayList<>();
 		d.add(formatDialogue("Test"));
 		return d;
 	}
 
-	private String formatDialogue(String d) {
-		return THANOS_PREFIX + ": " + ChatColor.LIGHT_PURPLE + d;
+	private Component formatDialogue(String d) {
+		return THANOS_PREFIX.append(Component.text(": ")).append(Component.text(d, NamedTextColor.LIGHT_PURPLE));
 	}
 	
 	private void updateBossbar() {
 		if (bossbar == null) {
-			bossbar = Bukkit.createBossBar(THANOS_PREFIX, BarColor.PURPLE, BarStyle.SEGMENTED_6, BarFlag.DARKEN_SKY);
+			bossbar = Bukkit.createBossBar("Thanos", BarColor.PURPLE, BarStyle.SEGMENTED_6, BarFlag.DARKEN_SKY);
 			return;
 		}
-		
+
 		if (phase == 0) {
-			bossbar.setTitle(THANOS_PREFIX + " (Remaining enemies: " + mobsToKill + ")");
+			bossbar.setTitle("Thanos (Remaining enemies: " + mobsToKill + ")");
 		} else if (phase == 1) {
-			bossbar.setTitle(THANOS_PREFIX);
+			bossbar.setTitle("Thanos");
 		}
 		
-		bossbar.setProgress(thanosMob.getHealth() / thanosMob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		bossbar.setProgress(thanosMob.getHealth() / thanosMob.getAttribute(Attribute.MAX_HEALTH).getValue());
 		lobby.getPlayers().forEach((p) -> bossbar.addPlayer(p));
 	}
 
@@ -320,7 +323,7 @@ public class ThanosFight {
 			}
 
 			double predictedHealth = fight.thanosMob.getHealth() - event.getFinalDamage();
-			double maxHealth = fight.thanosMob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+			double maxHealth = fight.thanosMob.getAttribute(Attribute.MAX_HEALTH).getBaseValue();
 
 			if (fight.phase == 1) {
 				if (predictedHealth/maxHealth <= FIRST_DAMAGE_CAP) {

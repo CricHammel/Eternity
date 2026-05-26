@@ -1,6 +1,5 @@
 package de.cric_hammel.eternity.infinity.items.gauntlet;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -29,6 +28,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
@@ -61,16 +63,16 @@ public class Gauntlet extends CustomItem {
 	}
 	
 	private Gauntlet() {
-		super(Material.TORCHFLOWER, ChatColor.GOLD + "Infinity Gauntlet",
-				"Designed to channel the power of all six Infinity Stones");
+		super(Material.TORCHFLOWER, Component.text("Infinity Gauntlet", NamedTextColor.GOLD),
+				Component.text("Designed to channel the power of all six Infinity Stones"));
 	}
 
 	@Override
 	public ItemStack getItem() {
 		ItemStack gauntlet = super.getItem();
-		AttributeUtils.add(gauntlet, Attribute.GENERIC_MAX_HEALTH, 2 * 20, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
-		AttributeUtils.add(gauntlet, Attribute.GENERIC_ATTACK_DAMAGE, 10, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
-		AttributeUtils.add(gauntlet, Attribute.GENERIC_ARMOR_TOUGHNESS, 10, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
+		AttributeUtils.add(gauntlet, Attribute.MAX_HEALTH, 2 * 20, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
+		AttributeUtils.add(gauntlet, Attribute.ATTACK_DAMAGE, 10, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
+		AttributeUtils.add(gauntlet, Attribute.ARMOR_TOUGHNESS, 10, Operation.ADD_NUMBER, EquipmentSlotGroup.OFFHAND);
 		return gauntlet;
 	}
 	
@@ -123,7 +125,7 @@ public class Gauntlet extends CustomItem {
 			w.setTime(1000);
 			w.setThundering(false);
 			w.setStorm(false);
-			p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+			p.setHealth(p.getAttribute(Attribute.MAX_HEALTH).getValue());
 			p.setFoodLevel(20);
 			p.setSaturation(20);
 			
@@ -196,7 +198,7 @@ public class Gauntlet extends CustomItem {
 		private boolean hasGauntletInOffHand(Player p) {
 			ItemStack gauntlet = p.getInventory().getItemInOffHand();
 			if (gauntlet != null && gauntlet.hasItemMeta() && gauntlet.getItemMeta().hasLore()
-					&& gauntlet.getItemMeta().getLore().get(0).equals(Gauntlet.getInstance().getLore()) && !StoneType.hasAnyInHand(p)) {
+					&& gauntlet.getItemMeta().lore().get(0).equals(Gauntlet.getInstance().getLore()) && !StoneType.hasAnyInHand(p)) {
 				return true;
 			}
 			return false;

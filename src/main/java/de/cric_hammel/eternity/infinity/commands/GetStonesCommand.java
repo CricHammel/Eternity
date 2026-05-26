@@ -34,14 +34,14 @@ public class GetStonesCommand implements TabExecutor {
 		}
 
 		if (args.length != 1) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs").append(net.kyori.adventure.text.Component.text("/getstones [power|space|reality|soul|mind|time]")));
 			return false;
 		}
 
 		StoneType type = StoneType.getValue(args[0]);
 
 		if (type == null) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/getstones [power|space|reality|soul|mind|time]");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs").append(net.kyori.adventure.text.Component.text("/getstones [power|space|reality|soul|mind|time]")));
 			return false;
 		}
 

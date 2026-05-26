@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.keys;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 
@@ -22,6 +24,6 @@ public class DungeonKeyCore extends CustomItem {
 	}
 	
 	private DungeonKeyCore() {
-		super(Material.HEART_OF_THE_SEA, ChatColor.GOLD + "Dungeon Key Core", "Allows you to trade for the higher Dungeon Keys");
+		super(Material.HEART_OF_THE_SEA, Component.text("Dungeon Key Core", NamedTextColor.GOLD), Component.text("Allows you to trade for the higher Dungeon Keys"));
 	}
 }

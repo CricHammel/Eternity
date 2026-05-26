@@ -29,7 +29,7 @@ public class SpawnKreeCommand implements CommandExecutor {
 		}
 
 		if (args.length != 1) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/spawnkree [0|1|2|3]");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs").append(net.kyori.adventure.text.Component.text("/spawnkree [0|1|2|3]")));
 			return false;
 		}
 

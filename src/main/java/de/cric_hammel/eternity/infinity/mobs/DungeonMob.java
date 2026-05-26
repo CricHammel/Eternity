@@ -4,9 +4,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 
+import net.kyori.adventure.text.Component;
+
 public abstract class DungeonMob extends CustomMob {
 
-	public DungeonMob(EntityType type, String name) {
+	public DungeonMob(EntityType type, Component name) {
 		super(type, name);
 	}
 

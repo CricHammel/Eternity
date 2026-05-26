@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.mobs.thanos;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
@@ -29,14 +31,14 @@ public class Chitauri extends ThanosFollower {
 	}
 	
 	private Chitauri() {
-		super(EntityType.HUSK, ChatColor.GOLD + "Chitauri-Soldier");
+		super(EntityType.HUSK, Component.text("Chitauri-Soldier", NamedTextColor.GOLD));
 	}
 
 	@Override
 	public Mob spawn(Location loc) {
 		Mob m = super.spawn(loc);
 		m.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 10*20, 0, false));
-		m.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(1.25);
+		m.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(1.25);
 		super.setMainHand(m, ElectronCompressedChitauriDagger.getInstance().getItem(), 0.00784f);
 		super.setArmor(m, new ItemStack[]{new ItemStack(Material.NETHERITE_BOOTS), new ItemStack(Material.NETHERITE_LEGGINGS), new ItemStack(Material.NETHERITE_CHESTPLATE), new ItemStack(Material.NETHERITE_HELMET)}, 0);
 		return m;

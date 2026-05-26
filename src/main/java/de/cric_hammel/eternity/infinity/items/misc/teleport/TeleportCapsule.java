@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.misc.teleport;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -26,7 +28,7 @@ public class TeleportCapsule extends CustomItem {
 	}
 	
 	private TeleportCapsule() {
-		super(Material.SUNFLOWER, ChatColor.GOLD + "Teleport Capsule", "Click on Teleport Railgun to load");
+		super(Material.SUNFLOWER, Component.text("Teleport Capsule", NamedTextColor.GOLD), Component.text("Click on Teleport Railgun to load"));
 	}
 	
 	public static class Listeners implements Listener {

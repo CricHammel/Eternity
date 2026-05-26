@@ -5,9 +5,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
-import net.md_5.bungee.api.ChatColor;
 
 public class TwelveTeraVoltBattery extends CustomItem {
 
@@ -26,7 +28,7 @@ public class TwelveTeraVoltBattery extends CustomItem {
 	}
 	
 	private TwelveTeraVoltBattery() {
-		super(Material.SEA_PICKLE, ChatColor.AQUA + "12-Teravolt Battery", "Powers flashlights and/or teleporters");
+		super(Material.SEA_PICKLE, Component.text("12-Teravolt Battery", NamedTextColor.AQUA), Component.text("Powers flashlights and/or teleporters"));
 	}
 	
 	public static class Listeners implements Listener {

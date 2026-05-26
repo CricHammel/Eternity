@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
+import org.bukkit.GameRules;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -75,7 +75,7 @@ public class SoulStone implements Listener {
 		soulWorldCreator.generatorSettings(
 				"{\"structures\": {\"structures\": {}}, \"layers\": [{\"block\": \"bedrock\", \"height\": 1}, {\"block\": \"water\", \"height\": 1}], \"biome\":\"the_void\"}");
 		soulWorld = soulWorldCreator.createWorld();
-		soulWorld.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+		soulWorld.setGameRule(GameRules.ADVANCE_TIME, false);
 		soulWorld.setTime(12500);
 		return soulWorld;
 	}
@@ -94,7 +94,7 @@ public class SoulStone implements Listener {
 		}
 
 		Damageable d = (Damageable) event.getEntity();
-		double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+		double maxHealth = p.getAttribute(Attribute.MAX_HEALTH).getValue();
 		double currentHealth = p.getHealth();
 		double missingHealth = maxHealth - currentHealth;
 

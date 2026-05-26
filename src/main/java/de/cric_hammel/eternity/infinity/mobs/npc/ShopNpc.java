@@ -26,6 +26,8 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import net.kyori.adventure.text.Component;
+
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.misc.InfiniCoin;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
@@ -35,15 +37,15 @@ public class ShopNpc {
 	private static final String META_KEY_NPC = "eternity_shopnpc";
 	private static final String META_KEY_PLAYER = "eternity_shopnpc_last";
 
-	private String name;
+	private Component name;
 	private List<ShopItem> items;
 	public final Set<Inventory> invs = new HashSet<>();
 
-	public ShopNpc(EntityType type, String name, Location loc, List<ShopItem> items) {
+	public ShopNpc(EntityType type, Component name, Location loc, List<ShopItem> items) {
 		this.name = name;
 		this.items = items;
 		LivingEntity e = (LivingEntity) loc.getWorld().spawnEntity(loc, type, false);
-		e.setCustomName(name);
+		e.customName(name);
 		e.setCustomNameVisible(true);
 		e.setInvulnerable(true);
 		e.setPersistent(true);
@@ -56,10 +58,10 @@ public class ShopNpc {
 
 	public void openMenu(Player p) {
 		int nrOfRows = 4;
-		Inventory inv = Bukkit.createInventory(p, 9*nrOfRows, name + "'s Shop");
+		Inventory inv = Bukkit.createInventory(p, 9*nrOfRows, name.append(Component.text("'s Shop")));
 		ItemStack pane = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 		ItemMeta paneMeta = pane.getItemMeta();
-		paneMeta.setDisplayName(" ");
+		paneMeta.displayName(Component.text(" "));
 		pane.setItemMeta(paneMeta);
 
 		for (int slot = 0; slot < inv.getSize(); slot++) {
@@ -80,24 +82,24 @@ public class ShopNpc {
 		p.openInventory(inv);
 		p.setMetadata(META_KEY_PLAYER, new FixedMetadataValue(Main.getPlugin(), this));
 	}
-	
+
 	public static boolean isNpc(LivingEntity e) {
 		return e.hasMetadata(META_KEY_NPC);
 	}
 
 	public static class ShopItem {
 
-		private String name;
+		private Component name;
 		private Material m;
-		private List<String> lore;
+		private List<Component> lore;
 		private int price;
 		private BuyAction action;
 
-		public ShopItem(String name, Material m, List<String> lore , int price, BuyAction action) {
+		public ShopItem(Component name, Material m, List<Component> lore, int price, BuyAction action) {
 			this.name = name;
 			this.m = m;
 			this.lore = lore;
-			lore.add("Price: " + price + " InfiniCoins");
+			lore.add(Component.text("Price: " + price + " InfiniCoins"));
 			this.price = price;
 			this.action = action;
 		}
@@ -119,8 +121,8 @@ public class ShopNpc {
 		public ItemStack getItem() {
 			ItemStack item = new ItemStack(m);
 			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(name);
-			meta.setLore(lore);
+			meta.displayName(name);
+			meta.lore(lore);
 			item.setItemMeta(meta);
 			item.addUnsafeEnchantment(Enchantment.INFINITY, 1);
 			return item;

@@ -2,8 +2,10 @@ package de.cric_hammel.eternity.infinity.mobs.kree;
 
 import java.util.Random;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Hoglin;
 import org.bukkit.entity.Mob;
@@ -31,7 +33,7 @@ public class Xylop extends DungeonMob {
 	}
 
 	private Xylop() {
-		super(EntityType.HOGLIN, ChatColor.GOLD + "Xylop");
+		super(EntityType.HOGLIN, Component.text("Xylop", NamedTextColor.GOLD));
 	}
 	
 	@Override

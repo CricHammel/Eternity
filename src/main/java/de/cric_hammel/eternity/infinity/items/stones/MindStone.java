@@ -1,7 +1,6 @@
 package de.cric_hammel.eternity.infinity.items.stones;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Damageable;
@@ -15,12 +14,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class MindStone implements Listener {
 
-	private static final String INVENTORY_TITLE = ChatColor.YELLOW + "Inventory of ";
+	private static final String INVENTORY_TITLE_TEXT = "Inventory of ";
 	private static final String METADATA_KEY_POSSESSES = "eternity_possesses";
 	private static final String METADATA_KEY_ISPOSSESSED = "eternity_ispossessed";
 
@@ -38,7 +41,7 @@ public class MindStone implements Listener {
 		}
 
 		Player victim = (Player) event.getRightClicked();
-		Inventory inv = Bukkit.createInventory(p, 9 * 5, INVENTORY_TITLE + victim.getName());
+		Inventory inv = Bukkit.createInventory(p, 9 * 5, Component.text(INVENTORY_TITLE_TEXT + victim.getName(), NamedTextColor.YELLOW));
 		inv.setContents(victim.getInventory().getContents());
 		p.openInventory(inv);
 		StoneType.MIND.applyCooldownRightclick(p);
@@ -113,7 +116,7 @@ public class MindStone implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 
-		if (event.getView().getTitle().contains(INVENTORY_TITLE)) {
+		if (event.getView().title() instanceof TextComponent tc && tc.content().contains(INVENTORY_TITLE_TEXT)) {
 			event.setCancelled(true);
 		}
 	}

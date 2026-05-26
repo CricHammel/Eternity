@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.misc;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +34,7 @@ public class InterdimensionalShears extends CustomItem {
 	}
 	
 	private InterdimensionalShears() {
-		super(Material.SHEARS, ChatColor.BLUE + "Interdimensional Shears", "Cut a wormhole into spacetime");
+		super(Material.SHEARS, Component.text("Interdimensional Shears", NamedTextColor.BLUE), Component.text("Cut a wormhole into spacetime"));
 	}
 
 	public static class Listeners implements Listener {

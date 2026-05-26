@@ -1,6 +1,5 @@
 package de.cric_hammel.eternity.infinity.items;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -9,30 +8,29 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import net.kyori.adventure.text.Component;
+
 import de.cric_hammel.eternity.Main;
 
 public abstract class CustomArmor {
 
-	private final String lore;
+	private final Component lore;
 	private final ItemStack[] armor = new ItemStack[4];
 
-	public CustomArmor(ArmorType type, String name, String lore) {
+	public CustomArmor(ArmorType type, Component name, Component lore) {
 		this.lore = lore;
 
-		armor[0] = createItem(type.bootsType, name + " Boots");
-		armor[1] = createItem(type.leggingsType, name + " Leggings");
-		armor[2] = createItem(type.chestplateType, name + " Chestplate");
-		armor[3] = createItem(type.helmetType, name + " Helmet");
+		armor[0] = createItem(type.bootsType, name.append(Component.text(" Boots")));
+		armor[1] = createItem(type.leggingsType, name.append(Component.text(" Leggings")));
+		armor[2] = createItem(type.chestplateType, name.append(Component.text(" Chestplate")));
+		armor[3] = createItem(type.helmetType, name.append(Component.text(" Helmet")));
 	}
 
-	private ItemStack createItem(Material m, String name) {
+	private ItemStack createItem(Material m, Component name) {
 		ItemStack item = new ItemStack(m);
 		ItemMeta itemMeta = item.getItemMeta();
-		itemMeta.setDisplayName(name);
-		ArrayList<String> loreList = new ArrayList<>();
-		loreList.add(lore);
-		loreList.add(Main.LORE_ID);
-		itemMeta.setLore(loreList);
+		itemMeta.displayName(name);
+		itemMeta.lore(List.of(lore, Main.LORE_ID));
 		item.setItemMeta(itemMeta);
 		item.addUnsafeEnchantment(Enchantment.INFINITY, 1);
 		return item;
@@ -42,19 +40,19 @@ public abstract class CustomArmor {
 		ItemStack[] entityArmor = m.getEquipment().getArmorContents();
 
 		for (ItemStack item : entityArmor) {
-			
+
 			if (item == null || !item.hasItemMeta()) {
 				return false;
 			}
-			
+
 			ItemMeta meta = item.getItemMeta();
-			
+
 			if (!meta.hasLore()) {
 				return false;
 			}
-			
-			List<String> loreList = meta.getLore();
-			
+
+			List<Component> loreList = meta.lore();
+
 			if (loreList.size() < 2) {
 				return false;
 			}
@@ -75,7 +73,7 @@ public abstract class CustomArmor {
 		return cloned;
 	}
 
-	public String getLore() {
+	public Component getLore() {
 		return lore;
 	}
 

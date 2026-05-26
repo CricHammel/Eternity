@@ -7,7 +7,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FluidCollisionMode;
-import org.bukkit.GameRule;
+import org.bukkit.GameRules;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -107,9 +107,9 @@ public class Dungeon implements Listener {
 		wc.type(WorldType.FLAT);
 		wc.generatorSettings("{\"structures\": {\"structures\": {}}, \"layers\": [], \"biome\":\"the_void\"}");
 		world = wc.createWorld();
-		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-		world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-		world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+		world.setGameRule(GameRules.ADVANCE_TIME, false);
+		world.setGameRule(GameRules.SPAWN_MOBS, false);
+		world.setGameRule(GameRules.ADVANCE_WEATHER, false);
 		world.setTime(18000);
 		parser.setWorld(world);
 		parser.parse();
@@ -175,7 +175,7 @@ public class Dungeon implements Listener {
 			}
 
 			event.setCancelled(true);
-			p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+			p.setHealth(p.getAttribute(Attribute.MAX_HEALTH).getValue());
 			DungeonFactory.closeDungeon(p);
 		}
 

@@ -50,7 +50,7 @@ public class KreeGeneral extends Kree {
 		sword.addEnchantment(Enchantment.SHARPNESS, 5);
 		sword.addEnchantment(Enchantment.KNOCKBACK, 1);
 		CustomMob.setMainHand(mob, sword, 0);
-		mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(120);
+		mob.getAttribute(Attribute.MAX_HEALTH).setBaseValue(120);
 		mob.setHealth(60);
 		mob.setImmuneToZombification(true);
 		return mob;

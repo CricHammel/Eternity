@@ -2,7 +2,6 @@ package de.cric_hammel.eternity.infinity.items.misc.teleport;
 
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,6 +20,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
@@ -48,7 +51,7 @@ public class TeleportRailgun extends CustomItem {
 	}
 	
 	private TeleportRailgun() {
-		super(Material.GOLDEN_HOE, ChatColor.GOLD + "Teleport Railgun", "Accelerates Teleport Capsules");
+		super(Material.GOLDEN_HOE, Component.text("Teleport Railgun", NamedTextColor.GOLD), Component.text("Accelerates Teleport Capsules"));
 	}
 	
 	@Override
@@ -56,32 +59,34 @@ public class TeleportRailgun extends CustomItem {
 		ItemStack gun = super.getItem();
 		ItemMeta gunMeta = gun.getItemMeta();
 		gunMeta.setUnbreakable(true);
-		List<String> lore = gunMeta.getLore();
-		lore.add(CHARGES_PREFIX + 0);
-		gunMeta.setLore(lore);
+		List<Component> lore = new java.util.ArrayList<>(gunMeta.lore());
+		lore.add(Component.text(CHARGES_PREFIX + 0));
+		gunMeta.lore(lore);
 		gun.setItemMeta(gunMeta);
 		return gun;
 	}
-	
+
 	private int getCharges(ItemStack item) {
 		if (!super.isItem(item)) {
 			throw new IllegalArgumentException("This is not a Teleport Railgun");
 		}
-		
-		List<String> lore = item.getItemMeta().getLore();
-		String charges = lore.get(2);
-		return Integer.parseInt(charges.substring(CHARGES_PREFIX.length()));
+
+		List<Component> lore = item.getItemMeta().lore();
+		if (lore.get(2) instanceof TextComponent tc) {
+			return Integer.parseInt(tc.content().substring(CHARGES_PREFIX.length()));
+		}
+		return 0;
 	}
-	
+
 	private void setCharges(ItemStack item, int charges) {
 		if (!super.isItem(item)) {
 			throw new IllegalArgumentException("This is not a Teleport Railgun");
 		}
-		
+
 		ItemMeta itemMeta = item.getItemMeta();
-		List<String> lore = itemMeta.getLore();
-		lore.set(2, CHARGES_PREFIX + charges);
-		itemMeta.setLore(lore);
+		List<Component> lore = new java.util.ArrayList<>(itemMeta.lore());
+		lore.set(2, Component.text(CHARGES_PREFIX + charges));
+		itemMeta.lore(lore);
 		item.setItemMeta(itemMeta);
 	}
 	

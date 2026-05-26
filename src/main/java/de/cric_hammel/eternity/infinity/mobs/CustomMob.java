@@ -7,19 +7,21 @@ import org.bukkit.entity.Mob;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
+import net.kyori.adventure.text.Component;
+
 public abstract class CustomMob {
 
 	private final EntityType type;
-	private final String name;
+	private final Component name;
 
-	public CustomMob(EntityType type, String name) {
+	public CustomMob(EntityType type, Component name) {
 		this.type = type;
 		this.name = name;
 	}
 
 	public Mob spawn(Location loc) {
 		Mob m = (Mob) loc.getWorld().spawnEntity(loc, type, false);
-		m.setCustomName(name);
+		m.customName(name);
 		m.setPersistent(true);
 		m.setRemoveWhenFarAway(false);
 		m.setLootTable(null);
@@ -27,8 +29,8 @@ public abstract class CustomMob {
 	}
 
 	public boolean isMob(Entity e) {
-		
-		if (e != null && e.getType() == type && e.getCustomName() != null && e.getCustomName().equals(name)) {
+
+		if (e != null && e.getType() == type && e.customName() != null && e.customName().equals(name)) {
 			return true;
 		}
 

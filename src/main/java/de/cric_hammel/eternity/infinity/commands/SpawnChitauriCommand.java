@@ -26,7 +26,7 @@ public class SpawnChitauriCommand implements CommandExecutor {
 		}
 
 		if (args.length != 0) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/spawnchitauri");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs").append(net.kyori.adventure.text.Component.text("/spawnchitauri")));
 			return false;
 		}
 

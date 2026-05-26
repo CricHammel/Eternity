@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.kree;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,7 +31,7 @@ public class XylopMeat extends CustomItem {
 	}
 	
 	private XylopMeat() {
-		super(Material.ROTTEN_FLESH, ChatColor.GOLD + "Xylop Meat", "Needs at least 2 stomaches to be digested");
+		super(Material.ROTTEN_FLESH, Component.text("Xylop Meat", NamedTextColor.GOLD), Component.text("Needs at least 2 stomaches to be digested"));
 	}
 	
 	public static class Listeners implements Listener {

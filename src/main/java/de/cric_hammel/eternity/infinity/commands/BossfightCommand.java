@@ -26,7 +26,7 @@ public class BossfightCommand implements CommandExecutor {
 		}
 
 		if (args.length != 1) {
-			p.sendMessage(Main.defaultMessages.get("wrongArgs") + "/bossfight start|stop");
+			p.sendMessage(Main.defaultMessages.get("wrongArgs").append(net.kyori.adventure.text.Component.text("/bossfight start|stop")));
 			return false;
 		}
 

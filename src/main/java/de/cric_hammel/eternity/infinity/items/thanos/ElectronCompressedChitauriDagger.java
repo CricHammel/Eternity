@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.thanos;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.enchantments.Enchantment;
@@ -39,14 +41,14 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 	}
 	
 	private ElectronCompressedChitauriDagger() {
-		super(Material.END_ROD, ChatColor.BLUE + "Electron-Compressed Chitauri Dagger", "Holds an unlimited charge");
+		super(Material.END_ROD, Component.text("Electron-Compressed Chitauri Dagger", NamedTextColor.BLUE), Component.text("Holds an unlimited charge"));
 	}
 
 	@Override
 	public ItemStack getItem() {
 		ItemStack dagger = super.getItem();
-		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_DAMAGE, 15, Operation.ADD_NUMBER, EquipmentSlotGroup.HAND);
-		AttributeUtils.add(dagger, Attribute.GENERIC_ATTACK_SPEED, 2.5, Operation.ADD_NUMBER, EquipmentSlotGroup.HAND);
+		AttributeUtils.add(dagger, Attribute.ATTACK_DAMAGE, 15, Operation.ADD_NUMBER, EquipmentSlotGroup.HAND);
+		AttributeUtils.add(dagger, Attribute.ATTACK_SPEED, 2.5, Operation.ADD_NUMBER, EquipmentSlotGroup.HAND);
 		dagger.addUnsafeEnchantment(Enchantment.SHARPNESS, 5);
 		return dagger;
 	}

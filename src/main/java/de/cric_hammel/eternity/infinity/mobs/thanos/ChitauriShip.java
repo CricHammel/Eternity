@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
@@ -43,12 +45,12 @@ public class ChitauriShip extends ThanosFollower {
 	}
 	
 	private ChitauriShip() {
-		super(EntityType.GHAST, ChatColor.GOLD + "Chitauri-Ship");
+		super(EntityType.GHAST, Component.text("Chitauri-Ship", NamedTextColor.GOLD));
 	}
 
 	public Mob spawnWithPassengers(Location loc, int amount) {
 		Mob m = super.spawn(loc);
-		m.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(50);
+		m.getAttribute(Attribute.MAX_HEALTH).setBaseValue(50);
 		m.setHealth(50);
 		m.setAI(false);
 		m.setInvulnerable(true);

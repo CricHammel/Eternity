@@ -2,11 +2,13 @@ package de.cric_hammel.eternity.infinity.items.stones;
 
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
@@ -14,12 +16,12 @@ import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
 
 public enum StoneType {
 
-	POWER(30, 1, Material.PURPLE_DYE, ChatColor.LIGHT_PURPLE + "Power Stone"),
-	SPACE(60, 2, Material.BLUE_DYE, ChatColor.BLUE + "Space Stone"),
-	REALITY(0, 0, Material.RED_DYE, ChatColor.DARK_RED + "Reality Stone"),
-	SOUL(3, 60, Material.ORANGE_DYE, ChatColor.RED + "Soul Stone"),
-	MIND(30, 1, Material.YELLOW_DYE, ChatColor.YELLOW + "Mind Stone"),
-	TIME(2, 10, Material.LIME_DYE, ChatColor.GREEN + "Time Stone");
+	POWER(30, 1, Material.PURPLE_DYE, Component.text("Power Stone", NamedTextColor.LIGHT_PURPLE)),
+	SPACE(60, 2, Material.BLUE_DYE, Component.text("Space Stone", NamedTextColor.BLUE)),
+	REALITY(0, 0, Material.RED_DYE, Component.text("Reality Stone", NamedTextColor.DARK_RED)),
+	SOUL(3, 60, Material.ORANGE_DYE, Component.text("Soul Stone", NamedTextColor.RED)),
+	MIND(30, 1, Material.YELLOW_DYE, Component.text("Mind Stone", NamedTextColor.YELLOW)),
+	TIME(2, 10, Material.LIME_DYE, Component.text("Time Stone", NamedTextColor.GREEN));
 
 	private static final String METADATA_KEY_COOLDOWN_LEFT = "eternity_cooldown_left_";
 	private static final String METADATA_KEY_COOLDOWN_RIGHT = "eternity_cooldown_right_";
@@ -29,7 +31,7 @@ public enum StoneType {
 	public final Material m;
 	private final InfinityStone infinityStone;
 
-	private StoneType(int cooldownLeftClick, int cooldownRightClick, Material m, String itemName) {
+	private StoneType(int cooldownLeftClick, int cooldownRightClick, Material m, Component itemName) {
 		this.cooldownLeftclick = cooldownLeftClick;
 		this.cooldownRightclick = cooldownRightClick;
 		this.m = m;
@@ -83,19 +85,19 @@ public enum StoneType {
 
 	public static boolean hasAnyInHand(Player p) {
 		ItemStack item = p.getInventory().getItemInMainHand();
-		
+
 		if (item == null || !item.hasItemMeta()) {
 			return false;
 		}
-		
+
 		ItemMeta meta = item.getItemMeta();
-		
+
 		if (!meta.hasLore()) {
 			return false;
 		}
-		
-		List<String> loreList = meta.getLore();
-		
+
+		List<Component> loreList = meta.lore();
+
 		if (loreList.size() < 2) {
 			return false;
 		}
@@ -117,15 +119,15 @@ public enum StoneType {
 			if (item == null || !item.hasItemMeta()) {
 				continue;
 			}
-			
+
 			ItemMeta meta = item.getItemMeta();
-			
+
 			if (!meta.hasLore()) {
 				continue;
 			}
-			
-			List<String> loreList = meta.getLore();
-			
+
+			List<Component> loreList = meta.lore();
+
 			if (loreList.size() < 2) {
 				continue;
 			}
@@ -142,19 +144,19 @@ public enum StoneType {
 	}
 
 	public static StoneType whichStone(ItemStack item) {
-		
+
 		if (item == null || !item.hasItemMeta()) {
 			return null;
 		}
-		
+
 		ItemMeta meta = item.getItemMeta();
-		
+
 		if (!meta.hasLore()) {
 			return null;
 		}
 
-		List<String> loreList = meta.getLore();
-		
+		List<Component> loreList = meta.lore();
+
 		if (loreList.size() < 2) {
 			return null;
 		}
@@ -175,8 +177,8 @@ public enum StoneType {
 
 	private class InfinityStone extends CustomItem {
 
-		public InfinityStone(Material m, String name) {
-			super(m, name, "One of the six powerful Infinity Stones");
+		public InfinityStone(Material m, Component name) {
+			super(m, name, Component.text("One of the six powerful Infinity Stones"));
 		}
 
 	}

@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.misc;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 
@@ -22,6 +24,6 @@ public class InfiniCoin extends CustomItem {
 	}
 
 	private InfiniCoin() {
-		super(Material.GOLD_INGOT, ChatColor.GOLD + "InfiniCoin", "Buy the most mystical items");
+		super(Material.GOLD_INGOT, Component.text("InfiniCoin", NamedTextColor.GOLD), Component.text("Buy the most mystical items"));
 	}
 }

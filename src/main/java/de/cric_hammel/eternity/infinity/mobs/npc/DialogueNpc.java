@@ -3,7 +3,6 @@ package de.cric_hammel.eternity.infinity.mobs.npc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -16,6 +15,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+
 import de.cric_hammel.eternity.Main;
 
 public class DialogueNpc {
@@ -24,11 +26,11 @@ public class DialogueNpc {
 
 	private final Dialogue d;
 
-	public DialogueNpc(EntityType type, String name, Location loc, Dialogue d) {
+	public DialogueNpc(EntityType type, Component name, Location loc, Dialogue d) {
 		d.name = name;
 		this.d = d;
 		LivingEntity e = (LivingEntity) loc.getWorld().spawnEntity(loc, type, false);
-		e.setCustomName(name);
+		e.customName(name);
 		e.setCustomNameVisible(true);
 		e.setInvulnerable(true);
 		e.setPersistent(true);
@@ -38,19 +40,19 @@ public class DialogueNpc {
 		e.setRemoveWhenFarAway(false);
 		e.setMetadata(META_KEY_NPC, new FixedMetadataValue(Main.getPlugin(), this));
 	}
-	
+
 	public static boolean isNpc(LivingEntity e) {
 		return e.hasMetadata(META_KEY_NPC);
 	}
 
 	public static class Dialogue {
 
-		private String name;
-		private ChatColor color;
+		private Component name;
+		private TextColor color;
 		private int delaySec;
 		private List<String> dialogue;
 
-		public Dialogue(ChatColor color, int delaySec) {
+		public Dialogue(TextColor color, int delaySec) {
 			this.color = color;
 			this.delaySec= delaySec;
 			dialogue = new ArrayList<>();
@@ -71,7 +73,8 @@ public class DialogueNpc {
 						return;
 					}
 
-					p.sendMessage("[" + name + "] " + color + dialogue.get(count));
+					p.sendMessage(Component.text("[").append(name).append(Component.text("] "))
+							.append(Component.text(dialogue.get(count), color)));
 					count++;
 				}
 			}.runTaskTimer(Main.getPlugin(), 0, delaySec * 20);

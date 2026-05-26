@@ -1,5 +1,6 @@
 package de.cric_hammel.eternity.infinity.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -7,13 +8,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+
 public abstract class CustomTieredItem extends CustomItem {
 
 	private final ItemStack tierOne;
 	private final ItemStack tierTwo;
 	private final ItemStack tierThree;
 
-	public CustomTieredItem(Material m, String name, String lore) {
+	public CustomTieredItem(Material m, Component name, Component lore) {
 		super(m, name, lore);
 		tierOne = super.getItem();
 		setTier(tierOne, 1);
@@ -30,9 +34,9 @@ public abstract class CustomTieredItem extends CustomItem {
 
 		try {
 			ItemMeta meta = item.getItemMeta();
-			List<String> lore = meta.getLore();
-			lore.add("Tier " + tier);
-			meta.setLore(lore);
+			List<Component> lore = new ArrayList<>(meta.lore());
+			lore.add(Component.text("Tier " + tier));
+			meta.lore(lore);
 			item.setItemMeta(meta);
 		} catch (Exception e) {
 			return;
@@ -47,24 +51,25 @@ public abstract class CustomTieredItem extends CustomItem {
 
 	public boolean hasTierInHand(Player p, int tier) {
 		ItemStack item = p.getInventory().getItemInMainHand();
-		
+
 		if (item == null || !item.hasItemMeta()) {
 			return false;
 		}
-		
+
 		ItemMeta meta = item.getItemMeta();
-		
+
 		if (!meta.hasLore()) {
 			return false;
 		}
-		
-		List<String> loreList = meta.getLore();
-		
-		if (loreList.size() < 2) {
+
+		List<Component> loreList = meta.lore();
+
+		if (loreList.size() < 3) {
 			return false;
 		}
 
-		if (super.hasInHand(p) && loreList.get(2).contains(Integer.toString(tier))) {
+		if (super.hasInHand(p) && loreList.get(2) instanceof TextComponent tc
+				&& tc.content().contains(Integer.toString(tier))) {
 			return true;
 		}
 

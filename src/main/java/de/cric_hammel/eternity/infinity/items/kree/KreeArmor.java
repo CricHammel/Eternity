@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.kree;
 
-import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -33,25 +35,25 @@ public class KreeArmor extends CustomTieredArmor {
 	}
 	
 	private KreeArmor() {
-		super(CustomArmor.ArmorType.CHAINMAIL, ChatColor.RED + "Kree", "The Armor of the mighty Kree");
+		super(CustomArmor.ArmorType.CHAINMAIL, Component.text("Kree", NamedTextColor.RED), Component.text("The Armor of the mighty Kree"));
 	}
 
 	@Override
 	public void changeTierOne() {
 		ItemStack[] tierOne = super.getTier(1);
-		AttributeUtils.addToArmor(tierOne, Attribute.GENERIC_ATTACK_DAMAGE, 0.25, Operation.ADD_SCALAR);
+		AttributeUtils.addToArmor(tierOne, Attribute.ATTACK_DAMAGE, 0.25, Operation.ADD_SCALAR);
 	}
 
 	@Override
 	public void changeTierTwo() {
 		ItemStack[] tierTwo = super.getTier(2);
-		AttributeUtils.addToArmor(tierTwo, Attribute.GENERIC_ATTACK_DAMAGE, 0.5, Operation.ADD_SCALAR);
+		AttributeUtils.addToArmor(tierTwo, Attribute.ATTACK_DAMAGE, 0.5, Operation.ADD_SCALAR);
 	}
 
 	@Override
 	public void changeTierThree() {
 		ItemStack[] tierThree = super.getTier(3);
-		AttributeUtils.addToArmor(tierThree, Attribute.GENERIC_ATTACK_DAMAGE, 0.75, Operation.ADD_SCALAR);
+		AttributeUtils.addToArmor(tierThree, Attribute.ATTACK_DAMAGE, 0.75, Operation.ADD_SCALAR);
 	}
 
 	public static class Listeners implements Listener {

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -14,6 +13,9 @@ import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.Main;
 
@@ -118,7 +120,7 @@ public class WorldParser extends BlockParser {
 		    	}
 
 				if (firstCheck) {
-					p.sendMessage(ChatColor.GREEN + "The world is currently being generated, you will be teleported soon!");
+					p.sendMessage(Component.text("The world is currently being generated, you will be teleported soon!", NamedTextColor.GREEN));
 					firstCheck = false;
 				}
 			}

@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -54,7 +56,7 @@ public class DungeonFactory {
 		parser.addAction(Material.GREEN_GLAZED_TERRACOTTA, (loc, data) -> Xylop.getInstance().spawn(loc));
 		parser.addAction(Material.BROWN_GLAZED_TERRACOTTA, (loc, data) -> {
 			ArrayList<ShopItem> items = new ArrayList<>();
-			items.add(new ShopItem(ChatColor.RED + "InfiniCoin", Material.GOLD_INGOT, new ArrayList<>(Arrays.asList("3 Xylop Meat")), 0, (player) -> {
+			items.add(new ShopItem(Component.text("InfiniCoin", NamedTextColor.RED), Material.GOLD_INGOT, new ArrayList<>(java.util.List.of(Component.text("3 Xylop Meat"))), 0, (player) -> {
 				Inventory inv = player.getInventory();
 				ItemStack meat = XylopMeat.getInstance().getItem();
 				meat.setAmount(3);
@@ -68,7 +70,7 @@ public class DungeonFactory {
 				return true;
 			}));
 			loc.setYaw(0f);
-			new ShopNpc(EntityType.PIGLIN, ChatColor.RED + "Xylop Farmer", loc, items);
+			new ShopNpc(EntityType.PIGLIN, Component.text("Xylop Farmer", NamedTextColor.RED), loc, items);
 			});
 		dungeons.put(p, dungeon);
 		dungeon.create();

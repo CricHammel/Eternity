@@ -10,13 +10,16 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 
 import de.cric_hammel.eternity.infinity.commands.BossfightCommand;
 import de.cric_hammel.eternity.infinity.commands.GetGauntletCommand;
@@ -61,8 +64,8 @@ public class Main extends JavaPlugin {
 
 	private static Main plugin;
 	private static World mainWorld;
-	public static Map<String, String> defaultMessages = new HashMap<>();
-	public static final String LORE_ID = ChatColor.MAGIC + "eternity";
+	public static Map<String, Component> defaultMessages = new HashMap<>();
+	public static final Component LORE_ID = Component.text("eternity", Style.style(TextDecoration.OBFUSCATED));
 
 	@Override
 	public void onEnable() {
@@ -74,9 +77,9 @@ public class Main extends JavaPlugin {
 		}
 
 		// TODO: Put these into config
-		defaultMessages.put("notPlayer", "This command can only be executed by players!");
-		defaultMessages.put("noPermission", "You don't have the permission to execute this command!");
-		defaultMessages.put("wrongArgs", "Wrong arguments! Correct usage: ");
+		defaultMessages.put("notPlayer", Component.text("This command can only be executed by players!"));
+		defaultMessages.put("noPermission", Component.text("You don't have the permission to execute this command!"));
+		defaultMessages.put("wrongArgs", Component.text("Wrong arguments! Correct usage: "));
 
 		// Commands
 		getCommand("getgauntlet").setExecutor(new GetGauntletCommand());
@@ -157,12 +160,12 @@ public class Main extends JavaPlugin {
 		return plugin;
 	}
 
-	public static String getDataPath() {
+	public static String getDataFolderPath() {
 		return plugin.getDataFolder().getPath();
 	}
 
 	public static String getLootPath() {
-		return getDataPath() + "/loot";
+		return getDataFolderPath() + "/loot";
 	}
 
 	public static World getMainWorld() {
