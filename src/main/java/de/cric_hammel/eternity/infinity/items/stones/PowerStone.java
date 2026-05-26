@@ -25,7 +25,7 @@ public class PowerStone implements Listener {
 	public void usePowerStoneEntity(PlayerInteractEntityEvent event) {
 		Player p = event.getPlayer();
 
-		if (!StoneType.POWER.hasStoneInHand(p) || StoneType.POWER.hasCooldownRightclick(p)) {
+		if (!StoneType.POWER.hasStoneInHand(p) || StoneType.POWER.hasCooldown(p)) {
 			return;
 		}
 
@@ -52,14 +52,18 @@ public class PowerStone implements Listener {
 		if (StoneType.POWER.hasStoneInHand(p)) {
 			Action a = event.getAction();
 
-			if (a == Action.RIGHT_CLICK_BLOCK && !StoneType.POWER.hasCooldownRightclick(p)) {
+			if (StoneType.POWER.hasCooldown(p)) {
+				return;
+			}
+			
+			if (a == Action.RIGHT_CLICK_BLOCK) {
 				Block b = event.getClickedBlock();
 				b.breakNaturally();
 				World w = p.getWorld();
 				SoundUtils.playToAll(event.getClickedBlock().getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 1f);
 				w.spawnParticle(Particle.WITCH, event.getClickedBlock().getLocation(), 50, 0.1, 0.1, 0.1, 0.001);
 				StoneType.POWER.applyCooldownRightclick(p);
-			} else if (ActionUtils.isLeftclick(a) && !StoneType.POWER.hasCooldownLeftclick(p)) {
+			} else if (ActionUtils.isLeftclick(a)) {
 
 				new BukkitRunnable() {
 

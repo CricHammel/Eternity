@@ -1,5 +1,8 @@
 package de.cric_hammel.eternity.infinity.items.stones;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -11,21 +14,19 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import de.cric_hammel.eternity.Main;
+import de.cric_hammel.eternity.infinity.util.SoundUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-import de.cric_hammel.eternity.Main;
-import de.cric_hammel.eternity.infinity.util.SoundUtils;
-
 public class MindStone implements Listener {
 
 	private static final String INVENTORY_TITLE_TEXT = "Inventory of ";
-	private static final String METADATA_KEY_POSSESSES = "eternity_possesses";
-	private static final String METADATA_KEY_ISPOSSESSED = "eternity_ispossessed";
+	private static final Set<Player> POSSESSING = new HashSet<>();
+	private static final Set<Damageable> POSSESSED = new HashSet<>();
 
 	@EventHandler
 	public void useMindStoneEntity(PlayerInteractEntityEvent event) {
@@ -36,7 +37,7 @@ public class MindStone implements Listener {
 
 		Player p = event.getPlayer();
 
-		if (!StoneType.MIND.hasStoneInHand(p) || StoneType.MIND.hasCooldownRightclick(p)) {
+		if (!StoneType.MIND.hasStoneInHand(p) || StoneType.MIND.hasCooldown(p)) {
 			return;
 		}
 
@@ -56,26 +57,26 @@ public class MindStone implements Listener {
 
 		final Player p = (Player) event.getDamager();
 
-		if (!StoneType.MIND.hasStoneInHand(p) || StoneType.MIND.hasCooldownLeftclick(p)) {
+		if (!StoneType.MIND.hasStoneInHand(p) || StoneType.MIND.hasCooldown(p)) {
 			return;
 		}
 
 		final Damageable d = (Damageable) event.getEntity();
 
-		if (p.hasMetadata(METADATA_KEY_ISPOSSESSED) || d.hasMetadata(METADATA_KEY_POSSESSES)) {
+		if (POSSESSED.contains(p) || POSSESSING.contains(d)) {
 			return;
 		}
 
-		if (!p.hasMetadata(METADATA_KEY_POSSESSES) && !d.hasMetadata(METADATA_KEY_ISPOSSESSED)) {
+		if (!POSSESSING.contains(p) && !POSSESSED.contains(d)) {
 			possess(p, d);
-		} else if (p.hasMetadata(METADATA_KEY_POSSESSES) && d.hasMetadata(METADATA_KEY_ISPOSSESSED)) {
+		} else if (POSSESSING.contains(p) && POSSESSED.contains(d)) {
 			unpossess(p, d);
 		}
 	}
 
 	private void possess(final Player p, final Damageable d) {
-		p.setMetadata(METADATA_KEY_POSSESSES, new FixedMetadataValue(Main.getPlugin(), 1));
-		d.setMetadata(METADATA_KEY_ISPOSSESSED, new FixedMetadataValue(Main.getPlugin(), 1));
+		POSSESSING.add(p);
+		POSSESSED.add(d);
 		p.setInvisible(true);
 		p.teleport(d);
 
@@ -84,13 +85,13 @@ public class MindStone implements Listener {
 			@Override
 			public void run() {
 
-				if (!p.hasMetadata(METADATA_KEY_POSSESSES) && !d.hasMetadata(METADATA_KEY_ISPOSSESSED)) {
+				if (!POSSESSING.contains(p) && !POSSESSED.contains(d)) {
 					cancel();
 				}
 
 				if (d.isDead() || !p.isOnline()) {
-					p.removeMetadata(METADATA_KEY_POSSESSES, Main.getPlugin());
-					d.removeMetadata(METADATA_KEY_ISPOSSESSED, Main.getPlugin());
+					POSSESSING.remove(p);
+					POSSESSED.remove(d);
 				}
 
 				d.teleport(p);
@@ -104,8 +105,8 @@ public class MindStone implements Listener {
 	}
 
 	private void unpossess(final Player p, final Damageable d) {
-		p.removeMetadata(METADATA_KEY_POSSESSES, Main.getPlugin());
-		d.removeMetadata(METADATA_KEY_ISPOSSESSED, Main.getPlugin());
+		POSSESSING.remove(p);
+		POSSESSED.remove(d);
 		p.setInvisible(false);
 
 		SoundUtils.playToAll(p, Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE, 1f, 2f);

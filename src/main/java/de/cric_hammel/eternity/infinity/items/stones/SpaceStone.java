@@ -36,10 +36,13 @@ public class SpaceStone implements Listener {
 
 		Action a = event.getAction();
 
-		if (ActionUtils.isRightclick(a) && !StoneType.SPACE.hasCooldownRightclick(p)) {
+		if (StoneType.SPACE.hasCooldown(p)) {
+			return;
+		}
+		
+		if (ActionUtils.isRightclick(a)) {
 			teleport(p);
-		} else if (ActionUtils.isLeftclick(a) && !StoneType.SPACE.hasCooldownLeftclick(p)
-				&& p.getGameMode() != GameMode.SPECTATOR) {
+		} else if (ActionUtils.isLeftclick(a) && p.getGameMode() != GameMode.SPECTATOR) {
 			lastGameMode.put(p, p.getGameMode());
 			p.setGameMode(GameMode.SPECTATOR);
 			SoundUtils.playToAll(p, Sound.BLOCK_BEACON_ACTIVATE, 1f, 1f);

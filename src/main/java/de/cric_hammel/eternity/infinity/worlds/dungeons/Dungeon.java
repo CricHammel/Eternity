@@ -1,8 +1,10 @@
 package de.cric_hammel.eternity.infinity.worlds.dungeons;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -17,6 +19,7 @@ import org.bukkit.WorldType;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.EntityType;
@@ -36,12 +39,10 @@ import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionType;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
-import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.keys.DungeonKeyCore;
 import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.loot.CustomChestLootTable;
@@ -149,8 +150,8 @@ public class Dungeon implements Listener {
 	public static class Listeners implements Listener {
 
 		private static final Material trap = Material.GILDED_BLACKSTONE;
-		private static final String META_KILL_KEY = "eternity_powerdungeon_killed_guard";
-		private static final String META_KEY_OPENED = "eternity_opened";
+		private static final Set<Player> POWER_KILLED_FIRST_GUARD = new HashSet<>();
+		private static final Set<Block> OPENED_CHESTS = new HashSet<>();
 
 		@EventHandler
 		public void onPlayerQuitAll(PlayerQuitEvent event) {
@@ -217,19 +218,21 @@ public class Dungeon implements Listener {
 		@EventHandler
 		public void onPlayerInteractAllChests(PlayerInteractEvent event) {
 			Dungeon dungeon = DungeonFactory.getCurrentDungeon(event.getPlayer());
+			Block block = event.getClickedBlock();
+			BlockState state = block.getState();
 
-			if (dungeon == null || event.getAction() != Action.RIGHT_CLICK_BLOCK || !(event.getClickedBlock().getState() instanceof Chest)) {
+			if (dungeon == null || event.getAction() != Action.RIGHT_CLICK_BLOCK || !(state instanceof Chest)) {
 				return;
 			}
+			
+			Chest chest = (Chest) state;
 
-			Chest chest = (Chest) event.getClickedBlock().getState();
-
-			if (chest.hasMetadata(META_KEY_OPENED)) {
+			if (OPENED_CHESTS.contains(block)) {
 				return;
 			}
 
 			dungeon.loot.generateLoot(chest.getInventory(), new Random());
-			chest.setMetadata(META_KEY_OPENED, new FixedMetadataValue(Main.getPlugin(), 1));
+			OPENED_CHESTS.add(block);
 		}
 		
 		@EventHandler
@@ -345,13 +348,18 @@ public class Dungeon implements Listener {
 			}
 
 			Player p = e.getKiller();
+			
+			if (p == null) {
+				return;
+			}
+			
 			Dungeon dungeon = DungeonFactory.getCurrentDungeon(p);
 
-			if (p == null || dungeon == null || dungeon.type != StoneType.POWER || !KreeGuard.getInstance().isMob(e)) {
+			if (dungeon == null || dungeon.type != StoneType.POWER || !KreeGuard.getInstance().isMob(e)) {
 				return;
 			}
 
-			if (p.hasMetadata(META_KILL_KEY)) {
+			if (POWER_KILLED_FIRST_GUARD.contains(p)) {
 				World w = dungeon.world;
 				// TODO: Insert final location of stone drop
 				Location loc = new Location(w, 0, 0, 0);
@@ -362,9 +370,9 @@ public class Dungeon implements Listener {
 					w.dropItem(loc, DungeonKeyCore.getInstance().getItem());
 				}
 
-				p.removeMetadata(META_KILL_KEY, Main.getPlugin());
+				POWER_KILLED_FIRST_GUARD.remove(p);
 			} else {
-				p.setMetadata(META_KILL_KEY, new FixedMetadataValue(Main.getPlugin(), 1));
+				POWER_KILLED_FIRST_GUARD.add(p);
 			}
 		}
 	}

@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.mobs.npc;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -24,18 +26,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 
-import net.kyori.adventure.text.Component;
-
-import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.misc.InfiniCoin;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
+import net.kyori.adventure.text.Component;
 
 public class ShopNpc {
 
-	private static final String META_KEY_NPC = "eternity_shopnpc";
-	private static final String META_KEY_PLAYER = "eternity_shopnpc_last";
+	private static final Map<LivingEntity, ShopNpc> NPCS = new HashMap<>();
+	private static final Map<Player, ShopNpc> LATEST_NPC = new HashMap<>();
 
 	private Component name;
 	private List<ShopItem> items;
@@ -53,7 +52,7 @@ public class ShopNpc {
 		e.setCanPickupItems(false);
 		e.setCollidable(false);
 		e.setRemoveWhenFarAway(false);
-		e.setMetadata(META_KEY_NPC, new FixedMetadataValue(Main.getPlugin(), this));
+		NPCS.put(e, this);
 	}
 
 	public void openMenu(Player p) {
@@ -80,11 +79,11 @@ public class ShopNpc {
 
 		invs.add(inv);
 		p.openInventory(inv);
-		p.setMetadata(META_KEY_PLAYER, new FixedMetadataValue(Main.getPlugin(), this));
+		LATEST_NPC.put(p, this);
 	}
 
-	public static boolean isNpc(LivingEntity e) {
-		return e.hasMetadata(META_KEY_NPC);
+	public static boolean isNpc(Entity e) {
+		return NPCS.containsKey(e);
 	}
 
 	public static class ShopItem {
@@ -144,11 +143,11 @@ public class ShopNpc {
 
 			Entity e = event.getRightClicked();
 
-			if (!e.hasMetadata(META_KEY_NPC)) {
+			if (!NPCS.containsKey(e)) {
 				return;
 			}
 
-			ShopNpc npc = (ShopNpc) e.getMetadata(META_KEY_NPC).get(0).value();
+			ShopNpc npc = NPCS.get(e);
 			npc.openMenu(event.getPlayer());
 			event.setCancelled(true);
 		}
@@ -157,12 +156,17 @@ public class ShopNpc {
 		public void onInventoryClick(InventoryClickEvent event) {
 			HumanEntity h = event.getWhoClicked();
 
-			if (!(h instanceof Player) || !h.hasMetadata(META_KEY_PLAYER)) {
+			if (!(h instanceof Player)) {
 				return;
 			}
 
 			Player p = (Player) h;
-			ShopNpc npc = (ShopNpc) p.getMetadata(META_KEY_PLAYER).get(0).value();
+			
+			if (!LATEST_NPC.containsKey(p)) {
+				return;
+			}
+			
+			ShopNpc npc = LATEST_NPC.get(p);
 			Inventory inv = event.getInventory();
 
 			if (!npc.invs.contains(inv)) {
@@ -202,19 +206,24 @@ public class ShopNpc {
 		public void onInventoryClose(InventoryCloseEvent event) {
 			HumanEntity h = event.getPlayer();
 
-			if (!(h instanceof Player) || !h.hasMetadata(META_KEY_PLAYER)) {
+			if (!(h instanceof Player)) {
 				return;
 			}
 
 			Player p = (Player) h;
-			ShopNpc npc = (ShopNpc) p.getMetadata(META_KEY_PLAYER).get(0).value();
+			
+			if (!LATEST_NPC.containsKey(p)) {
+				return;
+			}
+			
+			ShopNpc npc = LATEST_NPC.get(p);
 			Inventory inv = event.getInventory();
 
 			if (!npc.invs.contains(inv)) {
 				return;
 			}
 
-			p.removeMetadata(META_KEY_PLAYER, Main.getPlugin());
+			LATEST_NPC.remove(p);
 		}
 	}
 }

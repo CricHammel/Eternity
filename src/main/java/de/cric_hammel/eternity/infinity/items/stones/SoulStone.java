@@ -37,7 +37,7 @@ public class SoulStone implements Listener {
 		Player p = event.getPlayer();
 		Action a = event.getAction();
 
-		if (!StoneType.SOUL.hasStoneInHand(p) || StoneType.SOUL.hasCooldownRightclick(p)
+		if (!StoneType.SOUL.hasStoneInHand(p) || StoneType.SOUL.hasCooldown(p)
 				|| !ActionUtils.isRightclick(a)) {
 			return;
 		}
@@ -89,7 +89,7 @@ public class SoulStone implements Listener {
 
 		Player p = (Player) event.getDamager();
 
-		if (!StoneType.SOUL.hasStoneInHand(p) || StoneType.SOUL.hasCooldownLeftclick(p)) {
+		if (!StoneType.SOUL.hasStoneInHand(p) || StoneType.SOUL.hasCooldown(p)) {
 			return;
 		}
 

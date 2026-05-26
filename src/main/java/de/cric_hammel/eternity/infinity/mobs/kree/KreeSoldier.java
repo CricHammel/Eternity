@@ -1,5 +1,8 @@
 package de.cric_hammel.eternity.infinity.mobs.kree;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -17,7 +20,6 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
@@ -29,7 +31,7 @@ public class KreeSoldier extends Kree {
 
 	private static KreeSoldier instance;
 	
-	private static final String METADATA_KEY_TARGET = "eternity_kree_target";
+	private static final Set<Player> AGGRO = new HashSet<>();
 	private static KreeArmor armor = KreeArmor.getInstance();
 
 	public static KreeSoldier getInstance() {
@@ -83,7 +85,7 @@ public class KreeSoldier extends Kree {
 
 			Player p = (Player) event.getTarget();
 
-			if (!p.hasMetadata(METADATA_KEY_TARGET)) {
+			if (!AGGRO.contains(p)) {
 				event.setCancelled(true);
 			}
 		}
@@ -120,16 +122,14 @@ public class KreeSoldier extends Kree {
 				return;
 			}
 			
-			if (!p.hasMetadata(METADATA_KEY_TARGET)) {
-				p.setMetadata(METADATA_KEY_TARGET, new FixedMetadataValue(Main.getPlugin(), 1));
+			if (!AGGRO.contains(p)) {
+				AGGRO.add(p);
 
 				new BukkitRunnable() {
 
 					@Override
 					public void run() {
-						if (p.hasMetadata(METADATA_KEY_TARGET)) {
-							p.removeMetadata(METADATA_KEY_TARGET, Main.getPlugin());
-						}
+						AGGRO.remove(p);
 					}
 
 				}.runTaskLater(Main.getPlugin(), 120 * 20);

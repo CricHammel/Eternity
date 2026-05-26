@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.mobs.npc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -12,17 +14,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import de.cric_hammel.eternity.Main;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 
-import de.cric_hammel.eternity.Main;
-
 public class DialogueNpc {
 
-	private static final String META_KEY_NPC = "eternity_dialoguenpc";
+	private static final Map<LivingEntity, DialogueNpc> NPCS = new HashMap<>();
 
 	private final Dialogue d;
 
@@ -38,11 +38,11 @@ public class DialogueNpc {
 		e.setCanPickupItems(false);
 		e.setCollidable(false);
 		e.setRemoveWhenFarAway(false);
-		e.setMetadata(META_KEY_NPC, new FixedMetadataValue(Main.getPlugin(), this));
+		NPCS.put(e, this);
 	}
 
-	public static boolean isNpc(LivingEntity e) {
-		return e.hasMetadata(META_KEY_NPC);
+	public static boolean isNpc(Entity e) {
+		return NPCS.containsKey(e);
 	}
 
 	public static class Dialogue {
@@ -92,11 +92,11 @@ public class DialogueNpc {
 
 			Entity e = event.getRightClicked();
 
-			if (!e.hasMetadata(META_KEY_NPC)) {
+			if (!NPCS.containsKey(e)) {
 				return;
 			}
 
-			DialogueNpc npc = (DialogueNpc) e.getMetadata(META_KEY_NPC).get(0).value();
+			DialogueNpc npc = NPCS.get(e);
 			npc.d.talk(event.getPlayer());
 			event.setCancelled(true);
 		}

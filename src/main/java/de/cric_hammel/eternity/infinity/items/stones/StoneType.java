@@ -7,12 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.items.gauntlet.Gauntlet;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public enum StoneType {
 
@@ -22,9 +21,6 @@ public enum StoneType {
 	SOUL(3, 60, Material.ORANGE_DYE, Component.text("Soul Stone", NamedTextColor.RED)),
 	MIND(30, 1, Material.YELLOW_DYE, Component.text("Mind Stone", NamedTextColor.YELLOW)),
 	TIME(2, 10, Material.LIME_DYE, Component.text("Time Stone", NamedTextColor.GREEN));
-
-	private static final String METADATA_KEY_COOLDOWN_LEFT = "eternity_cooldown_left_";
-	private static final String METADATA_KEY_COOLDOWN_RIGHT = "eternity_cooldown_right_";
 
 	private final int cooldownLeftclick;
 	private final int cooldownRightclick;
@@ -47,19 +43,15 @@ public enum StoneType {
 	}
 
 	public void applyCooldownLeftclick(Player p) {
-		infinityStone.applyCooldown(p, METADATA_KEY_COOLDOWN_LEFT + this.toString(), cooldownLeftclick);
+		infinityStone.applyCooldown(p, cooldownLeftclick);
 	}
 
 	public void applyCooldownRightclick(Player p) {
-		infinityStone.applyCooldown(p, METADATA_KEY_COOLDOWN_RIGHT + this.toString(), cooldownRightclick);
+		infinityStone.applyCooldown(p, cooldownRightclick);
 	}
 
-	public boolean hasCooldownLeftclick(Player p) {
-		return infinityStone.hasCooldown(p, METADATA_KEY_COOLDOWN_LEFT + this.toString());
-	}
-
-	public boolean hasCooldownRightclick(Player p) {
-		return infinityStone.hasCooldown(p, METADATA_KEY_COOLDOWN_RIGHT + this.toString());
+	public boolean hasCooldown(Player p) {
+		return infinityStone.hasCooldown(p);
 	}
 
 	public boolean canGetStone(Player p) {

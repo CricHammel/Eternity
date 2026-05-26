@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.items.stones;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -17,7 +19,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
@@ -27,7 +28,7 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class TimeStone implements Listener {
 
-	private static final String METADATA_KEY = "eternity_time";
+	private static final Set<Player> TIMER_RUNNING = new HashSet<>();
 	private HashMap<UUID, LinkedList<DeadEntityStorage>> killedEntities = new HashMap<>();
 	private HashMap<UUID, LinkedList<Location>> lastLocations = new HashMap<>();
 
@@ -41,9 +42,13 @@ public class TimeStone implements Listener {
 
 		Action a = event.getAction();
 
-		if (ActionUtils.isRightclick(a) && !StoneType.TIME.hasCooldownRightclick(p)) {
+		if (StoneType.TIME.hasCooldown(p)) {
+			return;
+		}
+		
+		if (ActionUtils.isRightclick(a)) {
 			warpBack(p);
-		} else if (ActionUtils.isLeftclick(a) && !StoneType.TIME.hasCooldownLeftclick(p)) {
+		} else if (ActionUtils.isLeftclick(a)) {
 			LinkedList<DeadEntityStorage> list = killedEntities.get(p.getUniqueId());
 
 			if (list == null || list.isEmpty()) {
@@ -124,11 +129,11 @@ public class TimeStone implements Listener {
 
 	private void startTimer(final Player p) {
 
-		if (p.hasMetadata(METADATA_KEY)) {
+		if (TIMER_RUNNING.contains(p)) {
 			return;
 		}
 
-		p.setMetadata(METADATA_KEY, new FixedMetadataValue(Main.getPlugin(), true));
+		TIMER_RUNNING.add(p);
 
 		new BukkitRunnable() {
 
@@ -142,7 +147,7 @@ public class TimeStone implements Listener {
 				LinkedList<Location> locations = lastLocations.get(p.getUniqueId());
 
 				if (!p.isOnline() || !StoneType.TIME.hasStoneInInv(p)) {
-					p.removeMetadata(METADATA_KEY, Main.getPlugin());
+					TIMER_RUNNING.remove(p);
 					lastLocations.remove(p.getUniqueId());
 					cancel();
 				}

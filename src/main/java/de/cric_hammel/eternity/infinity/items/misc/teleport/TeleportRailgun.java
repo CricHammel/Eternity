@@ -21,19 +21,17 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
-
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class TeleportRailgun extends CustomItem {
 	
 	private static TeleportRailgun instance;
 	
-	private static final String COOLDOWN_KEY = "eternity_railgun_cooldown";
 	private static final String CHARGES_PREFIX = "Capsules: ";
 	private static final int TELEPORT_BLOCKS = 15;
 	private static final double TELEPORT_STEP = 0.2;
@@ -166,7 +164,7 @@ public class TeleportRailgun extends CustomItem {
 			
 			int charges = gun.getCharges(item);
 			
-			if (charges <= 0 || gun.hasCooldown(p, COOLDOWN_KEY)) {
+			if (charges <= 0 || gun.hasCooldown(p)) {
 				SoundUtils.play(p, Sound.ENTITY_ENDERMITE_AMBIENT, 10, 1);
 				return;
 			}
@@ -174,7 +172,7 @@ public class TeleportRailgun extends CustomItem {
 			gun.teleport(p);
 			
 			gun.setCharges(item, charges - 1);
-			gun.applyCooldown(p, COOLDOWN_KEY, 2);
+			gun.applyCooldown(p, 2);
 		}
 	}
 }

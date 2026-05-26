@@ -1,5 +1,10 @@
 package de.cric_hammel.eternity.infinity.items.stones;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -14,7 +19,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.cric_hammel.eternity.Main;
@@ -23,7 +27,8 @@ import de.cric_hammel.eternity.infinity.util.SoundUtils;
 
 public class RealityStone implements Listener {
 
-	private static final String METADATA_KEY = "eternity_scaffold";
+	private static final Set<Player> SCAFFOLDING = new HashSet<>();
+	private static final Map<Block, BlockState> STATES = new HashMap<>();
 
 	@EventHandler
 	public void useRealityStone(PlayerInteractEvent event) {
@@ -58,10 +63,10 @@ public class RealityStone implements Listener {
 		} else {
 
 			if (ActionUtils.isRightclick(a)) {
-				p.setMetadata(METADATA_KEY, new FixedMetadataValue(Main.getPlugin(), true));
+				SCAFFOLDING.add(p);
 				SoundUtils.playToAll(p, Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 2f);
 			} else if (ActionUtils.isLeftclick(a)) {
-				p.removeMetadata(METADATA_KEY, Main.getPlugin());
+				SCAFFOLDING.remove(p);
 				SoundUtils.playToAll(p, Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 0f);
 			}
 		}
@@ -79,7 +84,7 @@ public class RealityStone implements Listener {
 
 		final Player p = event.getPlayer();
 
-		if (!p.hasMetadata(METADATA_KEY)) {
+		if (!SCAFFOLDING.contains(p)) {
 			return;
 		}
 
@@ -93,11 +98,11 @@ public class RealityStone implements Listener {
 
 		final BlockState state;
 
-		if (!underPlayer.hasMetadata(METADATA_KEY)) {
+		if (!STATES.containsKey(underPlayer)) {
 			state = underPlayer.getState();
-			underPlayer.setMetadata(METADATA_KEY, new FixedMetadataValue(Main.getPlugin(), state));
+			STATES.put(underPlayer, state);
 		} else {
-			state = (BlockState) underPlayer.getMetadata(METADATA_KEY).get(0).value();
+			state = STATES.get(underPlayer);
 		}
 
 		underPlayer.setType(Material.RED_STAINED_GLASS);
@@ -108,9 +113,9 @@ public class RealityStone implements Listener {
 			@Override
 			public void run() {
 
-				if (underPlayer.hasMetadata(METADATA_KEY)) {
+				if (STATES.containsKey(underPlayer)) {
 					state.update(true);
-					underPlayer.removeMetadata(METADATA_KEY, Main.getPlugin());
+					STATES.remove(underPlayer);
 					SoundUtils.playToAll(underPlayer.getLocation(), Sound.BLOCK_GLASS_BREAK, 1f, 2f);
 				}
 			}

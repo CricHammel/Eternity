@@ -8,11 +8,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
-
-import net.kyori.adventure.text.Component;
 
 import de.cric_hammel.eternity.Main;
+import net.kyori.adventure.text.Component;
 
 public abstract class CustomItem {
 
@@ -50,23 +48,7 @@ public abstract class CustomItem {
 
 		for (ItemStack item : p.getInventory().getContents()) {
 
-			if (item == null || !item.hasItemMeta()) {
-				continue;
-			}
-
-			ItemMeta meta = item.getItemMeta();
-
-			if (!meta.hasLore()) {
-				continue;
-			}
-
-			List<Component> loreList = meta.lore();
-
-			if (loreList.size() < 2) {
-				continue;
-			}
-
-			if (loreList.get(1).equals(Main.LORE_ID) && loreList.get(0).equals(lore) && item.getType() == m) {
+			if (isItem(item)) {
 				return true;
 			}
 		}
@@ -99,30 +81,28 @@ public abstract class CustomItem {
 		return false;
 	}
 
-	public void applyCooldown(Player p, String metaKey, int cooldownSec) {
+	public void applyCooldown(Player p, int cooldownSec) {
 
-		if (!p.hasMetadata(metaKey)) {
-			p.setMetadata(metaKey,
-					new FixedMetadataValue(Main.getPlugin(), System.currentTimeMillis() + cooldownSec * 1000));
-			p.setCooldown(m, cooldownSec * 20);
+		for (ItemStack item : p.getInventory().getContents()) {
+			if (isItem(item)) {
+				p.setCooldown(item, cooldownSec * 20);
+			}
 		}
 	}
 
-	public boolean hasCooldown(Player p, String metaKey) {
+	public boolean hasCooldown(Player p) {
 
-		if (p.hasMetadata(metaKey)) {
-			long time = (long) p.getMetadata(metaKey).get(0).value();
-
-			if (System.currentTimeMillis() > time) {
-				p.removeMetadata(metaKey, Main.getPlugin());
-				p.setCooldown(m, 0);
-				return false;
+		for (ItemStack item : p.getInventory().getContents()) {
+			if (isItem(item)) {
+				
+				if (p.hasCooldown(item)) {
+					return true;
+				} else {
+					return false;
+				}
 			}
-
-			p.setCooldown(m, Math.round(time - System.currentTimeMillis()) / 50);
-			return true;
 		}
-
+		
 		return false;
 	}
 

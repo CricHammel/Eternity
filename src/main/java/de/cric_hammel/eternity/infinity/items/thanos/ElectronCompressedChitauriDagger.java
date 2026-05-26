@@ -1,19 +1,19 @@
 package de.cric_hammel.eternity.infinity.items.thanos;
 
-import org.bukkit.Material;
+import java.util.HashSet;
+import java.util.Set;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -21,12 +21,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.util.AttributeUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class ElectronCompressedChitauriDagger extends CustomItem {
 
 	private static ElectronCompressedChitauriDagger instance;
-	
-	private static final String META_KEY = "eternity_zap";
 
 	public static ElectronCompressedChitauriDagger getInstance() {
 		if (null == instance) {
@@ -54,6 +54,8 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 	}
 
 	public static class Listeners implements Listener {
+		
+		private static final Set<Entity> ZAPPED = new HashSet<>();
 
 		@EventHandler
 		public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
@@ -64,13 +66,13 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 			LivingEntity e = (LivingEntity) event.getEntity();
 			LivingEntity damager = (LivingEntity) event.getDamager();
 
-			if (!ElectronCompressedChitauriDagger.getInstance().hasInHand(damager) || e.hasMetadata(META_KEY)) {
+			if (!ElectronCompressedChitauriDagger.getInstance().hasInHand(damager) || ZAPPED.contains(e)) {
 				return;
 			}
 
 			e.setFreezeTicks(3*20);
 			e.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 3*20, 3, false));
-			e.setMetadata(META_KEY, new FixedMetadataValue(Main.getPlugin(), true));
+			ZAPPED.add(e);
 			new BukkitRunnable() {
 
 				int i = 0;
@@ -78,7 +80,7 @@ public class ElectronCompressedChitauriDagger extends CustomItem {
 				@Override
 				public void run() {
 					if (i >= 3) {
-						e.removeMetadata(META_KEY, Main.getPlugin());
+						ZAPPED.remove(e);
 						cancel();
 						return;
 					}

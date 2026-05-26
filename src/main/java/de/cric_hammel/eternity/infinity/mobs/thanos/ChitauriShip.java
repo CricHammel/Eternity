@@ -1,14 +1,13 @@
 package de.cric_hammel.eternity.infinity.mobs.thanos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Location;
-
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
@@ -17,20 +16,21 @@ import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class ChitauriShip extends ThanosFollower {
 
 	private static ChitauriShip instance;
 	
-	private static final String META_KEY_PASSENGERS = "eternity_passengers";
-	private static final String META_KEY_TASKS = "eternity_tasks";
+	private static final Map<Mob, List<Mob>> PASSENGERS = new HashMap<>();
+	private static final Map<Mob, Set<BukkitTask>> TASKS = new HashMap<>();
 
 	public static ChitauriShip getInstance() {
 		if (null == instance) {
@@ -71,7 +71,7 @@ public class ChitauriShip extends ThanosFollower {
 		}.runTaskTimer(Main.getPlugin(), 0, 1));
 
 		List<Mob> passengers = new ArrayList<>();
-		m.setMetadata(META_KEY_PASSENGERS, new FixedMetadataValue(Main.getPlugin(), passengers));
+		PASSENGERS.put(m, passengers);
 
 		scheduledTasks.add(new BukkitRunnable() {
 			int count = 0;
@@ -95,20 +95,21 @@ public class ChitauriShip extends ThanosFollower {
 				count++;
 			}
 		}.runTaskTimer(Main.getPlugin(), 0, 10));
-		m.setMetadata(META_KEY_TASKS, new FixedMetadataValue(Main.getPlugin(), scheduledTasks));
+		TASKS.put(m, scheduledTasks);
 		return m;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void remove(Mob m) {
 		if (!isMob(m)) {
 			return;
 		}
 
-		List<Mob> passengers = (List<Mob>) m.getMetadata(META_KEY_PASSENGERS).get(0).value();
+		List<Mob> passengers = PASSENGERS.get(m);
 		passengers.forEach(chi -> chi.remove());
-		Set<BukkitTask> scheduledTasks = (Set<BukkitTask>) m.getMetadata(META_KEY_TASKS).get(0).value();
+		PASSENGERS.remove(m);
+		Set<BukkitTask> scheduledTasks = TASKS.get(m);
 		scheduledTasks.forEach(task -> task.cancel());
+		TASKS.remove(m);
 		m.remove();
 	}
 
@@ -118,14 +119,17 @@ public class ChitauriShip extends ThanosFollower {
 		public void onEntityDeath(EntityDeathEvent event) {
 			LivingEntity e = event.getEntity();
 
-			if (!ChitauriShip.getInstance().isMob(e) || !e.hasMetadata(META_KEY_PASSENGERS)) {
+			if (!ChitauriShip.getInstance().isMob(e) || !PASSENGERS.containsKey(e)) {
 				return;
 			}
 
 			Chitauri c = Chitauri.getInstance();
-			@SuppressWarnings("unchecked")
-			List<Mob> passengers = (List<Mob>) e.getMetadata(META_KEY_PASSENGERS).get(0).value();
+			List<Mob> passengers = PASSENGERS.get(e);
 			passengers.forEach((m) -> c.disable(m));
+			PASSENGERS.remove(e);
+			Set<BukkitTask> scheduledTasks = TASKS.get(e);
+			scheduledTasks.forEach(task -> task.cancel());
+			TASKS.remove(e);
 			SoundUtils.playToAll(e.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1f, 1f);
 		}
 	}

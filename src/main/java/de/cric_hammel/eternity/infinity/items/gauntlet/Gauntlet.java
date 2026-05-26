@@ -1,5 +1,8 @@
 package de.cric_hammel.eternity.infinity.items.gauntlet;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -25,12 +28,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 
 import de.cric_hammel.eternity.Main;
 import de.cric_hammel.eternity.infinity.items.CustomItem;
@@ -38,14 +37,14 @@ import de.cric_hammel.eternity.infinity.items.stones.StoneType;
 import de.cric_hammel.eternity.infinity.util.ActionUtils;
 import de.cric_hammel.eternity.infinity.util.AttributeUtils;
 import de.cric_hammel.eternity.infinity.util.SoundUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class Gauntlet extends CustomItem {
 	
 	private static Gauntlet instance;
 
-	private static final String METADATA_KEY_FREEZE = "eternity_gauntlet_freeze";
-	private static final String METADATA_KEY_COOLDOWN_LEFT = "eternity_gauntlet_cooldown_left";
-	private static final String METADATA_KEY_COOLDOWN_RIGHT = "eternity_gauntlet_cooldown_right";
+	private static final Set<Player> FROZEN = new HashSet<>();
 
 	private static final int cooldownLeftclick = 120;
 	private static final int cooldownRightclick = 60;
@@ -89,9 +88,9 @@ public class Gauntlet extends CustomItem {
 			
 			Action a = event.getAction();
 			
-			if (ActionUtils.isRightclick(a) && !g.hasCooldown(p, METADATA_KEY_COOLDOWN_RIGHT)) {
+			if (ActionUtils.isRightclick(a) && !g.hasCooldown(p)) {
 				snap(p);
-			} else if (ActionUtils.isLeftclick(a) && !g.hasCooldown(p, METADATA_KEY_COOLDOWN_LEFT)) {
+			} else if (ActionUtils.isLeftclick(a) && !g.hasCooldown(p)) {
 				balance(p);
 			}
 			
@@ -117,7 +116,7 @@ public class Gauntlet extends CustomItem {
 			}
 			
 			SoundUtils.playToAll(p, Sound.PARTICLE_SOUL_ESCAPE, 10f, 0.5f);
-			Gauntlet.getInstance().applyCooldown(p, METADATA_KEY_COOLDOWN_RIGHT, cooldownRightclick);
+			Gauntlet.getInstance().applyCooldown(p, cooldownRightclick);
 		}
 		
 		private void balance(Player p) {
@@ -161,7 +160,7 @@ public class Gauntlet extends CustomItem {
 			p.getInventory().setContents(contents);
 			SoundUtils.playToAll(p, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1.5f);
 			p.getWorld().spawnParticle(Particle.HEART, p.getLocation(), 50, 0.75, 0.5, 0.75);
-			Gauntlet.getInstance().applyCooldown(p, METADATA_KEY_COOLDOWN_LEFT, cooldownLeftclick);
+			Gauntlet.getInstance().applyCooldown(p, cooldownLeftclick);
 		}
 		
 		private void freezeNearbyEntities(Player p) {
@@ -169,13 +168,14 @@ public class Gauntlet extends CustomItem {
 			for (final Entity e : p.getNearbyEntities(20, 20, 20)) {
 				
 				if (e instanceof Player) {
-					e.setMetadata(METADATA_KEY_FREEZE, new FixedMetadataValue(Main.getPlugin(), 1));
+					Player victim = (Player) e;
+					FROZEN.add(victim);
 					
 					new BukkitRunnable() {
 						
 						@Override
 						public void run() {
-							e.removeMetadata(METADATA_KEY_FREEZE, Main.getPlugin());
+							FROZEN.remove(victim);
 						}
 						
 					}.runTaskLaterAsynchronously(Main.getPlugin(), 15 * 20);
@@ -208,7 +208,7 @@ public class Gauntlet extends CustomItem {
 		public void onPlayerMove(PlayerMoveEvent event) {
 			Player p = event.getPlayer();
 			
-			if (p.hasMetadata(METADATA_KEY_FREEZE)) {
+			if (FROZEN.contains(p)) {
 				event.setCancelled(true);
 			}
 		}
