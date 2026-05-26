@@ -1,7 +1,9 @@
 package de.cric_hammel.eternity.infinity.mobs.thanos;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -29,14 +31,14 @@ public class Outrider extends ThanosFollower {
 	}
 	
 	private Outrider() {
-		super(EntityType.SPIDER, ChatColor.GOLD + "Outrider");
+		super(EntityType.SPIDER, Component.text("Outrider", NamedTextColor.GOLD));
 	}
 	
 	@Override
 	public Mob spawn(Location loc) {
 		Mob m = super.spawn(loc);
-		m.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.8);
-		m.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(120);
+		m.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.8);
+		m.getAttribute(Attribute.MAX_HEALTH).setBaseValue(120);
 		m.setHealth(120);
 		return m;
 	}
