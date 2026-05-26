@@ -1,14 +1,10 @@
 package de.cric_hammel.eternity.infinity.worlds.dungeons;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Material;
-
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,6 +21,8 @@ import de.cric_hammel.eternity.infinity.mobs.kree.Xylop;
 import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc;
 import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc.ShopItem;
 import de.cric_hammel.eternity.infinity.parsers.WorldParser;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class DungeonFactory {
 

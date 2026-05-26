@@ -1,7 +1,6 @@
 package de.cric_hammel.eternity.infinity.worlds;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +17,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-
 import de.cric_hammel.eternity.infinity.items.CustomItem;
 import de.cric_hammel.eternity.infinity.items.keys.PowerDungeonKey;
 import de.cric_hammel.eternity.infinity.items.kree.KreeArmor;
@@ -35,6 +31,8 @@ import de.cric_hammel.eternity.infinity.mobs.npc.DialogueNpc.Dialogue;
 import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc;
 import de.cric_hammel.eternity.infinity.mobs.npc.ShopNpc.ShopItem;
 import de.cric_hammel.eternity.infinity.worlds.dungeons.DungeonFactory;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class Lobby extends MultiplayerWorld {
 
